@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.roman.romcontrol.fragments;
+package com.aokp.romcontrol.fragments;
 
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
@@ -38,8 +38,8 @@ import android.provider.Settings.SettingNotFoundException;
 import android.os.PowerManager;
 import android.util.Log;
 
-import com.roman.romcontrol.R;
-import com.roman.romcontrol.SettingsPreferenceFragment;
+import com.aokp.romcontrol.R;
+import com.aokp.romcontrol.SettingsPreferenceFragment;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -103,9 +103,6 @@ public class TabletTweaks extends SettingsPreferenceFragment implements OnPrefer
         mTabletTweaksPeekNotifications = (CheckBoxPreference) findPreference("tablet_tweaks_peek_notifications");
         mTabletTweaksPeekNotifications.setChecked(Settings.System.getInt(getContentResolver(),
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
-
-//	prefs.removePreference(mTabletTweaksRightButtons); // currently not working correctly, will fix it later.
-
     }
 
     @Override
@@ -161,22 +158,6 @@ public class TabletTweaks extends SettingsPreferenceFragment implements OnPrefer
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SHOW_NOTIFICATION_PEEK, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-/*            new AlertDialog.Builder(getActivity())
-                    .setTitle("Reboot required!")
-                    .setMessage("Please reboot to enable/disable peek notifications!")
-                    .setNegativeButton("I'll reboot later", null)
-                    .setCancelable(false)
-                    .setPositiveButton("Reboot now!", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            PowerManager pm = (PowerManager) getActivity()
-                                    .getSystemService(Context.POWER_SERVICE);
-                            pm.reboot("peek notifications");
-                        }
-                    })
-                    .create()
-                    .show();
-*/
             restartSystemUI();
             return true;
 	}
