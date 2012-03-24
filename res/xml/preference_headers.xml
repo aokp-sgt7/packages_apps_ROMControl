@@ -23,6 +23,13 @@
 		android:summary="@string/header_summary_navigation_bar" />
 
 	<header
+		android:id="@+id/tablet_tweaks"
+		android:fragment="com.roman.romcontrol.fragments.TabletTweaks"
+		android:title="@string/tablet_tweaks"
+		android:icon="@drawable/ic_rom_control_tablet_tweaks"
+		android:summary="@string/header_summary_tablet_tweaks" />
+
+	<header
 		android:id="@+id/lockscreens"
 		android:fragment="com.aokp.romcontrol.fragments.Lockscreens"
 		android:title="@string/lockscreen_options"

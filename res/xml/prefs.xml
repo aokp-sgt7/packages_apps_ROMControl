@@ -27,6 +27,16 @@
 		</Preference>
 
 		<Preference
+			android:key="tablet_tweaks"
+			android:title="@string/tablet_tweaks">
+
+			<intent
+				android:action="android.intent.action.MAIN"
+				android:targetClass="com.roman.romcontrol.activities.TabletTweaks"
+				android:targetPackage="com.roman.romcontrol" />
+		</Preference>
+
+		<Preference
 			android:key="lockscreen_pref"
 			android:title="@string/lockscreen_options">
 
@@ -142,4 +152,9 @@
 				android:targetClass="com.aokp.romcontrol.tools.InitD" />
 		</Preference>
 	</PreferenceCategory>
+<<<<<<< HEAD
 </PreferenceScreen>
+=======
+
+</PreferenceScreen>
+>>>>>>> 283e24e... Tablet Tweaks

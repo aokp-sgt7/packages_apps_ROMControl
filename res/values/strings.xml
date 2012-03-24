@@ -19,6 +19,7 @@
     <string name="tools">Tools</string>
     <string name="weather">Weather</string>
     <string name="signal">Signal</string>
+    <string name="tablet_tweaks">Tablet Tweaks</string>
     
     <string name="header_summary_battery">Battery bar, 1% battery mod, etc</string>
     <string name="header_summary_general_ui">Boot animation, bug mailer, rotation, IME switcher, etc</string>
@@ -32,6 +33,7 @@
 	<string name="header_summary_clock">Clock location, AM/PM style, color</string>
 	<string name="header_summary_weather">Enable/disable, set custom location or network, and interval</string>
 	<string name="header_summary_signal">Signal dBm text</string>
+    <string name="header_summary_tablet_tweaks">Disable onscreen/capacitive buttons, and other Tablet only goodies</string>
 	
     <string name="advanced_settings">Advanced settings</string>
     <string name="misc_short">Misc</string>
@@ -411,6 +413,27 @@
 	<string name="error_values">Error getting values</string>
 	<string name="set_boot">Set On Boot</string>
 	<string name="apply_values">Apply Values</string>
+
+	<!-- tablet tweaks -->
+	<string name="tablet_tweaks_tablet_buttons_title">Tablet soft buttons</string>
+	<string name="tablet_tweaks_hide_back">Hide back button</string>
+	<string name="tablet_tweaks_hide_home">Hide home button</string>
+	<string name="tablet_tweaks_hide_recent">Hide recent button</string>
+	<string name="tablet_tweaks_hide_menu">Hide menu button</string>
+	<string name="tablet_tweaks_tablet_capacitive_title">Tablet capacitive buttons</string>
+	<string name="tablet_tweaks_disable_hardware_buttons">Disable capacitive buttons</string>
+	<string name="tablet_tweaks_disable_hardware_buttons_summary">Disable capacitive button touches and lights</string>
+	<string name="tablet_tweaks_status_bar_title">Status bar</string>
+	<string name="tablet_tweaks_right_buttons">Mirror statusbar</string>
+	<string name="tablet_tweaks_right_buttons_summary">Buttons on the right, notifications on the left (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>
+	<string name="tablet_tweaks_peek_notifications">Peek notifications</string>
+	<string name="tablet_tweaks_peek_notifications_summary">Peek notifications by pressing the notification icon (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>
+	<string name="tablet_tweaks_hide_statusbar">Hide status bar in shadow mode</string>
+	<string name="tablet_tweaks_hide_statusbar_summary">Hide the status bar when it enters shadow mode</string>
+	<string name="tablet_tweaks_recents_title">Recent apps</string>
+	<string name="tablet_tweaks_recent_thumbnails">Large thumbnails</string>
+	<string name="tablet_tweaks_recent_thumbnails_summary">Larger application history thumbnails (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>
+
 	
 	<string name="dpi">DPI</string>
 	<string name="donate_roman">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MZD7JLRX6P99Y</string>
