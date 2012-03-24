@@ -183,10 +183,12 @@
     <string-array name="statusbar_layout_entries">
         <item>Düzenli Yerleşim</item>
         <item>Tersine</item>
+        <item>Geleneksel</item>
     </string-array>
     <string-array name="statusbar_layout_values">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
     <string-array name="clock_style_entries">
         <item>Saat sağda</item>
@@ -270,11 +272,31 @@
         <item>2</item>
         <item>6</item>
         <item>8</item>
+        <item>0</item>
     </string-array>
     <string-array name="pref_lockscreen_options_entries">
         <item>Standart</item>
         <item>Dörtlü</item>
         <item>Sekizli</item>
+        <item>AOSP</item>
+    </string-array>
+    <string-array name="pref_lockscreen_calendar_interval_values">
+        <item>1000</item>
+        <item>1500</item>
+        <item>2000</item>
+        <item>2500</item>
+        <item>3000</item>
+        <item>3500</item>
+        <item>4000</item>
+    </string-array>
+    <string-array name="pref_lockscreen_calendar_interval_entries">
+        <item>1 saniye</item>
+        <item>1.5 saniye</item>
+        <item>2 saniye</item>
+        <item>2.5 saniye</item>
+        <item>3 saniye</item>
+        <item>3.5 saniye</item>
+        <item>4 saniye</item>
     </string-array>
     <string-array name="minfree">
         <item>25mb</item>
@@ -307,7 +329,7 @@
         <item>Sadece metin</item>
         <item>ikon ile birlikte metin</item>
         <item>Ortasında metin ile birlikte ikon</item>
-        <item>CircleMOD</item>
+        <item>Yüzdeli Mod</item>
         <item>Gizle</item>
     </string-array>
     <string-array name="battery_icon_values">
@@ -358,11 +380,8 @@
         <item>UÇAK_MODU</item>
         <item>TİTREŞİM</item>
         <item>SESSİZ</item>
-        <item>SENKRON</item>
-        <item>VERİ</item>
-        <item>2G</item>
-        <item>AP</item>
         <item>FENER</item>
+		<item>SENKRON</item>
         <item>SWAGGER</item>
     </string-array>
     <string-array name="available_toggles_values">
@@ -372,12 +391,9 @@
         <item>Wi-Fi</item>
         <item>Uçak Modu</item>
         <item>Titreşim</item>
-        <item>Silent</item>
-        <item>Senkron</item>
-        <item>Veri</item>
-        <item>2G</item>
-        <item>Bağlanma (AP)</item>
+        <item>Sessiz</item>
         <item>Fener</item>
+		<item>Senkron</item>
         <item>Swagger</item>
     </string-array>
     <string-array name="lockscreen_choice_entries">
@@ -422,7 +438,7 @@
         <item>300</item>
         <item>320</item>
         <item>340</item>
-        <item>custom</item>
+        <item>Özel</item>
     </string-array>
     <string-array name="weather_interval_entries">
         <item>Kapalı</item>
@@ -483,7 +499,7 @@
         <item>2</item>
     </string-array>
     <string-array name="navigation_bar_width_entries">
-        <item>42 dp (default)</item>
+        <item>42 dp (Varsayılan)</item>
         <item>36 dp</item>
         <item>30 dp</item>
         <item>24 dp</item>
@@ -495,7 +511,7 @@
         <item>24</item>
     </string-array>
     <string-array name="navigation_bar_height_entries">
-        <item>48 dp (default)</item>
+        <item>48 dp (Varsayılan)</item>
         <item>42 dp</item>
         <item>36 dp</item>
         <item>30 dp</item>
