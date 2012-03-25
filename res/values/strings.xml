@@ -429,7 +429,7 @@
 	<string name="tablet_tweaks_peek_notifications">Peek notifications</string>
 	<string name="tablet_tweaks_peek_notifications_summary">Peek notifications by pressing the notification icon (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>
 	<string name="tablet_tweaks_hide_statusbar">Hide status bar in shadow mode</string>
-	<string name="tablet_tweaks_hide_statusbar_summary">Hide the status bar when it enters shadow mode</string>
+	<string name="tablet_tweaks_hide_statusbar_summary">Hide the status bar when it enters shadow mode (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>
 	<string name="tablet_tweaks_recents_title">Recent apps</string>
 	<string name="tablet_tweaks_recent_thumbnails">Large thumbnails</string>
 	<string name="tablet_tweaks_recent_thumbnails_summary">Larger application history thumbnails (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>

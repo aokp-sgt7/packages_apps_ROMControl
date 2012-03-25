@@ -77,6 +77,8 @@ public class CreateShortcut extends LauncherActivity {
             return R.drawable.ic_rom_control_general;
         else if (c.equals("StatusBarToggles"))
             return R.drawable.ic_rom_control_toggles;
+        else if (c.equals("TabletTweaks"))
+            return R.drawable.ic_rom_control_toggles;
         else if (c.equals("UserInterface"))
             return R.drawable.ic_rom_control_general_ui;
         else if (c.equals("Weather"))

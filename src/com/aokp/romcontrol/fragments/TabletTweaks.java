@@ -39,12 +39,12 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import com.aokp.romcontrol.R;
-import com.aokp.romcontrol.SettingsPreferenceFragment;
+import com.aokp.romcontrol.AOKPPreferenceFragment;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class TabletTweaks extends SettingsPreferenceFragment implements OnPreferenceChangeListener 
+public class TabletTweaks extends AOKPPreferenceFragment implements OnPreferenceChangeListener 
 {
     private static final String TABLET_TWEAKS_HIDE_HOME = "tablet_tweaks_hide_home";
     private static final String TABLET_TWEAKS_HIDE_RECENT = "tablet_tweaks_hide_recent";
@@ -142,6 +142,7 @@ public class TabletTweaks extends SettingsPreferenceFragment implements OnPrefer
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.LARGE_RECENT_THUMBNAILS, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+            restartSystemUI();
             return true;
         } else if (preference == mTabletTweaksRightButtons) {
             Settings.System.putInt(getActivity().getContentResolver(),
@@ -153,6 +154,7 @@ public class TabletTweaks extends SettingsPreferenceFragment implements OnPrefer
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.HIDE_STATUSBAR, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+            restartSystemUI();
             return true;
         } else if (preference == mTabletTweaksPeekNotifications) {
             Settings.System.putInt(getActivity().getContentResolver(),
