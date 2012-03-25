@@ -22,8 +22,8 @@
 
 			<intent
 				android:action="android.intent.action.MAIN"
-				android:targetClass="com.roman.romcontrol.activities.Navbar"
-				android:targetPackage="com.roman.romcontrol" />
+				android:targetClass="com.aokp.romcontrol.activities.Navbar"
+				android:targetPackage="com.aokp.romcontrol" />
 		</Preference>
 
 		<Preference
@@ -32,8 +32,8 @@
 
 			<intent
 				android:action="android.intent.action.MAIN"
-				android:targetClass="com.roman.romcontrol.activities.TabletTweaks"
-				android:targetPackage="com.roman.romcontrol" />
+				android:targetClass="com.aokp.romcontrol.activities.TabletTweaks"
+				android:targetPackage="com.aokp.romcontrol" />
 		</Preference>
 
 		<Preference
