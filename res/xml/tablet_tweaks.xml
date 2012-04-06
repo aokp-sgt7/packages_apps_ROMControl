@@ -51,6 +51,7 @@
 
 
     <PreferenceCategory
+	android:key="statusbar"
         android:title="@string/tablet_tweaks_status_bar_title">
 
         <CheckBoxPreference

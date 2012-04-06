@@ -152,9 +152,5 @@
 				android:targetClass="com.aokp.romcontrol.tools.InitD" />
 		</Preference>
 	</PreferenceCategory>
-<<<<<<< HEAD
 </PreferenceScreen>
-=======
 
-</PreferenceScreen>
->>>>>>> 283e24e... Tablet Tweaks

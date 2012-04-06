@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2012 The CyanogenMod Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.aokp.romcontrol.fragments;
 
@@ -30,8 +15,7 @@ import android.os.SystemProperties;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
@@ -78,31 +62,34 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         addPreferencesFromResource(R.xml.tablet_tweaks);
         PreferenceScreen prefs = getPreferenceScreen();
 
-        mTabletTweaksHideBack = (CheckBoxPreference) findPreference("tablet_tweaks_hide_back");
-        mTabletTweaksHideBack.setChecked(Settings.System.getInt(getContentResolver(),
+        mTabletTweaksHideBack = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_BACK);
+        mTabletTweaksHideBack.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.HIDE_SOFT_BACK_BUTTON, 0) == 1);
-        mTabletTweaksHideHome = (CheckBoxPreference) findPreference("tablet_tweaks_hide_home");
-        mTabletTweaksHideHome.setChecked(Settings.System.getInt(getContentResolver(),
+        mTabletTweaksHideHome = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_HOME);
+        mTabletTweaksHideHome.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.HIDE_SOFT_HOME_BUTTON, 0) == 1);
-        mTabletTweaksHideRecent = (CheckBoxPreference) findPreference("tablet_tweaks_hide_recent");
-        mTabletTweaksHideRecent.setChecked(Settings.System.getInt(getContentResolver(),
+        mTabletTweaksHideRecent = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_RECENT);
+        mTabletTweaksHideRecent.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.HIDE_SOFT_RECENT_BUTTON, 0) == 1);
-       mTabletTweaksHideMenu = (CheckBoxPreference) findPreference("tablet_tweaks_hide_menu");
-        mTabletTweaksHideMenu.setChecked(Settings.System.getInt(getContentResolver(),
+       mTabletTweaksHideMenu = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_MENU);
+        mTabletTweaksHideMenu.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.HIDE_SOFT_MENU_BUTTON, 0) == 1);
-        mTabletTweaksDisableHardwareButtons = (CheckBoxPreference) findPreference("tablet_tweaks_disable_hardware_buttons");
-        mTabletTweaksRecentThumbnails = (CheckBoxPreference) findPreference("tablet_tweaks_recent_thumbnails");
-        mTabletTweaksRecentThumbnails.setChecked(Settings.System.getInt(getContentResolver(),
+        mTabletTweaksDisableHardwareButtons = (CheckBoxPreference) findPreference(TABLET_TWEAKS_DISABLE_HARDWARE_BUTTONS);
+        mTabletTweaksRecentThumbnails = (CheckBoxPreference) findPreference(TABLET_TWEAKS_RECENT_THUMBNAILS);
+        mTabletTweaksRecentThumbnails.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.LARGE_RECENT_THUMBNAILS, 0) == 1);
-        mTabletTweaksRightButtons = (CheckBoxPreference) findPreference("tablet_tweaks_right_buttons");
-        mTabletTweaksRightButtons.setChecked(Settings.System.getInt(getContentResolver(),
+        mTabletTweaksRightButtons = (CheckBoxPreference) findPreference(TABLET_TWEAKS_RIGHT_BUTTONS);
+        mTabletTweaksRightButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.RIGHT_SOFT_BUTTONS, 0) == 1);
-        mTabletTweaksHideStatusbar = (CheckBoxPreference) findPreference("tablet_tweaks_hide_statusbar");
-        mTabletTweaksHideStatusbar.setChecked(Settings.System.getInt(getContentResolver(),
+        mTabletTweaksHideStatusbar = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_STATUSBAR);
+        mTabletTweaksHideStatusbar.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.HIDE_STATUSBAR, 0) == 1);
-        mTabletTweaksPeekNotifications = (CheckBoxPreference) findPreference("tablet_tweaks_peek_notifications");
-        mTabletTweaksPeekNotifications.setChecked(Settings.System.getInt(getContentResolver(),
+        mTabletTweaksPeekNotifications = (CheckBoxPreference) findPreference(TABLET_TWEAKS_PEEK_NOTIFICATIONS);
+        mTabletTweaksPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
+
+        ((PreferenceGroup) findPreference("statusbar")).removePreference(mTabletTweaksRightButtons);
+//	prefs.removePreference(mTabletTweaksRightButtons);
     }
 
     @Override
