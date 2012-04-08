@@ -18,6 +18,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -293,7 +294,7 @@ public class Lockscreens extends AOKPPreferenceFragment implements
             // intent.putExtra("return-data", false);
             intent.putExtra("spotlightX", spotlightX);
             intent.putExtra("spotlightY", spotlightY);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, getTempFileUri());
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile()));
             intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 
             startActivityForResult(intent, REQUEST_PICK_WALLPAPER);
@@ -414,21 +415,16 @@ public class Lockscreens extends AOKPPreferenceFragment implements
         }
     }
 
-    private Uri getLockscreenExternalUri() {
-        File dir = mContext.getFilesDir();
-        File wallpaper = new File(dir, WALLPAPER_NAME);
-        Log.i(TAG, "wallpaper loc: " + wallpaper.getAbsolutePath());
-        return Uri.fromFile(wallpaper);
-    }
-
     private Uri getTempFileUri() {
-        File dir = mContext.getFilesDir();
-        File wallpaper = new File(dir, "temp");
-
-        return Uri.fromFile(wallpaper);
+        return Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
+                "aokp_tmp"));
     }
 
-    private Uri getExternalIconUri() {
+    private File getTempFile() {
+        return new File(Environment.getExternalStorageDirectory(), ".aokp_temp");
+    }
+
+    private Uri getIconUri() {
         File dir = mContext.getFilesDir();
         File icon = new File(dir, "icon_" + currentIconIndex + ".png");
 
@@ -498,10 +494,10 @@ public class Lockscreens extends AOKPPreferenceFragment implements
                     intent.putExtra("outputY", height);
                     intent.putExtra("scale", true);
                     // intent.putExtra("return-data", false);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, getExternalIconUri());
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, getTempFileUri());
                     intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
 
-                    Log.i(TAG, "started for result, should output to: " + getExternalIconUri());
+                    Log.i(TAG, "started for result, should output to: " + getTempFileUri());
 
                     startActivityForResult(intent, REQUEST_PICK_CUSTOM_ICON);
                 }
@@ -680,19 +676,33 @@ public class Lockscreens extends AOKPPreferenceFragment implements
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_PICK_WALLPAPER) {
 
+                File galleryImage = getTempFile();
+                String message = "";
                 FileOutputStream wallpaperStream = null;
                 try {
                     wallpaperStream = mContext.openFileOutput(WALLPAPER_NAME,
-                            Context.MODE_WORLD_WRITEABLE);
+                            Context.MODE_WORLD_READABLE);
                 } catch (FileNotFoundException e) {
                     return; // NOOOOO
                 }
 
-                // should use intent.getData() here but it keeps returning null
-                Uri selectedImageUri = getTempFileUri();
-                Log.e(TAG, "Selected image path: " + selectedImageUri.getPath());
-                Bitmap bitmap = BitmapFactory.decodeFile(selectedImageUri.getPath());
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, wallpaperStream);
+                Bitmap bitmap = BitmapFactory.decodeFile(galleryImage.getAbsolutePath());
+
+                if (bitmap == null) {
+                    message = "Wallpaper did not set (is your SD mounted?)";
+                } else if (bitmap != null
+                        && bitmap.compress(Bitmap.CompressFormat.JPEG, 100, wallpaperStream)) {
+                    message = "Wallpaper set successfully";
+                } else {
+                    // shouldn't get here, but let's leave it just in case
+                    message = "Wallpaepr did not set (!!!)";
+                }
+                Toast.makeText(getActivity(), message,
+                        Toast.LENGTH_SHORT).show();
+
+                // go ahead and clean up if it was successful or not
+                if (galleryImage.exists())
+                    galleryImage.delete();
 
             } else if (requestCode == ShortcutPickerHelper.REQUEST_PICK_SHORTCUT
                     || requestCode == ShortcutPickerHelper.REQUEST_PICK_APPLICATION
@@ -701,10 +711,10 @@ public class Lockscreens extends AOKPPreferenceFragment implements
 
             } else if (requestCode == REQUEST_PICK_CUSTOM_ICON) {
 
+                String iconName = "icon_" + currentIconIndex + ".png";
                 FileOutputStream iconStream = null;
                 try {
-                    iconStream = mContext.openFileOutput("icon_" + currentIconIndex + ".png",
-                            Context.MODE_WORLD_WRITEABLE);
+                    iconStream = mContext.openFileOutput(iconName, Context.MODE_WORLD_WRITEABLE);
                 } catch (FileNotFoundException e) {
                     return; // NOOOOO
                 }
@@ -712,14 +722,24 @@ public class Lockscreens extends AOKPPreferenceFragment implements
                 Uri selectedImageUri = getTempFileUri();
                 Log.e(TAG, "Selected image path: " + selectedImageUri.getPath());
                 Bitmap bitmap = BitmapFactory.decodeFile(selectedImageUri.getPath());
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, iconStream);
+                if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, iconStream)) {
 
-                Settings.System.putString(getContentResolver(),
-                        Settings.System.LOCKSCREEN_CUSTOM_APP_ICONS[currentIconIndex],
-                        getExternalIconUri().toString());
-                Toast.makeText(getActivity(), currentIconIndex + "'s icon set successfully!",
-                        Toast.LENGTH_LONG).show();
-                refreshSettings();
+                    Settings.System.putString(getContentResolver(),
+                            Settings.System.LOCKSCREEN_CUSTOM_APP_ICONS[currentIconIndex],
+                            Uri.fromFile(
+                                    new File(mContext.getFilesDir(), iconName)).getPath());
+
+                    File f = new File(selectedImageUri.getPath());
+                    if (f.exists())
+                        f.delete();
+
+                    Toast.makeText(getActivity(), currentIconIndex + "'s icon set successfully!",
+                            Toast.LENGTH_SHORT).show();
+                    refreshSettings();
+                } else {
+                    Toast.makeText(getActivity(), "Setting icon failed! Is your SD mounted?",
+                            Toast.LENGTH_SHORT).show();
+                }
 
             }
         }
