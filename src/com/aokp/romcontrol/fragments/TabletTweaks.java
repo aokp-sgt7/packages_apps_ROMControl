@@ -24,9 +24,11 @@ import android.util.Log;
 
 import com.aokp.romcontrol.R;
 import com.aokp.romcontrol.AOKPPreferenceFragment;
+import com.aokp.romcontrol.util.Helpers;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+
 
 public class TabletTweaks extends AOKPPreferenceFragment implements OnPreferenceChangeListener 
 {
@@ -89,7 +91,6 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
 
         ((PreferenceGroup) findPreference("statusbar")).removePreference(mTabletTweaksRightButtons);
-//	prefs.removePreference(mTabletTweaksRightButtons);
     }
 
     @Override
@@ -129,25 +130,25 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.LARGE_RECENT_THUMBNAILS, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-            restartSystemUI();
+            Helpers.restartSystemUI();
             return true;
         } else if (preference == mTabletTweaksRightButtons) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.RIGHT_SOFT_BUTTONS, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-            restartSystemUI();
+            Helpers.restartSystemUI();
             return true;
         } else if (preference == mTabletTweaksHideStatusbar) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.HIDE_STATUSBAR, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-            restartSystemUI();
+            Helpers.restartSystemUI();
             return true;
         } else if (preference == mTabletTweaksPeekNotifications) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SHOW_NOTIFICATION_PEEK, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-            restartSystemUI();
+            Helpers.restartSystemUI();
             return true;
 	}
         return super.onPreferenceTreeClick(preferenceScreen, preference);
@@ -156,14 +157,6 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         return false;
-    }
-
-    private void restartSystemUI() {
-        try {
-            Runtime.getRuntime().exec("pkill -TERM -f  com.android.systemui");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
 
