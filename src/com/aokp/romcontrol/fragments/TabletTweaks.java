@@ -90,7 +90,6 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         mTabletTweaksPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
 
-        ((PreferenceGroup) findPreference("statusbar")).removePreference(mTabletTweaksRightButtons);
     }
 
     @Override
