@@ -37,30 +37,38 @@
 	
     <string name="advanced_settings">Advanced settings</string>
     <string name="misc_short">Misc</string>
-    
+
+    <!-- General Strings -->
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+
     <!-- Navigation Bar -->
     <string name="title_pref_menu_display">Menu location</string>
     <string name="summary_pref_menu_display">Remember to remove your menu buttons if you\'re using the big menu button!</string>
     <string name="navigation_bar">Navigation bar</string>
     <string name="navigation_bar_tint_title">Navigation bar color</string>
+    <string name="navigation_bar_glow_tint_title">Navigation bar glow color</string>
+    <string name="navigation_bar_glow_tint_summary">When you press on a button, there is a glow. Use this to change the color of the glow.</string>
+    <string name="navigation_bar_height_title">Navigation bar height</string>
+    <string name="navigation_bar_width_title">Navigation bar width</string>
 
     <string name="title_pref_navigation_menu_display">Menu visibility</string>
     <string name="summary_pref_navigation_menu_display">How and when do you want the menu buttons to appear?</string>
 
     <string name="navbar_order_title">Navigation button order</string>
     <string name="navbar_order_summary">Customize the order of your soft keys</string>
-    
+
     <string name="navbar_button_cat">Navigation bar buttons</string>
-    
+
     <string name="navbar_qty_title">Navigation button quantity</string>
     <string name="navbar_qty_summary">Choose the number of navigation buttons</string>
 
     <string name="enabled_navbar_buttons_title">Enabled buttons</string>
     <string name="enabled_navbar_buttons_summary">Choose which soft keys you would like to see</string>
-    
+
     <string name="navbar_action_title">Button %1$s action &amp; icon</string>
     <string name="navbar_longpress_title">Button %1$s longpress action</string>
-    
+
     <string name="navbar_action_home">Home</string>
     <string name="navbar_action_back">Back</string>
     <string name="navbar_action_recents">Recents</string>
@@ -69,15 +77,15 @@
     <string name="navbar_action_kill">Kill task</string>
     <string name="navbar_action_power">Power</string>
     <string name="navbar_action_none">Empty</string>
-    
+
     <string name="button_transparency_title">Nav button transparency</string>
-    
+
     <string name="long_press_home_title">Long press home action</string>
     <string name="long_press_home_summary">What to do when long pressing the home softkey. Reboot required to reflect changes.</string>
-    
+
     <string name="glow_times_title">Button glow animation</string>
     <string name="glow_times_summary">Adjust how fast your buttons animate after you touch them. Lowering the speed can improve performance.</string>
-    
+
     <!-- UI -->
     <string name="rotation_animation_delay_title">Rotation delay</string>
     <string name="rotation_animation_delay_summary">The number of milliseconds for which the device posture must be stable before an orientation change occurs. 200 ms default.</string>
@@ -86,30 +94,32 @@
 	<string name="ime_switcher_summary">In statusbar, while typing (requires reboot)</string>
 
 	<string name="custom_carrier_label_title">Custom carrier label</string>
+	<string name="custom_carrier_label_empty">Please enter a new one!</string>
+	<string name="custom_carrier_label_warning">Custom label currently not set. Once you specify a custom one, there is no way back without doing a data wipe</string>
 	<string name="longpress_to_kill_title">Hold back to kill</string>
 	<string name="longpress_to_kill_summary">Holding back will kill the current activity</string>
-        
+
     <string name="enable_volume_options">Enable Volume Options</string>
-	
+
 	<string name="rotate_180_title">Allow 180° rotation</string>
 	<string name="rotate_180_summary">Allow your device to rotate upside down!</string>
 
 	<string name="horizontal_recents_task_panel_title">Horizontal recents window</string>
 	<string name="horizontal_recents_task_panel_summary">Use WebOS style task switcher. Your UI will restart after changing this. It will come back in about 10 seconds. If it doesn\'t, just reboot the phone from the power menu.</string>
-	
+
 	<string name="disable_bootanimation_title">Disable boot animation</string>
 	<string name="disable_bootanimation_summary">Jerk.</string>
-	
+
 	<string name="disable_bugmailer_title">Disable bugmailer</string>
 
 	<string name="lcd_density_title">LCD Density</string>
 	<string name="lcd_density_summary">unknown</string>
-	
+
 	<!-- CRT animations -->
 	<string name="crt_animations_header">CRT animations</string>
 	<string name="crt_on_title">CRT on animation</string>
 	<string name="crt_off_title">CRT off animation</string>
-	
+
 	<!-- LCD Density -->
 	<string name="lcd_density_wizard">LCD Density Wizard</string>
 	<string name="follow_through_title">Follow through!</string>
@@ -134,11 +144,11 @@
     <!-- Lockscreens -->
     <string name="pref_lockscreen_layout_title">Lockscreen style</string>
     <string name="pref_lockscreen_layout_summary">Remember to scroll down and change your targets after changing styles</string>
-    
-    <string name="title_pref_lockscreen_quad_targets">Quad Targets</string>	
+
+    <string name="title_pref_lockscreen_quad_targets">Quad Targets</string>
     <string name="summary_pref_lockscreen_quad_targets">Adds Phone and Messaging shortcuts on the lock screen</string>
 
-    <string name="title_pref_lockscreen_octo_targets">Octo Targets</string>	
+    <string name="title_pref_lockscreen_octo_targets">Octo Targets</string>
     <string name="summary_pref_lockscreen_octo_targets">Adds too many shortcuts on the lock screen</string>
 
     <string name="title_pref_lockscreen_menu_unlock">Menu unlock</string>
@@ -190,33 +200,33 @@
     <string name="lockscreen_calendar_flip_summary">If enabled, the widget will display multiple events by flipping between them.</string>
     <string name="lockscreen_calendar_interval_title">Flip interval</string>
     <string name="lockscreen_calendar_interval_summary">Choose the animation speed in seconds.</string>
-    
+
     <!-- Power Menu -->
     <string name="title_show_power_saver">Show power saver</string>
     <string name="title_show_screenshot">Show screenshot</string>
     <string name="title_show_torch_toggle">Show torch toggle</string>
     <string name="title_show_airplane_toggle">Show airplane toggle</string>
     <string name="title_show_navbar_hide">Show navigation bar toggle</string>
-    
+
     <!-- Power Saving -->
     <string name="title_pref_powersaving_pref_mode">Enable power saver</string>
     <string name="summary_pref_powersaving_pref_mode">@null</string>
-    
+
     <string name="title_pref_powersaving_data_screen_off">Screen off data action</string>
     <string name="summary_pref_powersaving_data_screen_off">What to do with the data when the screen turns off</string>
-        
+
     <string name="title_pref_powersaving_data_screen_off_delay">Data action delay</string>
     <string name="summary_pref_powersaving_data_screen_off_delay">How long to wait before applying data action?</string>
 
     <string name="title_pref_powersaving_sync_screen_off">Sync action</string>
     <string name="summary_pref_powersaving_sync_screen_off">What to do with your syncage?!</string>
-    
+
     <string name="title_pref_powersaving_sync_screen_off_delay">Sync time interval</string>
     <string name="summary_pref_powersaving_sync_screen_off_delay">How long to wait between each forced sync</string>
-    
+
     <string name="powersaver_data_cat">Data</string>
     <string name="powersaver_sync_cat">Sync</string>
-    
+
     <string name="screen_off_wifi_action">Screen-off Wi-Fi action</string>
     <string name="sync_data_usage">Sync data usage</string>
     <string name="sync_mobile_data_preference">Sync mobile data preference</string>
@@ -239,6 +249,8 @@
 
     <string name="title_status_bar_brightness_toggle">Enable brightness control</string>
     <string name="summary_status_bar_brightness_toggle">Slide finger slowly across statusbar to adjust brightness setting</string>
+    
+    <string name="icon_transparency_title">Notification icon transparency</string>
 
     <string name="adb_icon_title">Enable USB debugging icon</string>
     <string name="adb_icon_summary">Wutang</string>
@@ -248,6 +260,8 @@
 
     <string name="statusbar_layout">Notification drawer layout</string>
     <string name="statusbar_layout_summary">Change the notification drawer layout (requires UI restart)</string>
+    <string name="statusbar_fontsize">Statusbar Font Size</string>
+    <string name="statusbar_fontsize_summary">Change the size of text elements on statusbar</string>
 
     <!-- Statusbar | Battery -->
     <string name="battery_icon">Battery icon style</string>
@@ -259,7 +273,7 @@
     <string name="battery_bar_thickness_title">Battery bar thickness</string>
     <string name="battery_bar_animate_title">Charging animation</string>
     <string name="battery_bar_animate_summary">The charging animation may result in a poor user experience. Enable at your own discretion.</string>
-    
+
 
     <!-- Statusbar | Clock -->
     <string name="clock_title_enable">Clock style</string>
@@ -278,9 +292,13 @@
 
     <string name="alternate_button_layout_title">Alternate toggles</string>
     <string name="alternate_button_layout_summary">Use Toggle Buttons instead of switches for your toggles.</string>
-    
+
     <string name="enabled_toggles_title">Enabled toggles</string>
     <string name="enabled_toggles_summary">Choose toggles to display</string>
+
+    <string name="toggles_display_dialog">Choose which toggles to use</string>
+    <string name="toggles_display_close">Close</string>
+
     <string name="toggles_order_title">Toggle order</string>
     <string name="toggles_order_summary">Choose the order which your toggles are displayed</string>
     <string name="brightness_location_title">Brightness location</string>
@@ -297,20 +315,20 @@
 
     <!-- Color Picker -->
     <string name="dialog_color_picker">Color Picker</string>
-    <string name="press_color_to_apply">Press on Color to apply</string>   
-    <string name="arrow_right">→</string> 
+    <string name="press_color_to_apply">Press on Color to apply</string>
+    <string name="arrow_right">→</string>
     <string name="arrow_down">↓</string>
     <string name="hex">Hex:</string>
     <string name="hex_hint">#FF000000</string>
     <string name="set">Set</string>
     <string name="ics_color">!!!</string>
-    
+
     <!-- Shortcut picker -->
     <string name="use_custom_app_title">Use custom application</string>
 	<string name="use_custom_app_summary">Use custom application instead of the recent applications dialog</string>
 	<string name="select_custom_app_title">Select custom application</string>
 	<string name="group_applications">Applications</string>
-	
+
 	<!-- Weather -->
 	<string name="weather_enable">Enable weather</string>
 	<string name="weather_enable_summary">Whether to pull weather information and display it throughout the ROM.</string>
@@ -325,6 +343,12 @@
 	<string name="weather_use_celcius">Metric units</string>
 	<string name="weather_use_celcius_summary">Enabling this will display weather temperature in Celsius rather than Fahrenheit and windspeed in km/h rather than mph.</string>
 	<string name="weather_statusbar_style">Statusbar weather style</string>
+    <string name="weather_start_custom_app">Start custom app</string>
+    <string name="weather_start_custom_app_summary">Start a custom app when clicking on the weather image.</string>
+    <string name="weather_custom_app_title">Custom app</string>
+    <string name="weather_custom_app_dialog_title">Choose your app</string>
+	<string name="weather_custom_app_dialog_message">Package name for now.</string>
+	<string name="weather_refreshing">Requesting weather update!</string>
 	
 	<!-- Dialog Titles -->
 	<string name="dt_free_memory">Minfree Taskkiller</string>
@@ -372,13 +396,13 @@
 	<string name="pt_set_min">Min CPU</string>
 	<string name="pt_set_gov">Scaling governor</string>
 	<string name="pt_cpu_boot">Set at boot</string>
-        <!-- Scrolling Cache -->
-        <string name="pref_scrollingcache_title">Scrolling cache</string>
-        <string name="pref_scrollingcache_summary">Scrolling cache may improve scrolling performance at the cost of memory</string>
-        <string name="pref_scrollingcache_force_enable">Force enable</string>
-        <string name="pref_scrollingcache_default_enable">Default enable</string>
-        <string name="pref_scrollingcache_default_disable">Default disable</string>
-        <string name="pref_scrollingcache_force_disable">Force disable</string>
+    <!-- Scrolling Cache -->
+    <string name="pref_scrollingcache_title">Scrolling cache</string>
+    <string name="pref_scrollingcache_summary">Scrolling cache may improve scrolling performance at the cost of memory</string>
+    <string name="pref_scrollingcache_force_enable">Force enable</string>
+    <string name="pref_scrollingcache_default_enable">Default enable</string>
+    <string name="pref_scrollingcache_default_disable">Default disable</string>
+    <string name="pref_scrollingcache_force_disable">Force disable</string>
 
 	<!-- Preference Summaries -->
 	<!-- Main -->
@@ -482,10 +506,14 @@
     <string name="aokp_irc_summary">#teamkang @ irc.freenode.net</string>
     <string name="about_aokp">About AOKP</string>
     <string name="about_aokp_summary">@null</string>
-    
+
     <!--  Kernel Tweaks -->
     <string name="pt_fast_charge_boot">Fast Charge</string>
     <string name="ps_fast_charge_boot">Enable fast charge at boot</string>
+    <string name="fast_charge_warning">YOU WILL NOT BE ABLE TO CONNECT TO YOUR PC AFTER EACH REBOOT!\n\nThis setting will set fast charge ON after each reboot. While fast charge is on, you can *only* charge your phone!</string>
+    <string name="fast_charge_notification_title">Fast Charge is ON!</string>
+    <string name="fast_charge_notification_message">Phone is in charge-only mode!</string>
+
     <string name="kernel">Kernel Tweaks (if supported)</string>
     <string name="color_tuning_title_head">Color Multipliers Tuning</string>
     <string name="color_tuning_summary_head">Calibrate multipliers screen color</string>
@@ -495,4 +523,64 @@
     <string name="color_green_title">Green</string>
     <string name="color_blue_title">Blue</string>
     <string name="reset_defaults">Reset to Defaults</string>
+
+    <!-- Weather Codes -->
+    <string name="weather_0">Tornado</string>
+    <string name="weather_1">Tropical Storm</string>
+    <string name="weather_2">Hurricane</string>
+    <string name="weather_3">Severe Thunderstorms</string>
+    <string name="weather_4">Thunderstorms</string>
+    <string name="weather_5">Mixed Rain and Snow</string>
+    <string name="weather_6">Mixed Rain and Sleet</string>
+    <string name="weather_7">Mixed Snow and Sleet</string>
+    <string name="weather_8">Freezing Drizzle</string>
+    <string name="weather_9">Drizzle</string>
+    <string name="weather_10">Freezing Rain</string>
+    <string name="weather_11">Showers</string>
+    <string name="weather_12">Showers</string>
+    <string name="weather_13">Snow Flurries</string>
+    <string name="weather_14">Light Snow Showers</string>
+    <string name="weather_15">Blowing Snow</string>
+    <string name="weather_16">Snow</string>
+    <string name="weather_17">Hail</string>
+    <string name="weather_18">Sleet</string>
+    <string name="weather_19">Dust</string>
+    <string name="weather_20">Foggy</string>
+    <string name="weather_21">Haze</string>
+    <string name="weather_22">Smoky</string>
+    <string name="weather_23">Blustery</string>
+    <string name="weather_24">Windy</string>
+    <string name="weather_25">Cold</string>
+    <string name="weather_26">Cloudy</string>
+    <!-- mostly cloudy (night) -->
+    <string name="weather_27">Mostly Cloudy</string>
+    <!-- mostly cloudy (day) -->
+    <string name="weather_28">Mostly Cloudy</string>
+    <!-- partly cloudy (night) -->
+    <string name="weather_29">Partly Cloudy</string>
+    <!-- partly cloudy (day) -->
+    <string name="weather_30">Partly Cloudy</string>
+    <!-- clear (night) -->
+    <string name="weather_31">Clear</string>
+    <string name="weather_32">Sunny</string>
+    <!-- fair (night) -->
+    <string name="weather_33">Fair</string>
+    <!-- fair (day) -->
+    <string name="weather_34">Fair</string>
+    <string name="weather_35">Mixed Rain and Hail</string>
+    <string name="weather_36">Hot</string>
+    <string name="weather_37">Isolated Thunderstorms</string>
+    <string name="weather_38">Scattered Thunderstorms</string>
+    <string name="weather_39">Scattered Thunderstorms</string>
+    <string name="weather_40">Scattered Showers</string>
+    <string name="weather_41">Heavy Snow</string>
+    <string name="weather_42">Scattered Snow Showers</string>
+    <string name="weather_43">Scattered Snow Showers</string>
+    <string name="weather_44">Partly Cloudy</string>
+    <string name="weather_45">Thundershowers</string>
+    <string name="weather_46">Snow Showers</string>
+    <string name="weather_47">Isolated Thundershowers</string>
+    <!-- Forecase unavailable -->
+    <string name="weather_3200"></string>
+
 </resources>
