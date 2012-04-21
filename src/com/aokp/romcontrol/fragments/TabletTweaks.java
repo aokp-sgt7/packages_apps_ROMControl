@@ -36,11 +36,14 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     private static final String TABLET_TWEAKS_HIDE_RECENT = "tablet_tweaks_hide_recent";
     private static final String TABLET_TWEAKS_HIDE_BACK = "tablet_tweaks_hide_back";
     private static final String TABLET_TWEAKS_HIDE_MENU = "tablet_tweaks_hide_menu";
+    private static final String TABLET_TWEAKS_FORCE_MENU = "tablet_tweaks_force_menu";
     private static final String TABLET_TWEAKS_RIGHT_BUTTONS = "tablet_tweaks_right_buttons";
     public static final String TABLET_TWEAKS_DISABLE_HARDWARE_BUTTONS = "tablet_tweaks_disable_hardware_buttons";
     private static final String TABLET_TWEAKS_RECENT_THUMBNAILS = "tablet_tweaks_recent_thumbnails";
     private static final String TABLET_TWEAKS_PEEK_NOTIFICATIONS = "tablet_tweaks_peek_notifications";
     private static final String TABLET_TWEAKS_HIDE_STATUSBAR = "tablet_tweaks_hide_statusbar";
+    private static final String TABLET_TWEAKS_STORAGE_SWITCH = "tablet_tweaks_storage_switch";
+    private static final String TABLET_TWEAKS_STORAGE_AUTOMOUNT = "tablet_tweaks_storage_automount";
 
     public static final String BUTTONS_ENABLED_COMMAND = "echo ";
     public static final String BUTTONS_ENABLED_PATH =
@@ -51,11 +54,14 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     CheckBoxPreference mTabletTweaksHideRecent;
     CheckBoxPreference mTabletTweaksHideBack;
     CheckBoxPreference mTabletTweaksHideMenu;
+    CheckBoxPreference mTabletTweaksForceMenu;
     CheckBoxPreference mTabletTweaksRightButtons;
     CheckBoxPreference mTabletTweaksDisableHardwareButtons;
     CheckBoxPreference mTabletTweaksRecentThumbnails;
     CheckBoxPreference mTabletTweaksPeekNotifications;
     CheckBoxPreference mTabletTweaksHideStatusbar;
+    CheckBoxPreference mTabletTweaksStorageSwitch;
+    CheckBoxPreference mTabletTweaksStorageAutomount;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,9 +79,12 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         mTabletTweaksHideRecent = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_RECENT);
         mTabletTweaksHideRecent.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.HIDE_SOFT_RECENT_BUTTON, 0) == 1);
-       mTabletTweaksHideMenu = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_MENU);
+        mTabletTweaksHideMenu = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_MENU);
         mTabletTweaksHideMenu.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.HIDE_SOFT_MENU_BUTTON, 0) == 1);
+        mTabletTweaksForceMenu = (CheckBoxPreference) findPreference(TABLET_TWEAKS_FORCE_MENU);
+        mTabletTweaksForceMenu.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.FORCE_SOFT_MENU_BUTTON, 0) == 1);
         mTabletTweaksDisableHardwareButtons = (CheckBoxPreference) findPreference(TABLET_TWEAKS_DISABLE_HARDWARE_BUTTONS);
         mTabletTweaksRecentThumbnails = (CheckBoxPreference) findPreference(TABLET_TWEAKS_RECENT_THUMBNAILS);
         mTabletTweaksRecentThumbnails.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
@@ -89,6 +98,16 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         mTabletTweaksPeekNotifications = (CheckBoxPreference) findPreference(TABLET_TWEAKS_PEEK_NOTIFICATIONS);
         mTabletTweaksPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
+        mTabletTweaksStorageSwitch = (CheckBoxPreference) findPreference(TABLET_TWEAKS_STORAGE_SWITCH);
+	mTabletTweaksStorageSwitch.setChecked((SystemProperties.getInt("persist.sys.vold.switchexternal", 0) == 0));
+        mTabletTweaksStorageAutomount = (CheckBoxPreference) findPreference(TABLET_TWEAKS_STORAGE_AUTOMOUNT);
+        mTabletTweaksStorageAutomount.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.Secure.MOUNT_UMS_AUTOSTART, 0) == 1);
+
+        if (SystemProperties.get("ro.vold.switchablepair","").equals("")) {
+            ((PreferenceGroup) findPreference("storage")).removePreference(mTabletTweaksStorageSwitch);
+        }
+
 
     }
 
@@ -114,6 +133,11 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         } else if (preference == mTabletTweaksHideMenu) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.HIDE_SOFT_MENU_BUTTON, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+            return true;
+        } else if (preference == mTabletTweaksForceMenu) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.FORCE_SOFT_MENU_BUTTON, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             return true;
         } else if (preference == mTabletTweaksDisableHardwareButtons) {
@@ -148,6 +172,14 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
                     Settings.System.SHOW_NOTIFICATION_PEEK, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             Helpers.restartSystemUI();
+            return true;
+        } else if (preference == mTabletTweaksStorageSwitch) {
+            SystemProperties.set("persist.sys.vold.switchexternal", ((CheckBoxPreference) preference).isChecked() ? "1" : "0");
+            return true;
+        } else if (preference == mTabletTweaksStorageAutomount) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.Secure.MOUNT_UMS_AUTOSTART, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             return true;
 	}
         return super.onPreferenceTreeClick(preferenceScreen, preference);

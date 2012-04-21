@@ -68,6 +68,12 @@
 			android:title="@string/rotation_animation_delay_title"
 			android:summary="@string/rotation_animation_delay_summary" />
 
+		<CheckBoxPreference
+			android:key="screenshots_jpg"
+			android:title="@string/screenshots_jpeg"
+			android:summary="@string/screenshots_jpeg_summary" />
+
+
 	</PreferenceCategory>
 
 </PreferenceScreen>

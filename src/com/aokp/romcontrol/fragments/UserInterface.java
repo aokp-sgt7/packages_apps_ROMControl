@@ -39,6 +39,7 @@ public class UserInterface extends AOKPPreferenceFragment implements
     private static final String PREF_LONGPRESS_TO_KILL = "longpress_to_kill";
     private static final String PREF_ROTATION_ANIMATION = "rotation_animation_delay";
     private static final String PREF_180 = "rotate_180";
+    private static final String SCREENSHOTS_JPEG = "screenshots_jpg";
 
     CheckBoxPreference mCrtOnAnimation;
     CheckBoxPreference mCrtOffAnimation;
@@ -52,6 +53,7 @@ public class UserInterface extends AOKPPreferenceFragment implements
     Preference mLcdDensity;
     CheckBoxPreference mDisableBootAnimation;
     CheckBoxPreference mDisableBugMailer;
+    CheckBoxPreference mScreenshotsJpeg;
 
     String mCustomLabelText = null;
     int newDensityValue;
@@ -104,6 +106,10 @@ public class UserInterface extends AOKPPreferenceFragment implements
         mHorizontalAppSwitcher.setChecked(Settings.System.getInt(getActivity()
                 .getContentResolver(),
                 Settings.System.HORIZONTAL_RECENTS_TASK_PANEL, 0) == 1);
+
+        mScreenshotsJpeg = (CheckBoxPreference) findPreference(SCREENSHOTS_JPEG);
+        mScreenshotsJpeg.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.SCREENSHOTS_JPEG, 0) == 1);
 
         mLcdDensity = findPreference("lcd_density_setup");
         String currentProperty = SystemProperties.get("ro.sf.lcd_density");
@@ -223,6 +229,12 @@ public class UserInterface extends AOKPPreferenceFragment implements
                     Settings.System.HORIZONTAL_RECENTS_TASK_PANEL, checked ? 1
                             : 0);
             Helpers.restartSystemUI();
+            return true;
+        } else if (preference == mScreenshotsJpeg) {
+
+            boolean checked = ((CheckBoxPreference) preference).isChecked();
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.SCREENSHOTS_JPEG, checked ? 1 : 0);
             return true;
 
         } else if (preference == mDisableBootAnimation) {
