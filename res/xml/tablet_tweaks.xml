@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/tablet_tweaks">
 
+<!--    
     <PreferenceCategory
+	android:key="buttons"
         android:title="@string/tablet_tweaks_tablet_buttons_title">
 
         <CheckBoxPreference
@@ -32,8 +34,8 @@
             android:title="@string/tablet_tweaks_force_menu"
             android:dependency="tablet_tweaks_hide_menu"
 	    android:defaultValue="false" />
-
     </PreferenceCategory>
+-->
 
     <PreferenceCategory
         android:title="@string/tablet_tweaks_tablet_capacitive_title">
