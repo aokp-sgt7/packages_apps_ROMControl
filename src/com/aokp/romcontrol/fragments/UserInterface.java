@@ -134,6 +134,10 @@ public class UserInterface extends AOKPPreferenceFragment implements
             // can't get this working in ICS just yet
             ((PreferenceGroup) findPreference("crt")).removePreference(mCrtOnAnimation);
         }
+
+        if (!hasHardwareButtons) {
+            ((PreferenceGroup) findPreference("misc")).removePreference(mLongPressToKill);
+        }
     }
 
     private void updateCustomLabelTextSummary() {
