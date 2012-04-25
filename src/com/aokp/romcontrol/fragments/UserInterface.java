@@ -1,6 +1,9 @@
 
 package com.aokp.romcontrol.fragments;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,6 +43,7 @@ public class UserInterface extends AOKPPreferenceFragment implements
     private static final String PREF_ROTATION_ANIMATION = "rotation_animation_delay";
     private static final String PREF_180 = "rotate_180";
     private static final String SCREENSHOTS_JPEG = "screenshots_jpg";
+    private static final String PREF_HOME_LONGPRESS = "long_press_home";
 
     CheckBoxPreference mCrtOnAnimation;
     CheckBoxPreference mCrtOffAnimation;
@@ -50,6 +54,7 @@ public class UserInterface extends AOKPPreferenceFragment implements
     CheckBoxPreference mHorizontalAppSwitcher;
     Preference mCustomLabel;
     ListPreference mAnimationRotationDelay;
+    ListPreference mHomeLongpress;
     Preference mLcdDensity;
     CheckBoxPreference mDisableBootAnimation;
     CheckBoxPreference mDisableBugMailer;
@@ -128,6 +133,12 @@ public class UserInterface extends AOKPPreferenceFragment implements
         mDisableBugMailer = (CheckBoxPreference) findPreference("disable_bugmailer");
         mDisableBugMailer.setChecked(!new File("/system/bin/bugmailer.sh").exists());
 
+        mHomeLongpress = (ListPreference) findPreference(PREF_HOME_LONGPRESS);
+        mHomeLongpress.setOnPreferenceChangeListener(this);
+        mHomeLongpress.setValue(Settings.System.getInt(getActivity()
+                .getContentResolver(), Settings.System.NAVIGATION_BAR_HOME_LONGPRESS,
+                -1) + "");
+
         if (!getResources().getBoolean(com.android.internal.R.bool.config_enableCrtAnimations)) {
             prefs.removePreference((PreferenceGroup) findPreference("crt"));
         } else {
@@ -137,6 +148,11 @@ public class UserInterface extends AOKPPreferenceFragment implements
 
         if (!hasHardwareButtons) {
             ((PreferenceGroup) findPreference("misc")).removePreference(mLongPressToKill);
+            ((PreferenceGroup) findPreference("misc")).removePreference(mHomeLongpress);
+        }
+
+        if(mTablet) {
+            ((PreferenceGroup) findPreference("misc")).removePreference(mHomeLongpress);
         }
     }
 
@@ -292,6 +308,11 @@ public class UserInterface extends AOKPPreferenceFragment implements
                     Settings.System.ACCELEROMETER_ROTATION_SETTLE_TIME,
                     Integer.parseInt((String) newValue));
 
+            return true;
+        } else if (preference == mHomeLongpress) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.NAVIGATION_BAR_HOME_LONGPRESS,
+                    Integer.parseInt((String) newValue));
             return true;
         }
         return false;
