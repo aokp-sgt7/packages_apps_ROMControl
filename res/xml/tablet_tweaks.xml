@@ -38,6 +38,7 @@
 -->
 
     <PreferenceCategory
+	android:key="capacitive"
         android:title="@string/tablet_tweaks_tablet_capacitive_title">
 
         <CheckBoxPreference

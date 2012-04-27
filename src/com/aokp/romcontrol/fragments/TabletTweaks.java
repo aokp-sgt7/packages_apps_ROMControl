@@ -27,6 +27,7 @@ import com.aokp.romcontrol.AOKPPreferenceFragment;
 import com.aokp.romcontrol.util.Helpers;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 
@@ -47,10 +48,12 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     private static final String TABLET_TWEAKS_STORAGE_SWITCH = "tablet_tweaks_storage_switch";
     private static final String TABLET_TWEAKS_STORAGE_AUTOMOUNT = "tablet_tweaks_storage_automount";
 
-    public static final String BUTTONS_ENABLED_COMMAND = "echo ";
+    public static final String COMMAND_SHELL = "/system/bin/sh";
+    public static final String ECHO_COMMAND = "echo ";
     public static final String BUTTONS_ENABLED_PATH =
+            "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
+    public static final String BUTTONS_ENABLED_COMMAND =
             " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
-    public static final String BUTTONS_ENABLED_SHELL = "/system/bin/sh";
 
 /*
     CheckBoxPreference mTabletTweaksHideHome;
@@ -110,6 +113,11 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         mTabletTweaksStorageAutomount.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.Secure.MOUNT_UMS_AUTOSTART, 0) == 1);
 
+        File file = new File(BUTTONS_ENABLED_PATH);
+        if (!file.exists()) {
+            prefSet.removePreference(findPreference("capacitive"));
+        }
+
         if (SystemProperties.get("ro.vold.switchablepair","").equals("")) {
             ((PreferenceGroup) findPreference("storage")).removePreference(mTabletTweaksStorageSwitch);
         }
@@ -153,8 +161,10 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 */
         if (preference == mTabletTweaksDisableHardwareButtons) {
             try {
-                String[] cmds = {BUTTONS_ENABLED_SHELL, "-c",
-                        BUTTONS_ENABLED_COMMAND + (((CheckBoxPreference) preference).isChecked() ? "0" : "1") + BUTTONS_ENABLED_PATH};
+
+                String[] cmds = {COMMAND_SHELL, "-c",
+                        ECHO_COMMAND + (((CheckBoxPreference) preference).isChecked() ? "0" : "1") +
+                        BUTTONS_ENABLED_COMMAND};
                 Runtime.getRuntime().exec(cmds);
             } catch (IOException e) {
                 e.printStackTrace();
