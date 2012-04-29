@@ -1,3 +1,13 @@
+/* -------------------------------------- --- -- -
+** :::: AOKP ICS for SGT7 GSM - Tablet Tweaks ::::
+** - -- --- --------------------------------------
+** 
+** Tablet Tweaks for Samsung GalaxyTab GT-P1000 (all variants)
+**
+** originally coded by sbradymobile of the SGT7 ICS TE4M
+** ported to AOKP and ROMControl by stimpz0r
+**
+*/
 
 package com.aokp.romcontrol.fragments;
 
@@ -7,6 +17,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -95,30 +107,37 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
                 Settings.System.FORCE_SOFT_MENU_BUTTON, 0) == 1);
 */
         mTabletTweaksDisableHardwareButtons = (CheckBoxPreference) findPreference(TABLET_TWEAKS_DISABLE_HARDWARE_BUTTONS);
+
         mTabletTweaksRecentThumbnails = (CheckBoxPreference) findPreference(TABLET_TWEAKS_RECENT_THUMBNAILS);
         mTabletTweaksRecentThumbnails.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.LARGE_RECENT_THUMBNAILS, 0) == 1);
+
         mTabletTweaksRightButtons = (CheckBoxPreference) findPreference(TABLET_TWEAKS_RIGHT_BUTTONS);
         mTabletTweaksRightButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.RIGHT_SOFT_BUTTONS, 0) == 1);
+
         mTabletTweaksHideStatusbar = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_STATUSBAR);
         mTabletTweaksHideStatusbar.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.HIDE_STATUSBAR, 0) == 1);
+
         mTabletTweaksPeekNotifications = (CheckBoxPreference) findPreference(TABLET_TWEAKS_PEEK_NOTIFICATIONS);
         mTabletTweaksPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
+
         mTabletTweaksStorageSwitch = (CheckBoxPreference) findPreference(TABLET_TWEAKS_STORAGE_SWITCH);
-	mTabletTweaksStorageSwitch.setChecked((SystemProperties.getInt("persist.sys.vold.switchexternal", 0) == 0));
+        int i = Integer.parseInt(Helpers.getSystemProp("persist.sys.vold.switchexternal", "0"));
+	mTabletTweaksStorageSwitch.setChecked(i == 0);
+
         mTabletTweaksStorageAutomount = (CheckBoxPreference) findPreference(TABLET_TWEAKS_STORAGE_AUTOMOUNT);
         mTabletTweaksStorageAutomount.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.Secure.MOUNT_UMS_AUTOSTART, 0) == 1);
 
         File file = new File(BUTTONS_ENABLED_PATH);
         if (!file.exists()) {
-            prefSet.removePreference(findPreference("capacitive"));
+            prefs.removePreference(findPreference("capacitive"));
         }
 
-        if (SystemProperties.get("ro.vold.switchablepair","").equals("")) {
+        if (Helpers.getSystemProp("ro.vold.switchablepair","").equals("")) {
             ((PreferenceGroup) findPreference("storage")).removePreference(mTabletTweaksStorageSwitch);
         }
 
@@ -161,7 +180,6 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 */
         if (preference == mTabletTweaksDisableHardwareButtons) {
             try {
-
                 String[] cmds = {COMMAND_SHELL, "-c",
                         ECHO_COMMAND + (((CheckBoxPreference) preference).isChecked() ? "0" : "1") +
                         BUTTONS_ENABLED_COMMAND};
@@ -195,7 +213,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
             Helpers.restartSystemUI();
             return true;
         } else if (preference == mTabletTweaksStorageSwitch) {
-            SystemProperties.set("persist.sys.vold.switchexternal", ((CheckBoxPreference) preference).isChecked() ? "1" : "0");
+            Helpers.setSystemProp("persist.sys.vold.switchexternal", ((CheckBoxPreference) preference).isChecked() ? "1" : "0");
             return true;
         } else if (preference == mTabletTweaksStorageAutomount) {
             Settings.System.putInt(getActivity().getContentResolver(),

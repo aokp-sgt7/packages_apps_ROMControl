@@ -33,6 +33,10 @@ public class BootService extends Service {
     private static final String KEY_FASTCHARGE = "fast_charge_boot";
     private static final String FAST_CHARGE_DIR = "/sys/kernel/fast_charge";
     private static final String FAST_CHARGE_FILE = "force_fast_charge";
+    public static final String COMMAND_SHELL = "/system/bin/sh";
+    public static final String ECHO_COMMAND = "echo ";
+    public static final String BUTTONS_ENABLED_COMMAND =
+            " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
     private final BootService service = this;
     public static SharedPreferences preferences;
     private Thread bootThread;
@@ -150,6 +154,11 @@ public class BootService extends Service {
             getApplicationContext().startService(startRefresh);
         }
 
+	if (preferences.getBoolean("tablet_tweaks_disable_hardware_buttons", false)) {
+		configureButtons();
+	}
+		
+
         bootThread.start();
         // Stop the service
         stopSelf();
@@ -206,6 +215,16 @@ public class BootService extends Service {
 
         return supported;
     }
+
+    private void configureButtons() {
+        try {
+            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + "0" + BUTTONS_ENABLED_COMMAND};
+            Runtime.getRuntime().exec(cmds);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public IBinder onBind(final Intent intent) {
