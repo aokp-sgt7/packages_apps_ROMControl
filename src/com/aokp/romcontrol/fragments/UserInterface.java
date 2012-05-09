@@ -60,6 +60,7 @@ public class UserInterface extends AOKPPreferenceFragment implements
     CheckBoxPreference mDisableBootAudio;
     CheckBoxPreference mDisableBugMailer;
     ListPreference mRecentAppSwitcher;
+    CheckBoxPreference mScreenshotsJpeg;
 
     String mCustomLabelText = null;
     int newDensityValue;
@@ -249,6 +250,13 @@ public class UserInterface extends AOKPPreferenceFragment implements
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACCELEROMETER_ROTATION_ANGLES, checked ? (1 | 2 | 4 | 8)
                             : (1 | 2 | 8));
+            return true;
+
+        } else if (preference == mScreenshotsJpeg) {
+
+            boolean checked = ((CheckBoxPreference) preference).isChecked();
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.SCREENSHOTS_JPEG, checked ? 1 : 0);
             return true;
 
         } else if (preference == mDisableBootAnimation) {
