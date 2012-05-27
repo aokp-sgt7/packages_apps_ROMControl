@@ -10,6 +10,7 @@ import java.util.List;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -161,9 +162,7 @@ public class BootService extends Service {
     }
 
     private void configureButtons() {
-        int val = Integer.parseInt((String) newValue);
-        Settings.System.putInt(getActivity().getContentResolver(),
-            Settings.System.KEY_BACKLIGHT_TIMEOUT, val);
+        int val = Settings.System.getInt(getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT, 0);
         try {
             String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + val + TABLET_TWEAKS_KEY_BACKLIGHT_COMMAND};
             Runtime.getRuntime().exec(cmds);
