@@ -121,7 +121,7 @@ public class Navbar extends AOKPPreferenceFragment implements
         mNavBarButtonQty = (ListPreference) findPreference(PREF_NAVBAR_QTY);
         mNavBarButtonQty.setOnPreferenceChangeListener(this);
         mNavBarButtonQty.setValue(Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.NAVIGATION_BAR_BUTTONS_QTY, 3) + "");
+                Settings.System.NAVIGATION_BAR_BUTTONS_QTY, 4) + "");
 
         mPicker = new ShortcutPickerHelper(this, this);
 
@@ -453,7 +453,7 @@ public class Navbar extends AOKPPreferenceFragment implements
     public void refreshSettings() {
 
         int navbarQuantity = Settings.System.getInt(getContentResolver(),
-                Settings.System.NAVIGATION_BAR_BUTTONS_QTY, 3);
+                Settings.System.NAVIGATION_BAR_BUTTONS_QTY, 4);
 
         PreferenceGroup targetGroup = (PreferenceGroup) findPreference("navbar_buttons");
         targetGroup.removeAll();

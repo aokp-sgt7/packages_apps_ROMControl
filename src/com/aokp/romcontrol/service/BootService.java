@@ -39,6 +39,8 @@ public class BootService extends Service {
     public static final String ECHO_COMMAND = "echo ";
     public static final String BUTTONS_ENABLED_COMMAND =
             " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
+    public static final String TABLET_TWEAKS_KEY_BACKLIGHT_COMMAND =
+            " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
     private final BootService service = this;
     public static SharedPreferences preferences;
     private Thread bootThread;
@@ -144,6 +146,13 @@ public class BootService extends Service {
 	if (preferences.getBoolean("tablet_tweaks_disable_hardware_buttons", false)) {
 		configureButtons();
 	}
+
+        try {
+            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + "0" + BUTTONS_ENABLED_COMMAND};
+            Runtime.getRuntime().exec(cmds);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		
 
         bootThread.start();
@@ -152,8 +161,11 @@ public class BootService extends Service {
     }
 
     private void configureButtons() {
+        int val = Integer.parseInt((String) newValue);
+        Settings.System.putInt(getActivity().getContentResolver(),
+            Settings.System.KEY_BACKLIGHT_TIMEOUT, val);
         try {
-            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + "0" + BUTTONS_ENABLED_COMMAND};
+            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + val + TABLET_TWEAKS_KEY_BACKLIGHT_COMMAND};
             Runtime.getRuntime().exec(cmds);
         } catch (IOException e) {
             e.printStackTrace();
