@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemProperties;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceGroup;
@@ -45,15 +46,9 @@ import java.io.IOException;
 
 public class TabletTweaks extends AOKPPreferenceFragment implements OnPreferenceChangeListener 
 {
-/*
-    private static final String TABLET_TWEAKS_HIDE_HOME = "tablet_tweaks_hide_home";
-    private static final String TABLET_TWEAKS_HIDE_RECENT = "tablet_tweaks_hide_recent";
-    private static final String TABLET_TWEAKS_HIDE_BACK = "tablet_tweaks_hide_back";
-    private static final String TABLET_TWEAKS_HIDE_MENU = "tablet_tweaks_hide_menu";
-    private static final String TABLET_TWEAKS_FORCE_MENU = "tablet_tweaks_force_menu";
-*/
     private static final String TABLET_TWEAKS_RIGHT_BUTTONS = "tablet_tweaks_right_buttons";
     public static final String TABLET_TWEAKS_DISABLE_HARDWARE_BUTTONS = "tablet_tweaks_disable_hardware_buttons";
+    public static final String TABLET_TWEAKS_KEY_BACKLIGHT_TIMEOUT = "tablet_tweaks_backlight_timeout";
     private static final String TABLET_TWEAKS_RECENT_THUMBNAILS = "tablet_tweaks_recent_thumbnails";
     private static final String TABLET_TWEAKS_PEEK_NOTIFICATIONS = "tablet_tweaks_peek_notifications";
     private static final String TABLET_TWEAKS_HIDE_STATUSBAR = "tablet_tweaks_hide_statusbar";
@@ -67,13 +62,10 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     public static final String BUTTONS_ENABLED_COMMAND =
             " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
 
-/*
-    CheckBoxPreference mTabletTweaksHideHome;
-    CheckBoxPreference mTabletTweaksHideRecent;
-    CheckBoxPreference mTabletTweaksHideBack;
-    CheckBoxPreference mTabletTweaksHideMenu;
-    CheckBoxPreference mTabletTweaksForceMenu;
-*/
+    private static final String TABLET_TWEAKS_KEY_BACKLIGHT_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
+    public static final String TABLET_TWEAKS_KEY_BACKLIGHT_COMMAND =
+            " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
+
     CheckBoxPreference mTabletTweaksRightButtons;
     CheckBoxPreference mTabletTweaksDisableHardwareButtons;
     CheckBoxPreference mTabletTweaksRecentThumbnails;
@@ -81,6 +73,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     CheckBoxPreference mTabletTweaksHideStatusbar;
     CheckBoxPreference mTabletTweaksStorageSwitch;
     CheckBoxPreference mTabletTweaksStorageAutomount;
+    ListPreference mTabletTweaksBacklightTimeout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,24 +82,13 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         addPreferencesFromResource(R.xml.tablet_tweaks);
         PreferenceScreen prefs = getPreferenceScreen();
 
-/*
-        mTabletTweaksHideBack = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_BACK);
-        mTabletTweaksHideBack.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.HIDE_SOFT_BACK_BUTTON, 0) == 1);
-        mTabletTweaksHideHome = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_HOME);
-        mTabletTweaksHideHome.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.HIDE_SOFT_HOME_BUTTON, 0) == 1);
-        mTabletTweaksHideRecent = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_RECENT);
-        mTabletTweaksHideRecent.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.HIDE_SOFT_RECENT_BUTTON, 0) == 1);
-        mTabletTweaksHideMenu = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_MENU);
-        mTabletTweaksHideMenu.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.HIDE_SOFT_MENU_BUTTON, 0) == 1);
-        mTabletTweaksForceMenu = (CheckBoxPreference) findPreference(TABLET_TWEAKS_FORCE_MENU);
-        mTabletTweaksForceMenu.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.FORCE_SOFT_MENU_BUTTON, 0) == 1);
-*/
         mTabletTweaksDisableHardwareButtons = (CheckBoxPreference) findPreference(TABLET_TWEAKS_DISABLE_HARDWARE_BUTTONS);
+
+        mTabletTweaksBacklightTimeout = (ListPreference) findPreference(TABLET_TWEAKS_KEY_BACKLIGHT_TIMEOUT);
+        mTabletTweaksBacklightTimeout.setOnPreferenceChangeListener(this);
+        mTabletTweaksBacklightTimeout.setValue(Integer.toString(Settings.System.getInt(getActivity()
+                .getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT,
+                0)));
 
         mTabletTweaksRecentThumbnails = (CheckBoxPreference) findPreference(TABLET_TWEAKS_RECENT_THUMBNAILS);
         mTabletTweaksRecentThumbnails.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
@@ -150,34 +132,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
             Preference preference) {
-/*
-        if (preference == mTabletTweaksHideHome) {
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.HIDE_SOFT_HOME_BUTTON, 
-		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-            return true;
-        } else if (preference == mTabletTweaksHideRecent) {
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.HIDE_SOFT_RECENT_BUTTON, 
-		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-            return true;
-        } else if (preference == mTabletTweaksHideBack) {
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.HIDE_SOFT_BACK_BUTTON, 
-		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-            return true;
-        } else if (preference == mTabletTweaksHideMenu) {
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.HIDE_SOFT_MENU_BUTTON, 
-		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-            return true;
-        } else if (preference == mTabletTweaksForceMenu) {
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.FORCE_SOFT_MENU_BUTTON, 
-		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-            return true;
-        } else if (preference == mTabletTweaksDisableHardwareButtons) {
-*/
+
         if (preference == mTabletTweaksDisableHardwareButtons) {
             try {
                 String[] cmds = {COMMAND_SHELL, "-c",
@@ -226,6 +181,19 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+        if (preference == mTabletTweaksBacklightTimeout) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.KEY_BACKLIGHT_TIMEOUT, val);
+            try {
+                String[] cmds = {COMMAND_SHELL, "-c",
+                        ECHO_COMMAND + val + TABLET_TWEAKS_KEY_BACKLIGHT_COMMAND};
+                Runtime.getRuntime().exec(cmds);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
         return false;
     }
 }

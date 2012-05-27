@@ -46,6 +46,13 @@
             android:title="@string/tablet_tweaks_disable_hardware_buttons"
             android:summary="@string/tablet_tweaks_disable_hardware_buttons_summary" />
 
+	<ListPreference
+		android:key="tablet_tweaks_backlight_timeout"
+		android:title="@string/tablet_tweaks_backlight_timeout_title_head"
+		android:summary="@string/tablet_tweaks_backlight_timeout_summary_head"
+		android:entries="@array/tablet_tweaks_backlight_timeout_entries"
+		android:entryValues="@array/tablet_tweaks_backlight_timeout_entries_values"
+		android:defaultValue="1600" />
     </PreferenceCategory>
 
     <PreferenceCategory
