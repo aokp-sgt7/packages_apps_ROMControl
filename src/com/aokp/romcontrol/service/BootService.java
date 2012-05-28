@@ -147,14 +147,9 @@ public class BootService extends Service {
 		configureButtons();
 	}
 
-	int val = Settings.System.getInt(getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT, 0);
-        try {
-            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + val + LED_TIMEOUT_COMMAND};
-            Runtime.getRuntime().exec(cmds);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		
+	if (Settings.System.getInt(getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT, 0) != 0) {
+	    configureLedTimeout();
+	}
 
         bootThread.start();
         // Stop the service
@@ -170,6 +165,15 @@ public class BootService extends Service {
         }
     }
 
+    private void configureLedTimeout() {
+	int val = Settings.System.getInt(getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT, 0);
+	try {
+            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + val + LED_TIMEOUT_COMMAND};
+            Runtime.getRuntime().exec(cmds);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public IBinder onBind(final Intent intent) {
