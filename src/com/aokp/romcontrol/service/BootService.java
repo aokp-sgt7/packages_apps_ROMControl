@@ -10,7 +10,6 @@ import java.util.List;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,7 +39,7 @@ public class BootService extends Service {
     public static final String ECHO_COMMAND = "echo ";
     public static final String BUTTONS_ENABLED_COMMAND =
             " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
-    public static final String TABLET_TWEAKS_KEY_BACKLIGHT_COMMAND =
+    public static final String LED_TIMEOUT_COMMAND =
             " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
     private final BootService service = this;
     public static SharedPreferences preferences;
@@ -148,8 +147,9 @@ public class BootService extends Service {
 		configureButtons();
 	}
 
+	int val = Settings.System.getInt(getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT, 0);
         try {
-            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + "0" + BUTTONS_ENABLED_COMMAND};
+            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + val + LED_TIMEOUT_COMMAND};
             Runtime.getRuntime().exec(cmds);
         } catch (IOException e) {
             e.printStackTrace();
@@ -162,9 +162,8 @@ public class BootService extends Service {
     }
 
     private void configureButtons() {
-        int val = Settings.System.getInt(getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT, 0);
         try {
-            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + val + TABLET_TWEAKS_KEY_BACKLIGHT_COMMAND};
+            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + "0" + BUTTONS_ENABLED_COMMAND};
             Runtime.getRuntime().exec(cmds);
         } catch (IOException e) {
             e.printStackTrace();
