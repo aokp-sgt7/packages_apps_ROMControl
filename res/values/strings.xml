@@ -84,6 +84,11 @@
     <string name="navbar_action_power">Power</string>
     <string name="navbar_action_none">Empty</string>
 
+	<string name="navbar_enable_bar">Enable bar</string>
+
+	<string name="navbar_widgets">Navigation Bar Widgets</string>
+	<string name="navbar_widgets_reset">Reset navbar widgets</string>
+
     <string name="navbar_enable_dialog_title">Reboot required!</string>
     <string name="navbar_enable_dialog_msg">Please reboot to enable/disable the navigation bar properly!</string>
     <string name="navbar_enable_dialog_negative">I\'ll reboot later</string>
@@ -97,12 +102,16 @@
     <string name="glow_times_title">Button glow animation</string>
     <string name="glow_times_summary">Adjust how fast your buttons animate after you touch them. Lowering the speed can improve performance.</string>
 
+    <string name="combined_bar_title">Combined Bar</string>
+    <string name="combined_bar_auto_hide_title">Auto Hide</string>
+    <string name="combined_bar_auto_hide_summary">Allow Combined Bar to hide when showing a fullscreen app</string>
+
     <!-- UI -->
     <string name="rotation_animation_delay_title">Rotation delay</string>
     <string name="rotation_animation_delay_summary">The number of milliseconds for which the device posture must be stable before an orientation change occurs. 200 ms default.</string>
 
 	<string name="ime_switcher_title">Show IME Switcher</string>
-	<string name="ime_switcher_summary">In statusbar, while typing (requires reboot)</string>
+	<string name="ime_switcher_summary">In statusbar, while typing</string>
 
 	<string name="custom_carrier_label_title">Custom carrier label</string>
 	<string name="custom_carrier_label_empty">Please enter a new one!</string>
@@ -289,6 +298,9 @@
     <string name="statusbar_layout_summary">Change the notification drawer layout (requires UI restart)</string>
     <string name="statusbar_fontsize">Statusbar Font Size</string>
     <string name="statusbar_fontsize_summary">Change the size of text elements on statusbar</string>
+
+    <string name="status_bar_notif_count_title">Show notification count</string>
+    <string name="status_bar_notif_count_summary">Display number of pending notifications on the status bar</string>
 
     <!-- Statusbar | Battery -->
     <string name="battery_icon">Battery icon style</string>
@@ -550,6 +562,7 @@
     <string name="color_red_title">Red</string>
     <string name="color_green_title">Green</string>
     <string name="color_blue_title">Blue</string>
+    <string name="gamma_dss_title">Software Gamma Adjustment</string>
     <string name="reset_defaults">Reset to Defaults</string>
 
     <!-- Weather Codes -->
@@ -610,6 +623,9 @@
     <string name="weather_47">Isolated Thundershowers</string>
     <!-- Forecase unavailable -->
     <string name="weather_3200"></string>
+
+    <!-- Miscellaneous -->
+    <string name="location_unavailable">Unable to retrieve location information for weather update</string>
 
 
 </resources>
