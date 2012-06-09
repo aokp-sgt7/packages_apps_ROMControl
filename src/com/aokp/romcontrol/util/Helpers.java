@@ -175,6 +175,11 @@ public class Helpers {
             Log.d( TAG, "Failed to create " + filePath + " File contents: " + fileContents);  
         }
     }
+
+    public static boolean fileExists(String filename) {
+        return new File(filename).exists();
+    }
+
     
     /**
      * Long toast message

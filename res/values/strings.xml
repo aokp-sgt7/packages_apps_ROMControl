@@ -506,26 +506,31 @@
 	<string name="apply_values">Apply Values</string>
 
 	<!-- tablet tweaks -->
-	<string name="tablet_tweaks_tablet_capacitive_title">Tablet capacitive buttons</string>
-	<string name="tablet_tweaks_disable_hardware_buttons">Disable capacitive buttons</string>
-	<string name="tablet_tweaks_disable_hardware_buttons_summary">Disable capacitive button touches and lights (and notifications)</string>
-	<string name="tablet_tweaks_backlight_timeout_title_head">Backlight Timeout</string>
-	<string name="tablet_tweaks_backlight_timeout_summary_head">Adjust the delay before the touch key backlight automatically turns off</string>
-	<string name="tablet_tweaks_status_bar_title">Status bar</string>
-	<string name="tablet_tweaks_right_buttons">Mirror statusbar</string>
-	<string name="tablet_tweaks_right_buttons_summary">Buttons on the right, notifications on the left (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>
-	<string name="tablet_tweaks_peek_notifications">Peek notifications</string>
-	<string name="tablet_tweaks_peek_notifications_summary">Preview notifications by pressing the notification icon (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>
-	<string name="tablet_tweaks_hide_statusbar">Hide status bar in shadow mode</string>
-	<string name="tablet_tweaks_hide_statusbar_summary">Hide the status bar when it enters shadow mode (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>
-	<string name="tablet_tweaks_recents_title">Recent apps</string>
-	<string name="tablet_tweaks_recent_thumbnails">Large thumbnails</string>
-	<string name="tablet_tweaks_recent_thumbnails_summary">Larger application history thumbnails (requires restarting SystemUI, statusbar will disappear and reappear in a few seconds)</string>
-        <string name="tablet_tweaks_storage_title">Storage</string>
-        <string name="tablet_tweaks_storage_switch">Switch external storage</string>
-        <string name="tablet_tweaks_storage_switch_summary">Switch external and internal sd-card mounts (Requires reboot)</string>
-        <string name="tablet_tweaks_storage_automount">Automount UMS</string>
-        <string name="tablet_tweaks_storage_automount_summary">Automount USB mass storage when connected</string>
+	<string name="tt_performance_cat">Performance</string>
+	<string name="tt_capacitive_cat">Capacitive Buttons</string>
+	<string name="tt_statusbar_cat">Statusbar</string>
+	<string name="tt_recents_cat">Recent Apps</string>
+        <string name="tt_storage_cat">Storage</string>
+
+	<string name="tt_disable_hardware_buttons">Disable capacitive buttons</string>
+	<string name="tt_disable_hardware_buttons_summary">Disable capacitive button touches and lights (and notifications)</string>
+	<string name="tt_backlight_timeout_title_head">Backlight Timeout</string>
+	<string name="tt_backlight_timeout_summary_head">Adjust the delay before the touch key backlight automatically turns off</string>
+	<string name="tt_right_buttons">Mirror statusbar</string>
+	<string name="tt_right_buttons_summary">Buttons on the right, notifications on the left (restarts SystemUI)</string>
+	<string name="tt_peek_notifications">Peek notifications</string>
+	<string name="tt_peek_notifications_summary">Preview notifications by pressing the notification icon (restarts SystemUI)</string>
+	<string name="tt_hide_statusbar">Hide status bar in shadow mode</string>
+	<string name="tt_hide_statusbar_summary">Hide the status bar when it enters shadow mode (restarts SystemUI)</string>
+	<string name="tt_recent_thumbnails">Large thumbnails</string>
+	<string name="tt_recent_thumbnails_summary">Larger application history thumbnails (restarts SystemUI)</string>
+        <string name="tt_storage_switch">Switch external storage</string>
+        <string name="tt_storage_switch_summary">Switch external and internal sd-card mounts (requires reboot)</string>
+        <string name="tt_storage_automount">Automount UMS</string>
+        <string name="tt_storage_automount_summary">Automount USB mass storage when connected</string>
+	<string name="tt_gpu_overclock_title">GPU Clock Speed</string>
+	<string name="tt_wifi_pm_title">Wifi Sleep Power Mode</string>
+	<string name="tt_live_oc_title">Live Overclock</string>
 
 	<string name="dpi">DPI</string>
 	<string name="donate_roman">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MZD7JLRX6P99Y</string>

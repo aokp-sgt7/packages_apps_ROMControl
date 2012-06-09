@@ -3,109 +3,93 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/tablet_tweaks">
 
-<!--    
+<!-- Performance -->
     <PreferenceCategory
-	android:key="buttons"
-        android:title="@string/tablet_tweaks_tablet_buttons_title">
-
-        <CheckBoxPreference
-            android:key="tablet_tweaks_hide_back"
-            android:title="@string/tablet_tweaks_hide_back"
-            android:defaultValue="false" />
-
-        <CheckBoxPreference
-            android:key="tablet_tweaks_hide_home"
-            android:title="@string/tablet_tweaks_hide_home"
-            android:defaultValue="false" />
-
-        <CheckBoxPreference
-            android:key="tablet_tweaks_hide_recent"
-            android:title="@string/tablet_tweaks_hide_recent"
-            android:defaultValue="false" />
-
-        <CheckBoxPreference
-            android:key="tablet_tweaks_hide_menu"
-            android:title="@string/tablet_tweaks_hide_menu"
-            android:disableDependentsState="true"
-            android:defaultValue="false" />
-
-        <CheckBoxPreference
-            android:key="tablet_tweaks_force_menu"
-            android:title="@string/tablet_tweaks_force_menu"
-            android:dependency="tablet_tweaks_hide_menu"
-	    android:defaultValue="false" />
+	android:key="performance"
+        android:title="@string/tt_performance_cat">
+        <ListPreference
+            android:key="tt_live_oc"
+            android:title="@string/live_oc_title"
+            android:entries="@array/live_oc_entries"
+            android:entryValues="@array/live_oc_values"
+            android:defaultValue="100" />
+        <ListPreference
+            android:key="tt_gpu_overclock"
+            android:title="@string/tt_gpu_overclock_title"
+            android:entries="@array/tt_gpu_overclock_entries"
+            android:entryValues="@array/tt_gpu_overclock_values"
+            android:defaultValue="0" />
+        <ListPreference
+            android:key="tt_wifi_pm"
+            android:title="@string/tt_wifi_pm_title"
+            android:entries="@array/tt_wifi_pm_entries"
+            android:entryValues="@array/tt_wifi_pm_values"
+            android:defaultValue="0" />
     </PreferenceCategory>
--->
 
+<!-- Capacitive Buttons -->
     <PreferenceCategory
 	android:key="capacitive"
-        android:title="@string/tablet_tweaks_tablet_capacitive_title">
-
+        android:title="@string/tt_capacitive_cat">
         <CheckBoxPreference
-            android:key="tablet_tweaks_disable_hardware_buttons"
-            android:title="@string/tablet_tweaks_disable_hardware_buttons"
-            android:summary="@string/tablet_tweaks_disable_hardware_buttons_summary" />
-
+            android:key="tt_disable_hardware_buttons"
+            android:title="@string/tt_disable_hardware_buttons"
+            android:summary="@string/tt_disable_hardware_buttons_summary" />
 	<ListPreference
-		android:key="tablet_tweaks_backlight_timeout"
-		android:title="@string/tablet_tweaks_backlight_timeout_title_head"
-		android:summary="@string/tablet_tweaks_backlight_timeout_summary_head"
-		android:entries="@array/tablet_tweaks_backlight_timeout_entries"
-		android:entryValues="@array/tablet_tweaks_backlight_timeout_entries_values"
-		android:defaultValue="1600" />
+	    android:key="tt_backlight_timeout"
+	    android:title="@string/tt_backlight_timeout_title_head"
+	    android:summary="@string/tt_backlight_timeout_summary_head"
+	    android:entries="@array/tt_backlight_timeout_entries"
+	    android:entryValues="@array/tt_backlight_timeout_entries_values"
+	    android:defaultValue="1600" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/tablet_tweaks_recents_title">
-
-        <CheckBoxPreference
-            android:key="tablet_tweaks_recent_thumbnails"
-            android:title="@string/tablet_tweaks_recent_thumbnails"
-            android:summary="@string/tablet_tweaks_recent_thumbnails_summary"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
-
-
+<!-- Statusbar -->
     <PreferenceCategory
 	android:key="statusbar"
-        android:title="@string/tablet_tweaks_status_bar_title">
-
+        android:title="@string/tt_statusbar_cat">
         <CheckBoxPreference
-            android:key="tablet_tweaks_right_buttons"
-            android:title="@string/tablet_tweaks_right_buttons"
-            android:summary="@string/tablet_tweaks_right_buttons_summary"
+            android:key="tt_right_buttons"
+            android:title="@string/tt_right_buttons"
+            android:summary="@string/tt_right_buttons_summary"
             android:defaultValue="false" />
-
         <CheckBoxPreference
-            android:key="tablet_tweaks_hide_statusbar"
-            android:title="@string/tablet_tweaks_hide_statusbar"
-            android:summary="@string/tablet_tweaks_hide_statusbar_summary"
+            android:key="tt_hide_statusbar"
+            android:title="@string/tt_hide_statusbar"
+            android:summary="@string/tt_hide_statusbar_summary"
             android:defaultValue="false" />
-
         <CheckBoxPreference
-            android:key="tablet_tweaks_peek_notifications"
-            android:title="@string/tablet_tweaks_peek_notifications"
-            android:summary="@string/tablet_tweaks_peek_notifications_summary"
+            android:key="tt_peek_notifications"
+            android:title="@string/tt_peek_notifications"
+            android:summary="@string/tt_peek_notifications_summary"
             android:defaultValue="false" />
-
     </PreferenceCategory>
 
+<!-- Recent apps -->
+    <PreferenceCategory
+	android:key="recents"
+        android:title="@string/tt_recents_cat">
+        <CheckBoxPreference
+            android:key="tt_recent_thumbnails"
+            android:title="@string/tt_recent_thumbnails"
+            android:summary="@string/tt_recent_thumbnails_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
+<!-- Storage -->
     <PreferenceCategory
 	android:key="storage"
-        android:title="@string/tablet_tweaks_storage_title">
-
+        android:title="@string/tt_storage_cat">
         <CheckBoxPreference
-            android:key="tablet_tweaks_storage_switch"
-            android:title="@string/tablet_tweaks_storage_switch"
-            android:summary="@string/tablet_tweaks_storage_switch_summary"
+            android:key="tt_storage_switch"
+            android:title="@string/tt_storage_switch"
+            android:summary="@string/tt_storage_switch_summary"
             android:defaultValue="false" />
         <CheckBoxPreference
-            android:key="tablet_tweaks_storage_automount"
-            android:title="@string/tablet_tweaks_storage_automount"
-            android:summary="@string/tablet_tweaks_storage_automount_summary"
+            android:key="tt_storage_automount"
+            android:title="@string/tt_storage_automount"
+            android:summary="@string/tt_storage_automount_summary"
             android:defaultValue="false" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

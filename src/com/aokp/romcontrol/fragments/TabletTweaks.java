@@ -46,35 +46,36 @@ import java.io.IOException;
 
 public class TabletTweaks extends AOKPPreferenceFragment implements OnPreferenceChangeListener 
 {
-    private static final String TABLET_TWEAKS_RIGHT_BUTTONS = "tablet_tweaks_right_buttons";
-    public static final String TABLET_TWEAKS_DISABLE_HARDWARE_BUTTONS = "tablet_tweaks_disable_hardware_buttons";
-    public static final String TABLET_TWEAKS_KEY_BACKLIGHT_TIMEOUT = "tablet_tweaks_backlight_timeout";
-    private static final String TABLET_TWEAKS_RECENT_THUMBNAILS = "tablet_tweaks_recent_thumbnails";
-    private static final String TABLET_TWEAKS_PEEK_NOTIFICATIONS = "tablet_tweaks_peek_notifications";
-    private static final String TABLET_TWEAKS_HIDE_STATUSBAR = "tablet_tweaks_hide_statusbar";
-    private static final String TABLET_TWEAKS_STORAGE_SWITCH = "tablet_tweaks_storage_switch";
-    private static final String TABLET_TWEAKS_STORAGE_AUTOMOUNT = "tablet_tweaks_storage_automount";
+    private static final String TT_RIGHT_BUTTONS = "tt_right_buttons";
+    public static final String TT_DISABLE_HARDWARE_BUTTONS = "tt_disable_hardware_buttons";
+    public static final String TT_BACKLIGHT_TIMEOUT = "tt_backlight_timeout";
+    private static final String TT_RECENT_THUMBNAILS = "tt_recent_thumbnails";
+    private static final String TT_PEEK_NOTIFICATIONS = "tt_peek_notifications";
+    private static final String TT_HIDE_STATUSBAR = "tt_hide_statusbar";
+    private static final String TT_STORAGE_SWITCH = "tt_storage_switch";
+    private static final String TT_STORAGE_AUTOMOUNT = "tt_storage_automount";
+    public static final String TT_GPU_OVERCLOCK = "tt_gpu_overclock";
+    public static final String TT_WIFI_PM = "tt_wifi_pm";
+    public static final String TT_LIVEOC = "tt_liveoc";
 
-    public static final String COMMAND_SHELL = "/system/bin/sh";
-    public static final String ECHO_COMMAND = "echo ";
-    public static final String BUTTONS_ENABLED_PATH =
-            "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
-    public static final String BUTTONS_ENABLED_COMMAND =
-            " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
+    public static final String CAPACITIVE_BUTTONS_ENABLED_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
+    private static final String CAPACITIVE_BACKLIGHT_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
+    private static final String GPU_OVERCLOCK_FILE = "/sys/kernel/pvr_oc/pvr_oc";
+    private static final String WIFI_PM_FILE = "/sys/module/bcmdhd/parameters/wifi_pm";
+    private static final String LIVEOC_FILE = "/sys/class/misc/liveoc/oc_value";
 
-    private static final String TABLET_TWEAKS_KEY_BACKLIGHT_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
-    public static final String TABLET_TWEAKS_KEY_BACKLIGHT_COMMAND =
-            " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
-
-    CheckBoxPreference mTabletTweaksRightButtons;
-    CheckBoxPreference mTabletTweaksDisableHardwareButtons;
-    CheckBoxPreference mTabletTweaksRecentThumbnails;
-    CheckBoxPreference mTabletTweaksPeekNotifications;
-    CheckBoxPreference mTabletTweaksHideStatusbar;
-    CheckBoxPreference mTabletTweaksStorageSwitch;
-    CheckBoxPreference mTabletTweaksStorageAutomount;
-    ListPreference mTabletTweaksBacklightTimeout;
-
+    CheckBoxPreference mTTRightButtons;
+    CheckBoxPreference mTTDisableHardwareButtons;
+    CheckBoxPreference mTTRecentThumbnails;
+    CheckBoxPreference mTTPeekNotifications;
+    CheckBoxPreference mTTHideStatusbar;
+    CheckBoxPreference mTTStorageSwitch;
+    CheckBoxPreference mTTStorageAutomount;
+    ListPreference mTTBacklightTimeout;
+    ListPreference mTTGpuOverclock;
+    ListPreference mTTWifiPM;
+    ListPreference mTTLiveOC;
+ 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,50 +83,82 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         addPreferencesFromResource(R.xml.tablet_tweaks);
         PreferenceScreen prefs = getPreferenceScreen();
 
-        mTabletTweaksDisableHardwareButtons = (CheckBoxPreference) findPreference(TABLET_TWEAKS_DISABLE_HARDWARE_BUTTONS);
+        mTTDisableHardwareButtons = (CheckBoxPreference) findPreference(TT_DISABLE_HARDWARE_BUTTONS);
 
-        mTabletTweaksBacklightTimeout = (ListPreference) findPreference(TABLET_TWEAKS_KEY_BACKLIGHT_TIMEOUT);
-        mTabletTweaksBacklightTimeout.setOnPreferenceChangeListener(this);
-        mTabletTweaksBacklightTimeout.setValue(Integer.toString(Settings.System.getInt(getActivity()
-                .getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT,
-                0)));
+        mTTBacklightTimeout = (ListPreference) findPreference(TT_BACKLIGHT_TIMEOUT);
+        mTTBacklightTimeout.setOnPreferenceChangeListener(this);
+        mTTBacklightTimeout.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.BACKLIGHT_TIMEOUT, 0)));
+        updateSummary(mTTBacklightTimeout, Integer.parseInt(mTTBacklightTimeout.getValue()));
 
-        mTabletTweaksRecentThumbnails = (CheckBoxPreference) findPreference(TABLET_TWEAKS_RECENT_THUMBNAILS);
-        mTabletTweaksRecentThumbnails.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+        mTTRecentThumbnails = (CheckBoxPreference) findPreference(TT_RECENT_THUMBNAILS);
+        mTTRecentThumbnails.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.LARGE_RECENT_THUMBNAILS, 0) == 1);
 
-        mTabletTweaksRightButtons = (CheckBoxPreference) findPreference(TABLET_TWEAKS_RIGHT_BUTTONS);
-        mTabletTweaksRightButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+        mTTRightButtons = (CheckBoxPreference) findPreference(TT_RIGHT_BUTTONS);
+        mTTRightButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.RIGHT_SOFT_BUTTONS, 0) == 1);
 
-        mTabletTweaksHideStatusbar = (CheckBoxPreference) findPreference(TABLET_TWEAKS_HIDE_STATUSBAR);
-        mTabletTweaksHideStatusbar.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+        mTTHideStatusbar = (CheckBoxPreference) findPreference(TT_HIDE_STATUSBAR);
+        mTTHideStatusbar.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.HIDE_STATUSBAR, 0) == 1);
 
-        mTabletTweaksPeekNotifications = (CheckBoxPreference) findPreference(TABLET_TWEAKS_PEEK_NOTIFICATIONS);
-        mTabletTweaksPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+        mTTPeekNotifications = (CheckBoxPreference) findPreference(TT_PEEK_NOTIFICATIONS);
+        mTTPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
 
-        mTabletTweaksStorageSwitch = (CheckBoxPreference) findPreference(TABLET_TWEAKS_STORAGE_SWITCH);
-        int i = Integer.parseInt(Helpers.getSystemProp("persist.sys.vold.switchexternal", "0"));
-	mTabletTweaksStorageSwitch.setChecked(i == 0);
+        mTTGpuOverclock = (ListPreference) findPreference(TT_GPU_OVERCLOCK);
+	mTTGpuOverclock.setOnPreferenceChangeListener(this);
+        mTTGpuOverclock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.GPU_OVERCLOCK, 0)));
 
-        mTabletTweaksStorageAutomount = (CheckBoxPreference) findPreference(TABLET_TWEAKS_STORAGE_AUTOMOUNT);
-        mTabletTweaksStorageAutomount.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+	mTTWifiPM = (ListPreference) findPreference(TT_WIFI_PM);
+	mTTGpuOverclock.setOnPreferenceChangeListener(this);
+        mTTGpuOverclock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.WIFI_PM, 0)));
+        updateSummary(mTTWifiPM, Integer.parseInt(mTTWifiPM.getValue()));
+
+        mLiveOC = (ListPreference) findPreference(TT_LIVEOC);
+	mTTGpuOverclock.setOnPreferenceChangeListener(this);
+        mTTGpuOverclock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.LIVEOC, 0)));
+        updateSummary(mTTLiveOC, Integer.parseInt(mTTLiveOC.getValue()));
+
+        mTTStorageSwitch = (CheckBoxPreference) findPreference(TT_STORAGE_SWITCH);
+        int i = Integer.parseInt(Helpers.getSystemProp("persist.sys.vold.switchexternal", "0"));
+	mTTStorageSwitch.setChecked(i == 0);
+
+        mTTStorageAutomount = (CheckBoxPreference) findPreference(TT_STORAGE_AUTOMOUNT);
+        mTTStorageAutomount.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.Secure.MOUNT_UMS_AUTOSTART, 0) == 1);
 
-        File file = new File(BUTTONS_ENABLED_PATH);
-        if (!file.exists()) {
-            prefs.removePreference(findPreference("capacitive"));
+        if (Helpers.fileExists(CAPACITIVE_BUTTONS_ENABLED_FILE)) {
+	    mTTDisableHardwareButtons.setEnabled(true);
+        }
+
+        if (Helpers.fileExists(CAPACITIVE_BACKLIGHT_FILE)) {
+            mTTBacklightTimeout.setEnabled(true);
+        }
+
+        if (Helpers.fileExists(GPU_OVERCLOCK_FILE)) {
+            mTTGpuOverclock.setEnabled(true);
+        }
+
+        if (Helpers.fileExists(WIFI_PM_FILE)) {
+            mTTWifiPM.setEnabled(true);
+        }
+
+        if (Helpers.fileExists(LIVEOC_FILE)) {
+            mTTLiveOC.setEnabled(true);
         }
 
         if (Helpers.getSystemProp("ro.vold.switchablepair","").equals("")) {
-            ((PreferenceGroup) findPreference("storage")).removePreference(mTabletTweaksStorageSwitch);
+            ((PreferenceGroup) findPreference("storage")).removePreference(mTTStorageSwitch);
         }
 
 	// not working at the moment, will get this sorted out hopefully soon.
-        ((PreferenceGroup) findPreference("storage")).removePreference(mTabletTweaksStorageSwitch);
-        ((PreferenceGroup) findPreference("storage")).removePreference(mTabletTweaksStorageAutomount);
+        ((PreferenceGroup) findPreference("storage")).removePreference(mTTStorageSwitch);
+        ((PreferenceGroup) findPreference("storage")).removePreference(mTTStorageAutomount);
 
     }
 
@@ -133,44 +166,38 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
             Preference preference) {
 
-        if (preference == mTabletTweaksDisableHardwareButtons) {
-            try {
-                String[] cmds = {COMMAND_SHELL, "-c",
-                        ECHO_COMMAND + (((CheckBoxPreference) preference).isChecked() ? "0" : "1") +
-                        BUTTONS_ENABLED_COMMAND};
-                Runtime.getRuntime().exec(cmds);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (preference == mTTDisableHardwareButtons) {
+	    int val = (((CheckBoxPreference) preference).isChecked() ? "0" : "1");
+	    changeKernelPref(CAPACITIVE_BUTTONS_ENABLED_FILE, val);
             return true;
-        } else if (preference == mTabletTweaksRecentThumbnails) {
+        } else if (preference == mTTRecentThumbnails) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.LARGE_RECENT_THUMBNAILS, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             Helpers.restartSystemUI();
             return true;
-        } else if (preference == mTabletTweaksRightButtons) {
+        } else if (preference == mTTRightButtons) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.RIGHT_SOFT_BUTTONS, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             Helpers.restartSystemUI();
             return true;
-        } else if (preference == mTabletTweaksHideStatusbar) {
+        } else if (preference == mTTHideStatusbar) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.HIDE_STATUSBAR, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             Helpers.restartSystemUI();
             return true;
-        } else if (preference == mTabletTweaksPeekNotifications) {
+        } else if (preference == mTTPeekNotifications) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SHOW_NOTIFICATION_PEEK, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             Helpers.restartSystemUI();
             return true;
-        } else if (preference == mTabletTweaksStorageSwitch) {
+        } else if (preference == mTTStorageSwitch) {
             Helpers.setSystemProp("persist.sys.vold.switchexternal", ((CheckBoxPreference) preference).isChecked() ? "1" : "0");
             return true;
-        } else if (preference == mTabletTweaksStorageAutomount) {
+        } else if (preference == mTTStorageAutomount) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.Secure.MOUNT_UMS_AUTOSTART, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
@@ -181,20 +208,58 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        if (preference == mTabletTweaksBacklightTimeout) {
+        if (preference == mTTBacklightTimeout) {
             int val = Integer.parseInt((String) newValue);
             Settings.System.putInt(getActivity().getContentResolver(),
-                Settings.System.KEY_BACKLIGHT_TIMEOUT, val);
-            try {
-                String[] cmds = {COMMAND_SHELL, "-c",
-                        ECHO_COMMAND + val + TABLET_TWEAKS_KEY_BACKLIGHT_COMMAND};
-                Runtime.getRuntime().exec(cmds);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                Settings.System.BACKLIGHT_TIMEOUT, val);
+	    changeKernelPref(CAPACITIVE_BACKLIGHT_FILE, val);
             return true;
         }
         return false;
+        if (preference == mTTGpuOverclock) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.GPU_OVERCLOCK, val);
+	    changeKernelPref(GPU_OVERCLOCK_FILE, val);
+            return true;
+        }
+        return false;
+        if (preference == mTTWifiPM) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.WIFI_PM, val);
+	    changeKernelPref(WIFI_PM_FILE, val);
+            return true;
+        }
+        if (preference == mTTLiveOC) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.LIVEOC, val);
+	    changeKernelPref(LIVEOC_FILE, val);
+            return true;
+        }
+    }
+
+    public static void changeKernelPref(String file, int value) {
+        try {
+            String[] cmds = { "/system/bin/sh -c echo" + value + " > " + file };
+            Runtime.getRuntime().exec(cmds);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateSummary(ListPreference preference, int value) {
+        final CharSequence[] entries = preference.getEntries();
+        final CharSequence[] values = preference.getEntryValues();
+        int best = 0;
+        for (int i = 0; i < values.length; i++) {
+            int summaryValue = Integer.parseInt(values[i].toString());
+            if (value >= summaryValue) {
+                best = i;
+            }
+        }
+        preference.setSummary(entries[best].toString());
     }
 }
 
