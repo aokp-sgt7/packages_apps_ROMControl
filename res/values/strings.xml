@@ -530,7 +530,7 @@
         <string name="tt_storage_automount_summary">Automount USB mass storage when connected</string>
 	<string name="tt_gpu_overclock_title">GPU Clock Speed</string>
 	<string name="tt_wifi_pm_title">Wifi Sleep Power Mode</string>
-	<string name="tt_live_oc_title">Live Overclock</string>
+	<string name="tt_liveoc_title">Live Overclock</string>
 
 	<string name="dpi">DPI</string>
 	<string name="donate_roman">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MZD7JLRX6P99Y</string>

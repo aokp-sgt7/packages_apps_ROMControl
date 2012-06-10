@@ -84,6 +84,8 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         PreferenceScreen prefs = getPreferenceScreen();
 
         mTTDisableHardwareButtons = (CheckBoxPreference) findPreference(TT_DISABLE_HARDWARE_BUTTONS);
+        mTTDisableHardwareButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.DISABLE_HARDWARE_BUTTONS, 0) == 1);
 
         mTTBacklightTimeout = (ListPreference) findPreference(TT_BACKLIGHT_TIMEOUT);
         mTTBacklightTimeout.setOnPreferenceChangeListener(this);
@@ -113,14 +115,14 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 		Settings.System.GPU_OVERCLOCK, 0)));
 
 	mTTWifiPM = (ListPreference) findPreference(TT_WIFI_PM);
-	mTTGpuOverclock.setOnPreferenceChangeListener(this);
-        mTTGpuOverclock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+	mTTWifiPM.setOnPreferenceChangeListener(this);
+        mTTWifiPM.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
 		Settings.System.WIFI_PM, 0)));
         updateSummary(mTTWifiPM, Integer.parseInt(mTTWifiPM.getValue()));
 
-        mLiveOC = (ListPreference) findPreference(TT_LIVEOC);
-	mTTGpuOverclock.setOnPreferenceChangeListener(this);
-        mTTGpuOverclock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+        mTTLiveOC = (ListPreference) findPreference(TT_LIVEOC);
+	mTTLiveOC.setOnPreferenceChangeListener(this);
+        mTTLiveOC.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
 		Settings.System.LIVEOC, 0)));
         updateSummary(mTTLiveOC, Integer.parseInt(mTTLiveOC.getValue()));
 
@@ -163,11 +165,12 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     }
 
     @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-            Preference preference) {
-
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (preference == mTTDisableHardwareButtons) {
-	    int val = (((CheckBoxPreference) preference).isChecked() ? "0" : "1");
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.DISABLE_HARDWARE_BUTTONS, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+	    int val = (((CheckBoxPreference) preference).isChecked() ? 1 : 0); 
 	    changeKernelPref(CAPACITIVE_BUTTONS_ENABLED_FILE, val);
             return true;
         } else if (preference == mTTRecentThumbnails) {
@@ -215,7 +218,6 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 	    changeKernelPref(CAPACITIVE_BACKLIGHT_FILE, val);
             return true;
         }
-        return false;
         if (preference == mTTGpuOverclock) {
             int val = Integer.parseInt((String) newValue);
             Settings.System.putInt(getActivity().getContentResolver(),
@@ -223,7 +225,6 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 	    changeKernelPref(GPU_OVERCLOCK_FILE, val);
             return true;
         }
-        return false;
         if (preference == mTTWifiPM) {
             int val = Integer.parseInt((String) newValue);
             Settings.System.putInt(getActivity().getContentResolver(),
@@ -238,6 +239,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 	    changeKernelPref(LIVEOC_FILE, val);
             return true;
         }
+        return false;
     }
 
     public static void changeKernelPref(String file, int value) {

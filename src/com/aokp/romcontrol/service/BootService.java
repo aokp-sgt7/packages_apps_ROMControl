@@ -35,12 +35,13 @@ public class BootService extends Service {
     private static final String KEY_FASTCHARGE = "fast_charge_boot";
     private static final String FAST_CHARGE_DIR = "/sys/kernel/fast_charge";
     private static final String FAST_CHARGE_FILE = "force_fast_charge";
-    public static final String COMMAND_SHELL = "/system/bin/sh";
-    public static final String ECHO_COMMAND = "echo ";
-    public static final String BUTTONS_ENABLED_COMMAND =
-            " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
-    public static final String LED_TIMEOUT_COMMAND =
-            " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
+
+    public static final String CAPACITIVE_BUTTONS_ENABLED_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
+    private static final String CAPACITIVE_BACKLIGHT_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
+    private static final String GPU_OVERCLOCK_FILE = "/sys/kernel/pvr_oc/pvr_oc";
+    private static final String WIFI_PM_FILE = "/sys/module/bcmdhd/parameters/wifi_pm";
+    private static final String LIVEOC_FILE = "/sys/class/misc/liveoc/oc_value";
+
     private final BootService service = this;
     public static SharedPreferences preferences;
     private Thread bootThread;
@@ -143,12 +144,34 @@ public class BootService extends Service {
             getApplicationContext().startService(startRefresh);
         }
 
-	if (preferences.getBoolean("tablet_tweaks_disable_hardware_buttons", false)) {
-		configureButtons();
+	if (Settings.System.getInt(getContentResolver(), Settings.System.DISABLE_HARDWARE_BUTTONS, 0) != 0) {
+	    int val = Settings.System.getInt(getContentResolver(),
+                Settings.System.DISABLE_HARDWARE_BUTTONS, 0); 
+	    changeKernelPref(CAPACITIVE_BUTTONS_ENABLED_FILE, val);
 	}
 
-	if (Settings.System.getInt(getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT, 0) != 0) {
-	    configureLedTimeout();
+	if (Settings.System.getInt(getContentResolver(), Settings.System.BACKLIGHT_TIMEOUT, 0) != 0) {
+	    int val = Settings.System.getInt(getContentResolver(),
+                Settings.System.BACKLIGHT_TIMEOUT, 0); 
+	    changeKernelPref(CAPACITIVE_BACKLIGHT_FILE, val);
+	}
+
+	if (Settings.System.getInt(getContentResolver(), Settings.System.GPU_OVERCLOCK, 0) != 0) {
+	    int val = Settings.System.getInt(getContentResolver(),
+                Settings.System.GPU_OVERCLOCK, 0); 
+	    changeKernelPref(GPU_OVERCLOCK_FILE, val);
+	}
+
+	if (Settings.System.getInt(getContentResolver(), Settings.System.WIFI_PM, 0) != 0) {
+	    int val = Settings.System.getInt(getContentResolver(),
+                Settings.System.WIFI_PM, 0); 
+	    changeKernelPref(WIFI_PM_FILE, val);
+	}
+
+	if (Settings.System.getInt(getContentResolver(), Settings.System.LIVEOC, 0) != 0) {
+	    int val = Settings.System.getInt(getContentResolver(),
+                Settings.System.LIVEOC, 0); 
+	    changeKernelPref(LIVEOC_FILE, val);
 	}
 
         bootThread.start();
@@ -156,19 +179,9 @@ public class BootService extends Service {
         stopSelf();
     }
 
-    private void configureButtons() {
+    public static void changeKernelPref(String file, int value) {
         try {
-            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + "0" + BUTTONS_ENABLED_COMMAND};
-            Runtime.getRuntime().exec(cmds);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void configureLedTimeout() {
-	int val = Settings.System.getInt(getContentResolver(), Settings.System.KEY_BACKLIGHT_TIMEOUT, 0);
-	try {
-            String[] cmds = {COMMAND_SHELL, "-c", ECHO_COMMAND + val + LED_TIMEOUT_COMMAND};
+            String[] cmds = { "/system/bin/sh -c echo" + value + " > " + file };
             Runtime.getRuntime().exec(cmds);
         } catch (IOException e) {
             e.printStackTrace();

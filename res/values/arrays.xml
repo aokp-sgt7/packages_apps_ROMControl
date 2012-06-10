@@ -791,7 +791,7 @@
 		<item>1</item>
 	</string-array>
 
-	<string-array name="tt_live_oc_entries">
+	<string-array name="tt_liveoc_entries">
 		<item>Off</item>
 		<item>110 percent</item>
 		<item>120 percent</item>
@@ -800,7 +800,7 @@
 		<item>150 percent</item>
 	</string-array>
 
-	<string-array name="tt_live_oc_values" translatable="false">
+	<string-array name="tt_liveoc_values" translatable="false">
 		<item>100</item>
 		<item>110</item>
 		<item>120</item>

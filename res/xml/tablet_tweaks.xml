@@ -8,10 +8,10 @@
 	android:key="performance"
         android:title="@string/tt_performance_cat">
         <ListPreference
-            android:key="tt_live_oc"
-            android:title="@string/live_oc_title"
-            android:entries="@array/live_oc_entries"
-            android:entryValues="@array/live_oc_values"
+            android:key="tt_liveoc"
+            android:title="@string/tt_liveoc_title"
+            android:entries="@array/tt_liveoc_entries"
+            android:entryValues="@array/tt_liveoc_values"
             android:defaultValue="100" />
         <ListPreference
             android:key="tt_gpu_overclock"
