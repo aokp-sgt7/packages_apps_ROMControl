@@ -37,6 +37,7 @@ import android.util.Log;
 
 import com.aokp.romcontrol.R;
 import com.aokp.romcontrol.AOKPPreferenceFragment;
+import com.aokp.romcontrol.util.CMDProcessor;
 import com.aokp.romcontrol.util.Helpers;
 
 import java.io.DataOutputStream;
@@ -46,8 +47,9 @@ import java.io.IOException;
 
 public class TabletTweaks extends AOKPPreferenceFragment implements OnPreferenceChangeListener 
 {
+    static final String TAG = "TabletTweaks";
     private static final String TT_RIGHT_BUTTONS = "tt_right_buttons";
-    public static final String TT_DISABLE_HARDWARE_BUTTONS = "tt_disable_hardware_buttons";
+    public static final String TT_ENABLE_HARDWARE_BUTTONS = "tt_enable_hardware_buttons";
     public static final String TT_BACKLIGHT_TIMEOUT = "tt_backlight_timeout";
     private static final String TT_RECENT_THUMBNAILS = "tt_recent_thumbnails";
     private static final String TT_PEEK_NOTIFICATIONS = "tt_peek_notifications";
@@ -65,7 +67,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     private static final String LIVEOC_FILE = "/sys/class/misc/liveoc/oc_value";
 
     CheckBoxPreference mTTRightButtons;
-    CheckBoxPreference mTTDisableHardwareButtons;
+    CheckBoxPreference mTTEnableHardwareButtons;
     CheckBoxPreference mTTRecentThumbnails;
     CheckBoxPreference mTTPeekNotifications;
     CheckBoxPreference mTTHideStatusbar;
@@ -83,15 +85,9 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         addPreferencesFromResource(R.xml.tablet_tweaks);
         PreferenceScreen prefs = getPreferenceScreen();
 
-        mTTDisableHardwareButtons = (CheckBoxPreference) findPreference(TT_DISABLE_HARDWARE_BUTTONS);
-        mTTDisableHardwareButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.DISABLE_HARDWARE_BUTTONS, 0) == 1);
-
-        mTTBacklightTimeout = (ListPreference) findPreference(TT_BACKLIGHT_TIMEOUT);
-        mTTBacklightTimeout.setOnPreferenceChangeListener(this);
-        mTTBacklightTimeout.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
-		Settings.System.BACKLIGHT_TIMEOUT, 0)));
-        updateSummary(mTTBacklightTimeout, Integer.parseInt(mTTBacklightTimeout.getValue()));
+        mTTEnableHardwareButtons = (CheckBoxPreference) findPreference(TT_ENABLE_HARDWARE_BUTTONS);
+        mTTEnableHardwareButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.ENABLE_HARDWARE_BUTTONS, 0) == 1);
 
         mTTRecentThumbnails = (CheckBoxPreference) findPreference(TT_RECENT_THUMBNAILS);
         mTTRecentThumbnails.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
@@ -109,10 +105,17 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         mTTPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
 
+        mTTBacklightTimeout = (ListPreference) findPreference(TT_BACKLIGHT_TIMEOUT);
+        mTTBacklightTimeout.setOnPreferenceChangeListener(this);
+        mTTBacklightTimeout.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.BACKLIGHT_TIMEOUT, 0)));
+//        updateSummary(mTTBacklightTimeout, Integer.parseInt(mTTBacklightTimeout.getValue()));
+
         mTTGpuOverclock = (ListPreference) findPreference(TT_GPU_OVERCLOCK);
 	mTTGpuOverclock.setOnPreferenceChangeListener(this);
         mTTGpuOverclock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
 		Settings.System.GPU_OVERCLOCK, 0)));
+        updateSummary(mTTGpuOverclock, Integer.parseInt(mTTGpuOverclock.getValue()));
 
 	mTTWifiPM = (ListPreference) findPreference(TT_WIFI_PM);
 	mTTWifiPM.setOnPreferenceChangeListener(this);
@@ -135,7 +138,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
                 Settings.Secure.MOUNT_UMS_AUTOSTART, 0) == 1);
 
         if (Helpers.fileExists(CAPACITIVE_BUTTONS_ENABLED_FILE)) {
-	    mTTDisableHardwareButtons.setEnabled(true);
+	    mTTEnableHardwareButtons.setEnabled(true);
         }
 
         if (Helpers.fileExists(CAPACITIVE_BACKLIGHT_FILE)) {
@@ -151,7 +154,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         }
 
         if (Helpers.fileExists(LIVEOC_FILE)) {
-            mTTLiveOC.setEnabled(true);
+            mTTLiveOC.setEnabled(false);
         }
 
         if (Helpers.getSystemProp("ro.vold.switchablepair","").equals("")) {
@@ -166,12 +169,19 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (preference == mTTDisableHardwareButtons) {
+        if (preference == mTTEnableHardwareButtons) {
             Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.DISABLE_HARDWARE_BUTTONS, 
+                    Settings.System.ENABLE_HARDWARE_BUTTONS, 
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
-	    int val = (((CheckBoxPreference) preference).isChecked() ? 1 : 0); 
+	    int val = Settings.System.getInt(getActivity().getContentResolver(), 
+		    Settings.System.ENABLE_HARDWARE_BUTTONS, 0); 
 	    changeKernelPref(CAPACITIVE_BUTTONS_ENABLED_FILE, val);
+	    if (val == 0) {
+		mTTBacklightTimeout.setEnabled(false);
+	    }
+	    else {
+		mTTBacklightTimeout.setEnabled(true);
+	    }
             return true;
         } else if (preference == mTTRecentThumbnails) {
             Settings.System.putInt(getActivity().getContentResolver(),
@@ -216,6 +226,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
             Settings.System.putInt(getActivity().getContentResolver(),
                 Settings.System.BACKLIGHT_TIMEOUT, val);
 	    changeKernelPref(CAPACITIVE_BACKLIGHT_FILE, val);
+//            updateSummary(mTTBacklightTimeout, val);
             return true;
         }
         if (preference == mTTGpuOverclock) {
@@ -223,6 +234,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
             Settings.System.putInt(getActivity().getContentResolver(),
                 Settings.System.GPU_OVERCLOCK, val);
 	    changeKernelPref(GPU_OVERCLOCK_FILE, val);
+            updateSummary(mTTGpuOverclock, val);
             return true;
         }
         if (preference == mTTWifiPM) {
@@ -230,6 +242,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
             Settings.System.putInt(getActivity().getContentResolver(),
                 Settings.System.WIFI_PM, val);
 	    changeKernelPref(WIFI_PM_FILE, val);
+            updateSummary(mTTWifiPM, val);
             return true;
         }
         if (preference == mTTLiveOC) {
@@ -237,18 +250,15 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
             Settings.System.putInt(getActivity().getContentResolver(),
                 Settings.System.LIVEOC, val);
 	    changeKernelPref(LIVEOC_FILE, val);
+            updateSummary(mTTLiveOC, val);
             return true;
         }
         return false;
     }
 
     public static void changeKernelPref(String file, int value) {
-        try {
-            String[] cmds = { "/system/bin/sh -c echo" + value + " > " + file };
-            Runtime.getRuntime().exec(cmds);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        final CMDProcessor cmd = new CMDProcessor();
+	cmd.su.runWaitFor("busybox echo " + value + " > " + file);
     }
 
     public static void updateSummary(ListPreference preference, int value) {

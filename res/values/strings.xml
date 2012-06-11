@@ -515,10 +515,10 @@
 	<string name="tt_recents_cat">Recent Apps</string>
         <string name="tt_storage_cat">Storage</string>
 
-	<string name="tt_disable_hardware_buttons">Disable capacitive buttons</string>
-	<string name="tt_disable_hardware_buttons_summary">Disable capacitive button touches and lights (and notifications)</string>
-	<string name="tt_backlight_timeout_title_head">Backlight Timeout</string>
-	<string name="tt_backlight_timeout_summary_head">Adjust the delay before the touch key backlight automatically turns off</string>
+	<string name="tt_enable_hardware_buttons">Enable capacitive buttons</string>
+	<string name="tt_enable_hardware_buttons_summary">Enables capacitive button touches and lights (and notifications)</string>
+	<string name="tt_backlight_timeout_title">Backlight Timeout</string>
+	<string name="tt_backlight_timeout_summary">Adjust the delay before the touch key backlight automatically turns off</string>
 	<string name="tt_right_buttons">Mirror statusbar</string>
 	<string name="tt_right_buttons_summary">Buttons on the right, notifications on the left (restarts SystemUI)</string>
 	<string name="tt_peek_notifications">Peek notifications</string>

@@ -144,9 +144,9 @@ public class BootService extends Service {
             getApplicationContext().startService(startRefresh);
         }
 
-	if (Settings.System.getInt(getContentResolver(), Settings.System.DISABLE_HARDWARE_BUTTONS, 0) != 0) {
+	if (Settings.System.getInt(getContentResolver(), Settings.System.ENABLE_HARDWARE_BUTTONS, 0) != 0) {
 	    int val = Settings.System.getInt(getContentResolver(),
-                Settings.System.DISABLE_HARDWARE_BUTTONS, 0); 
+                Settings.System.ENABLE_HARDWARE_BUTTONS, 0); 
 	    changeKernelPref(CAPACITIVE_BUTTONS_ENABLED_FILE, val);
 	}
 
@@ -180,12 +180,8 @@ public class BootService extends Service {
     }
 
     public static void changeKernelPref(String file, int value) {
-        try {
-            String[] cmds = { "/system/bin/sh -c echo" + value + " > " + file };
-            Runtime.getRuntime().exec(cmds);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        final CMDProcessor cmd = new CMDProcessor();
+	cmd.su.runWaitFor("busybox echo " + value + " > " + file);
     }
 
     @Override

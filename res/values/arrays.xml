@@ -756,7 +756,7 @@
 		<item>Never</item>
 	</string-array>
 
-	<string-array name="tt_backlight_timeout_entries_values" translatable="false">
+	<string-array name="tt_backlight_timeout_values" translatable="false">
 		<item>1600</item>
 		<item>500</item>
 		<item>2000</item>
