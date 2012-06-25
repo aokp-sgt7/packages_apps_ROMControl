@@ -66,9 +66,12 @@ public class Lockscreens extends AOKPPreferenceFragment implements
 
     private static final String PREF_VOLUME_WAKE = "volume_wake";
     private static final String PREF_VOLUME_MUSIC = "volume_music_controls";
+    
+    private static final String PREF_STOCK_MUSIC_LAYOUT = "lockscreen_stock_music_layout";
 
     private static final String PREF_LOCKSCREEN_BATTERY = "lockscreen_battery";
     private static final String PREF_LOCKSCREEN_WEATHER = "lockscreen_weather";
+    private static final String PREF_LOCKSCREEN_WEATHER_TYPE = "lockscreen_weather_type";
     private static final String PREF_LOCKSCREEN_TEXT_COLOR = "lockscreen_text_color";
 
     private static final String PREF_LOCKSCREEN_CALENDAR = "enable_calendar";
@@ -96,6 +99,7 @@ public class Lockscreens extends AOKPPreferenceFragment implements
     CheckBoxPreference mLockscreenLandscape;
     CheckBoxPreference mLockscreenBattery;
     CheckBoxPreference mLockscreenWeather;
+    ListPreference mLockscreenWeatherType;
     CheckBoxPreference mShowLockBeforeUnlock;
     ColorPickerPreference mLockscreenTextColor;
     CheckBoxPreference mLockscreenCalendar;
@@ -105,6 +109,7 @@ public class Lockscreens extends AOKPPreferenceFragment implements
     ListPreference mCalendarRange;
     CheckBoxPreference mLockscreenCalendarHideOngoing;
     CheckBoxPreference mLockscreenCalendarUseColors;
+    CheckBoxPreference mStockMusicLayout;
 
     Preference mLockscreenWallpaper;
 
@@ -149,6 +154,11 @@ public class Lockscreens extends AOKPPreferenceFragment implements
         mLockscreenWeather.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.LOCKSCREEN_WEATHER, 0) == 1);
 
+        mLockscreenWeatherType = (ListPreference) findPreference(PREF_LOCKSCREEN_WEATHER_TYPE);
+        mLockscreenWeatherType.setOnPreferenceChangeListener(this);
+        mLockscreenWeatherType.setValue(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.LOCKSCREEN_WEATHER_TYPE, 0) + "");
+
         mShowLockBeforeUnlock = (CheckBoxPreference) findPreference(PREF_SHOW_LOCK_BEFORE_UNLOCK);
         mShowLockBeforeUnlock.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.SHOW_LOCK_BEFORE_UNLOCK, 0) == 1);
@@ -160,6 +170,10 @@ public class Lockscreens extends AOKPPreferenceFragment implements
         mVolumeMusic = (CheckBoxPreference) findPreference(PREF_VOLUME_MUSIC);
         mVolumeMusic.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.VOLUME_MUSIC_CONTROLS, 0) == 1);
+
+        mStockMusicLayout = (CheckBoxPreference) findPreference(PREF_STOCK_MUSIC_LAYOUT);
+        mStockMusicLayout.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.LOCKSCREEN_STOCK_MUSIC_LAYOUT, 0) == 1);
 
         mLockscreenWallpaper = findPreference("wallpaper");
 
@@ -272,6 +286,13 @@ public class Lockscreens extends AOKPPreferenceFragment implements
                     Settings.System.VOLUME_WAKE_SCREEN,
                     ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             return true;
+        } else if (preference == mStockMusicLayout) {
+
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.LOCKSCREEN_STOCK_MUSIC_LAYOUT,
+                    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+            return true;
+
         } else if (preference == mVolumeMusic) {
 
             Settings.System.putInt(getActivity().getContentResolver(),
@@ -670,6 +691,12 @@ public class Lockscreens extends AOKPPreferenceFragment implements
                 refreshSettings();
             }
             return true;
+        } else if (preference == mLockscreenWeatherType) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.LOCKSCREEN_WEATHER_TYPE, val);
+            return true;
+
         }
 
         return false;
