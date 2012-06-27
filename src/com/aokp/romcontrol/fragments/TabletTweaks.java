@@ -154,7 +154,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         }
 
         if (Helpers.fileExists(LIVEOC_FILE)) {
-            mTTLiveOC.setEnabled(false);
+            mTTLiveOC.setEnabled(true);
         }
 
         if (Helpers.getSystemProp("ro.vold.switchablepair","").equals("")) {
