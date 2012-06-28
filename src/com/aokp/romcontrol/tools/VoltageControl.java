@@ -48,7 +48,6 @@ public class VoltageControl extends Activity {
     public static final String KEY_APPLY_BOOT = "apply_voltages_at_boot";
     public static final String MV_TABLE0 = "/sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table";
     public static final String MV_TABLE1 = "/sys/devices/system/cpu/cpu1/cpufreq/UV_mV_table";
-    public static final String FREQ_VOLT_TABLE0 = "/sys/devices/system/cpu/cpu0/cpufreq/frequency_voltage_table";
     private static final int DIALOG_EDIT_VOLT = 0;
     private List<Voltage> mVoltages;
     private ListAdapter mAdapter;
@@ -122,14 +121,14 @@ public class VoltageControl extends Activity {
     public static List<Voltage> getVolts(final SharedPreferences preferences) {
         final List<Voltage> volts = new ArrayList<Voltage>();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(FREQ_VOLT_TABLE0), 256);
+            BufferedReader br = new BufferedReader(new FileReader(MV_TABLE0), 256);
             String line = "";
             while ((line = br.readLine()) != null) {
-                final String[] values = line.split(" ");
+                final String[] values = line.split("\\s+");
                 if (values != null) {
                     if (values.length >= 2) {
-                        final String freq = values[0];
-                        final String currentMv = values[2];
+                        final String freq = values[0].replace("mhz:", "");
+                        final String currentMv = values[1];
                         final String savedMv = preferences.getString(freq, currentMv);
                         final Voltage voltage = new Voltage();
                         voltage.setFreq(freq);
