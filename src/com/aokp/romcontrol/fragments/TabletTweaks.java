@@ -59,12 +59,14 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     public static final String TT_GPU_OVERCLOCK = "tt_gpu_overclock";
     public static final String TT_WIFI_PM = "tt_wifi_pm";
     public static final String TT_LIVEOC = "tt_liveoc";
+    public static final String TT_TOUCHSCREEN_CLOCK = "tt_touchscreen_clock";
 
     public static final String CAPACITIVE_BUTTONS_ENABLED_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
     private static final String CAPACITIVE_BACKLIGHT_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
     private static final String GPU_OVERCLOCK_FILE = "/sys/kernel/pvr_oc/pvr_oc";
     private static final String WIFI_PM_FILE = "/sys/module/bcmdhd/parameters/wifi_pm";
     private static final String LIVEOC_FILE = "/sys/class/misc/liveoc/oc_value";
+    private static final String TOUCHSCREEN_CLOCK_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/cpufreq_lock";
 
     CheckBoxPreference mTTRightButtons;
     CheckBoxPreference mTTEnableHardwareButtons;
@@ -77,6 +79,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     ListPreference mTTGpuOverclock;
     ListPreference mTTWifiPM;
     ListPreference mTTLiveOC;
+    ListPreference mTTTouchscreenClock;
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +132,12 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 		Settings.System.LIVEOC, 0)));
         updateSummary(mTTLiveOC, Integer.parseInt(mTTLiveOC.getValue()));
 
+        mTTTouchscreenClock = (ListPreference) findPreference(TT_TOUCHSCREEN_CLOCK);
+	mTTTouchscreenClock.setOnPreferenceChangeListener(this);
+        mTTTouchscreenClock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.TOUCHSCREEN_CLOCK, 0)));
+        updateSummary(mTTTouchscreenClock, Integer.parseInt(mTTTouchscreenClock.getValue()));
+
         mTTStorageSwitch = (CheckBoxPreference) findPreference(TT_STORAGE_SWITCH);
         int i = Integer.parseInt(Helpers.getSystemProp("persist.sys.vold.switchexternal", "0"));
 	mTTStorageSwitch.setChecked(i == 0);
@@ -153,9 +162,11 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
             mTTWifiPM.setEnabled(true);
         }
 
-        if (Helpers.fileExists(LIVEOC_FILE)) {
-            mTTLiveOC.setEnabled(true);
+        if (Helpers.fileExists(TOUCHSCREEN_CLOCK_FILE)) {
+            mTTTouchscreenClock.setEnabled(true);
         }
+
+        mTTLiveOC.setEnabled(false); // currently disabled in kernel - removed until working again.
 
         if (Helpers.getSystemProp("ro.vold.switchablepair","").equals("")) {
             ((PreferenceGroup) findPreference("storage")).removePreference(mTTStorageSwitch);
@@ -251,6 +262,14 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
                 Settings.System.LIVEOC, val);
 	    changeKernelPref(LIVEOC_FILE, val);
             updateSummary(mTTLiveOC, val);
+            return true;
+        }
+        if (preference == mTTTouchscreenClock) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.TOUCHSCREEN_CLOCK, val);
+	    changeKernelPref(TOUCHSCREEN_CLOCK_FILE, val);
+            updateSummary(mTTTouchscreenClock, val);
             return true;
         }
         return false;

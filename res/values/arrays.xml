@@ -491,38 +491,6 @@
 		<item>4</item>
 	</string-array>
 
-	<string-array name="available_toggles_entries" translatable="false">
-		<item>ROTATE</item>
-		<item>BT</item>
-		<item>GPS</item>
-		<item>WIFI</item>
-		<item>AIRPLANE_MODE</item>
-		<item>VIBRATE</item>
-		<item>SILENT</item>
-		<item>SYNC</item>
-		<item>DATA</item>
-		<item>2G</item>
-		<item>AP</item>
-		<item>TETHER</item>
-		<item>TORCH</item>
-	</string-array>
-
-	<string-array name="available_toggles_values">
-		<item>Auto-rotate</item>
-		<item>BT</item>
-		<item>GPS</item>
-		<item>Wi-Fi</item>
-		<item>Airplane mode</item>
-		<item>Vibrate</item>
-		<item>Silent</item>
-		<item>Sync</item>
-		<item>Data</item>
-		<item>2G</item>
-		<item>Wi-Fi Tether (AP)</item>
-		<item>USB Tether</item>
-		<item>Torch</item>
-	</string-array>
-
 	<string-array name="lockscreen_choice_entries">
 		<item>Unlock</item>
 		<item>Sound toggle</item>
@@ -746,32 +714,34 @@
 	</string-array>
 
 	<string-array name="tt_backlight_timeout_entries">
-		<item>Default (1.6 seconds)</item>
-		<item>0.5 seconds</item>
-		<item>2 seconds</item>
-		<item>5 seconds</item>
-		<item>10 seconds</item>
-		<item>15 seconds</item>
-		<item>30 seconds</item>
-		<item>Never</item>
+	        <item>Always on</item>
+	        <item>Always off</item>
+	        <item>0.5 seconds</item>
+	        <item>1.6 seconds (Default)</item>
+	        <item>2 seconds</item>
+	        <item>5 seconds</item>
+	        <item>10 seconds</item>
+	        <item>15 seconds</item>
+	        <item>30 seconds</item>
 	</string-array>
 
 	<string-array name="tt_backlight_timeout_values" translatable="false">
-		<item>1600</item>
-		<item>500</item>
-		<item>2000</item>
-		<item>5000</item>
-		<item>10000</item>
-		<item>15000</item>
-		<item>30000</item>
-		<item>-1</item>
+	        <item>-1</item>
+	        <item>0</item>
+	        <item>500</item>
+	        <item>1600</item>
+	        <item>2000</item>
+	        <item>5000</item>
+	        <item>10000</item>
+	        <item>15000</item>
+	        <item>30000</item>
 	</string-array>
 
 	<string-array name="tt_gpu_overclock_entries">
-		<item>200 Mhz</item>
-		<item>240 Mhz</item>
-		<item>280 Mhz</item>
-		<item>320 Mhz</item>
+	        <item>200 Mhz</item>
+	        <item>320 Mhz</item>
+	        <item>370 Mhz</item>
+	        <item>420 Mhz</item>
 	</string-array>
 
 	<string-array name="tt_gpu_overclock_values" translatable="false">
@@ -807,6 +777,22 @@
 		<item>130</item>
 		<item>140</item>
 		<item>150</item>
+	</string-array>
+
+	<string-array name="tt_touchscreen_clock_entries">
+		<item>400 Mhz</item>
+		<item>600 Mhz</item>
+		<item>800 Mhz</item>
+		<item>1000 Mhz</item>
+		<item>1200 Mhz</item>
+	</string-array>
+
+	<string-array name="tt_touchscreen_clock_values" translatable="false">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
 	</string-array>
 
 	<string-array name="less_notification_sounds_entries">
