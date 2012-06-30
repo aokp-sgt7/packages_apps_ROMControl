@@ -88,6 +88,13 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         addPreferencesFromResource(R.xml.tablet_tweaks);
         PreferenceScreen prefs = getPreferenceScreen();
 
+
+        mTTBacklightTimeout = (ListPreference) findPreference(TT_BACKLIGHT_TIMEOUT);
+        mTTBacklightTimeout.setOnPreferenceChangeListener(this);
+        mTTBacklightTimeout.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.BACKLIGHT_TIMEOUT, 0)));
+//        updateSummary(mTTBacklightTimeout, Integer.parseInt(mTTBacklightTimeout.getValue()));
+
         mTTEnableHardwareButtons = (CheckBoxPreference) findPreference(TT_ENABLE_HARDWARE_BUTTONS);
         mTTEnableHardwareButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.ENABLE_HARDWARE_BUTTONS, 0) == 1);
@@ -107,12 +114,6 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         mTTPeekNotifications = (CheckBoxPreference) findPreference(TT_PEEK_NOTIFICATIONS);
         mTTPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
-
-        mTTBacklightTimeout = (ListPreference) findPreference(TT_BACKLIGHT_TIMEOUT);
-        mTTBacklightTimeout.setOnPreferenceChangeListener(this);
-        mTTBacklightTimeout.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
-		Settings.System.BACKLIGHT_TIMEOUT, 0)));
-//        updateSummary(mTTBacklightTimeout, Integer.parseInt(mTTBacklightTimeout.getValue()));
 
         mTTGpuOverclock = (ListPreference) findPreference(TT_GPU_OVERCLOCK);
 	mTTGpuOverclock.setOnPreferenceChangeListener(this);
@@ -167,6 +168,13 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         }
 
         mTTLiveOC.setEnabled(false); // currently disabled in kernel - removed until working again.
+
+	if (Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ENABLE_HARDWARE_BUTTONS, 0) == 1) {
+	    mTTBacklightTimeout.setEnabled(true);
+        }
+        else {
+	    mTTBacklightTimeout.setEnabled(false);
+        }
 
         if (Helpers.getSystemProp("ro.vold.switchablepair","").equals("")) {
             ((PreferenceGroup) findPreference("storage")).removePreference(mTTStorageSwitch);

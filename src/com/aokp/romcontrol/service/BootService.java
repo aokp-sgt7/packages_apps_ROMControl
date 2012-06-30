@@ -147,7 +147,7 @@ public class BootService extends Service {
 
 	if (Settings.System.getInt(getContentResolver(), Settings.System.ENABLE_HARDWARE_BUTTONS, 0) != 0) {
 	    int val = Settings.System.getInt(getContentResolver(),
-                Settings.System.ENABLE_HARDWARE_BUTTONS, 0); 
+                Settings.System.ENABLE_HARDWARE_BUTTONS, 1); 
 	    changeKernelPref(CAPACITIVE_BUTTONS_ENABLED_FILE, val);
 	}
 
