@@ -54,6 +54,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     private static final String TT_RECENT_THUMBNAILS = "tt_recent_thumbnails";
     private static final String TT_PEEK_NOTIFICATIONS = "tt_peek_notifications";
     private static final String TT_HIDE_STATUSBAR = "tt_hide_statusbar";
+    private static final String TT_SCREENSHOT_SOUND = "tt_screenshot_sound";
     private static final String TT_STORAGE_SWITCH = "tt_storage_switch";
     private static final String TT_STORAGE_AUTOMOUNT = "tt_storage_automount";
     public static final String TT_GPU_OVERCLOCK = "tt_gpu_overclock";
@@ -75,6 +76,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
     CheckBoxPreference mTTHideStatusbar;
     CheckBoxPreference mTTStorageSwitch;
     CheckBoxPreference mTTStorageAutomount;
+    CheckBoxPreference mTTScreenshotSound;
     ListPreference mTTBacklightTimeout;
     ListPreference mTTGpuOverclock;
     ListPreference mTTWifiPM;
@@ -114,6 +116,10 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         mTTPeekNotifications = (CheckBoxPreference) findPreference(TT_PEEK_NOTIFICATIONS);
         mTTPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
+
+        mTTScreenshotSound = (CheckBoxPreference) findPreference(TT_SCREENSHOT_SOUND);
+        mTTScreenshotSound.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.SCREENSHOT_SOUND, 1) == 1);
 
         mTTGpuOverclock = (ListPreference) findPreference(TT_GPU_OVERCLOCK);
 	mTTGpuOverclock.setOnPreferenceChangeListener(this);
@@ -226,6 +232,11 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             Helpers.restartSystemUI();
             return true;
+        } else if (preference == mTTScreenshotSound) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.SCREENSHOT_SOUND, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+            return true;
         } else if (preference == mTTStorageSwitch) {
             Helpers.setSystemProp("persist.sys.vold.switchexternal", ((CheckBoxPreference) preference).isChecked() ? "1" : "0");
             return true;
@@ -240,6 +251,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+
         if (preference == mTTBacklightTimeout) {
             int val = Integer.parseInt((String) newValue);
             Settings.System.putInt(getActivity().getContentResolver(),

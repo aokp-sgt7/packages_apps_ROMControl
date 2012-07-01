@@ -540,6 +540,7 @@
 	<string name="tt_statusbar_cat">Statusbar</string>
 	<string name="tt_recents_cat">Recent Apps</string>
         <string name="tt_storage_cat">Storage</string>
+        <string name="tt_sound_cat">Sound</string>
 
 	<string name="tt_enable_hardware_buttons">Enable capacitive buttons</string>
 	<string name="tt_enable_hardware_buttons_summary">Enables capacitive button touches and lights (and notifications)</string>
@@ -553,6 +554,8 @@
 	<string name="tt_hide_statusbar_summary">Hide the status bar when it enters shadow mode (restarts SystemUI)</string>
 	<string name="tt_recent_thumbnails">Large thumbnails</string>
 	<string name="tt_recent_thumbnails_summary">Larger application history thumbnails (restarts SystemUI)</string>
+	<string name="tt_screenshot_sound">Screenshot Sound</string>
+	<string name="tt_screenshot_sound_summary">Enable/Disable the camera shutter sound when you take a screenshot</string>
         <string name="tt_storage_switch">Switch external storage</string>
         <string name="tt_storage_switch_summary">Switch external and internal sd-card mounts (requires reboot)</string>
         <string name="tt_storage_automount">Automount UMS</string>

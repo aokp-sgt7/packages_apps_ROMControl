@@ -83,6 +83,17 @@
             android:defaultValue="false" />
     </PreferenceCategory>
 
+<!-- Sound -->
+    <PreferenceCategory
+	android:key="sound"
+        android:title="@string/tt_sound_cat">
+        <CheckBoxPreference
+            android:key="tt_screenshot_sound"
+            android:title="@string/tt_screenshot_sound"
+            android:summary="@string/tt_screenshot_sound_summary"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
 <!-- Storage -->
     <PreferenceCategory
 	android:key="storage"

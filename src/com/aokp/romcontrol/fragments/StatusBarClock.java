@@ -65,7 +65,7 @@ public class StatusBarClock extends AOKPPreferenceFragment implements
 
         if (mTablet) {
             PreferenceScreen prefs = getPreferenceScreen();
-            prefs.removePreference(mClockAmPmstyle);
+//            prefs.removePreference(mClockAmPmstyle);
         }
     }
 

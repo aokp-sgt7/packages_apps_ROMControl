@@ -41,6 +41,7 @@ public class BootService extends Service {
     private static final String GPU_OVERCLOCK_FILE = "/sys/kernel/pvr_oc/pvr_oc";
     private static final String WIFI_PM_FILE = "/sys/module/bcmdhd/parameters/wifi_pm";
     private static final String LIVEOC_FILE = "/sys/class/misc/liveoc/oc_value";
+    private static final String TOUCHSCREEN_CLOCK_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/cpufreq_lock";
 
     private final BootService service = this;
     public static SharedPreferences preferences;
@@ -145,35 +146,23 @@ public class BootService extends Service {
             getApplicationContext().startService(startRefresh);
         }
 
-	if (Settings.System.getInt(getContentResolver(), Settings.System.ENABLE_HARDWARE_BUTTONS, 0) != 0) {
-	    int val = Settings.System.getInt(getContentResolver(),
-                Settings.System.ENABLE_HARDWARE_BUTTONS, 1); 
-	    changeKernelPref(CAPACITIVE_BUTTONS_ENABLED_FILE, val);
-	}
+	changeKernelPref(CAPACITIVE_BUTTONS_ENABLED_FILE, 
+	    Settings.System.getInt(getContentResolver(), Settings.System.ENABLE_HARDWARE_BUTTONS, 1));
 
-	if (Settings.System.getInt(getContentResolver(), Settings.System.BACKLIGHT_TIMEOUT, 0) != 0) {
-	    int val = Settings.System.getInt(getContentResolver(),
-                Settings.System.BACKLIGHT_TIMEOUT, 0); 
-	    changeKernelPref(CAPACITIVE_BACKLIGHT_FILE, val);
-	}
+        changeKernelPref(CAPACITIVE_BACKLIGHT_FILE, 
+	    Settings.System.getInt(getContentResolver(), Settings.System.BACKLIGHT_TIMEOUT, 1600));
 
-	if (Settings.System.getInt(getContentResolver(), Settings.System.GPU_OVERCLOCK, 0) != 0) {
-	    int val = Settings.System.getInt(getContentResolver(),
-                Settings.System.GPU_OVERCLOCK, 0); 
-	    changeKernelPref(GPU_OVERCLOCK_FILE, val);
-	}
+	changeKernelPref(GPU_OVERCLOCK_FILE, 
+	    Settings.System.getInt(getContentResolver(), Settings.System.GPU_OVERCLOCK, 0));
 
-	if (Settings.System.getInt(getContentResolver(), Settings.System.WIFI_PM, 0) != 0) {
-	    int val = Settings.System.getInt(getContentResolver(),
-                Settings.System.WIFI_PM, 0); 
-	    changeKernelPref(WIFI_PM_FILE, val);
-	}
+	changeKernelPref(WIFI_PM_FILE, 
+	    Settings.System.getInt(getContentResolver(), Settings.System.WIFI_PM, 0));
 
-	if (Settings.System.getInt(getContentResolver(), Settings.System.LIVEOC, 0) != 0) {
-	    int val = Settings.System.getInt(getContentResolver(),
-                Settings.System.LIVEOC, 0); 
-	    changeKernelPref(LIVEOC_FILE, val);
-	}
+	changeKernelPref(LIVEOC_FILE, 
+	    Settings.System.getInt(getContentResolver(), Settings.System.LIVEOC, 100));
+
+	changeKernelPref(TOUCHSCREEN_CLOCK_FILE, 
+	    Settings.System.getInt(getContentResolver(), Settings.System.TOUCHSCREEN_CLOCK, 0));
 
         bootThread.start();
         // Stop the service
