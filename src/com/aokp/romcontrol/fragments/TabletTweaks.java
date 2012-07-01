@@ -94,12 +94,12 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         mTTBacklightTimeout = (ListPreference) findPreference(TT_BACKLIGHT_TIMEOUT);
         mTTBacklightTimeout.setOnPreferenceChangeListener(this);
         mTTBacklightTimeout.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
-		Settings.System.BACKLIGHT_TIMEOUT, 0)));
+		Settings.System.BACKLIGHT_TIMEOUT, 1600)));
 //        updateSummary(mTTBacklightTimeout, Integer.parseInt(mTTBacklightTimeout.getValue()));
 
         mTTEnableHardwareButtons = (CheckBoxPreference) findPreference(TT_ENABLE_HARDWARE_BUTTONS);
         mTTEnableHardwareButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.ENABLE_HARDWARE_BUTTONS, 0) == 1);
+                Settings.System.ENABLE_HARDWARE_BUTTONS, 1) == 1);
 
         mTTRecentThumbnails = (CheckBoxPreference) findPreference(TT_RECENT_THUMBNAILS);
         mTTRecentThumbnails.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
@@ -136,7 +136,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
         mTTLiveOC = (ListPreference) findPreference(TT_LIVEOC);
 	mTTLiveOC.setOnPreferenceChangeListener(this);
         mTTLiveOC.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
-		Settings.System.LIVEOC, 0)));
+		Settings.System.LIVEOC, 100)));
         updateSummary(mTTLiveOC, Integer.parseInt(mTTLiveOC.getValue()));
 
         mTTTouchscreenClock = (ListPreference) findPreference(TT_TOUCHSCREEN_CLOCK);
@@ -175,7 +175,7 @@ public class TabletTweaks extends AOKPPreferenceFragment implements OnPreference
 
         mTTLiveOC.setEnabled(false); // currently disabled in kernel - removed until working again.
 
-	if (Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ENABLE_HARDWARE_BUTTONS, 0) == 1) {
+	if (Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ENABLE_HARDWARE_BUTTONS, 1) == 1) {
 	    mTTBacklightTimeout.setEnabled(true);
         }
         else {
