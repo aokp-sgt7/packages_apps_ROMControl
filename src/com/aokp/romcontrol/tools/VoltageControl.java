@@ -95,7 +95,7 @@ public class VoltageControl extends Activity {
                             sb.append(volt.getSavedMV() + " ");
                         }
                         new CMDProcessor().su.runWaitFor("busybox echo " + sb.toString() + " > "
-                                + MV_TABLE0);
+                                + FREQ_VOLT_TABLE0);
                         if (new File(MV_TABLE1).exists()) {
                             new CMDProcessor().su.runWaitFor("busybox echo " + sb.toString()
                                     + " > " + MV_TABLE1);
