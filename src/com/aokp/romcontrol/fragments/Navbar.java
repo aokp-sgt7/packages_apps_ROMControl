@@ -164,7 +164,7 @@ public class Navbar extends AOKPPreferenceFragment implements
         mNavBarButtonQty = (ListPreference) findPreference(PREF_NAVBAR_QTY);
         mNavBarButtonQty.setOnPreferenceChangeListener(this);
         mNavBarButtonQty.setValue(Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.NAVIGATION_BAR_BUTTONS_QTY, 4) + "");
+                Settings.System.NAVIGATION_BAR_BUTTONS_QTY, 3) + "");
 
         mPicker = new ShortcutPickerHelper(this, this);
 
@@ -247,7 +247,7 @@ public class Navbar extends AOKPPreferenceFragment implements
                 mButtonAlpha.setValue(60);
 
                 Settings.System.putInt(getActivity().getContentResolver(),
-                        Settings.System.NAVIGATION_BAR_BUTTONS_QTY, 4);
+                        Settings.System.NAVIGATION_BAR_BUTTONS_QTY, 3);
 
                 Settings.System.putString(getActivity().getContentResolver(),
                         Settings.System.NAVIGATION_CUSTOM_ACTIVITIES[0], "**back**");
@@ -255,8 +255,6 @@ public class Navbar extends AOKPPreferenceFragment implements
                         Settings.System.NAVIGATION_CUSTOM_ACTIVITIES[1], "**home**");
                 Settings.System.putString(getActivity().getContentResolver(),
                         Settings.System.NAVIGATION_CUSTOM_ACTIVITIES[2], "**recents**");
-                Settings.System.putString(getActivity().getContentResolver(),
-                        Settings.System.NAVIGATION_CUSTOM_ACTIVITIES[3], "**menu**");
 
                 Settings.System.putString(getActivity().getContentResolver(),
                         Settings.System.NAVIGATION_LONGPRESS_ACTIVITIES[0], "**null**");
@@ -264,8 +262,6 @@ public class Navbar extends AOKPPreferenceFragment implements
                         Settings.System.NAVIGATION_LONGPRESS_ACTIVITIES[1], "**null**");
                 Settings.System.putString(getActivity().getContentResolver(),
                         Settings.System.NAVIGATION_LONGPRESS_ACTIVITIES[2], "**null**");
-                Settings.System.putString(getActivity().getContentResolver(),
-                        Settings.System.NAVIGATION_LONGPRESS_ACTIVITIES[3], "**null**");
 
                 Settings.System.putString(getActivity().getContentResolver(),
                         Settings.System.NAVIGATION_CUSTOM_APP_ICONS[0], "");
@@ -273,8 +269,6 @@ public class Navbar extends AOKPPreferenceFragment implements
                         Settings.System.NAVIGATION_CUSTOM_APP_ICONS[1], "");
                 Settings.System.putString(getActivity().getContentResolver(),
                         Settings.System.NAVIGATION_CUSTOM_APP_ICONS[2], "");
-                Settings.System.putString(getActivity().getContentResolver(),
-                        Settings.System.NAVIGATION_CUSTOM_APP_ICONS[3], "");
                 refreshSettings();
                 return true;
             case R.id.reset_widgets:
