@@ -217,10 +217,10 @@ public class ROMControlActivity extends PreferenceActivity implements ButtonBarH
                 if (!hasNotificationLed) {
                     target.remove(header);
                 }
-            } else if (id == R.id.power_saver && mTablet)
+            } /* else if (id == R.id.power_saver && mTablet)
                 target.remove(header);
             else if (id == R.id.functionality & mTablet)
-                target.remove(header);
+                target.remove(header); */
 
             // Increment if the current one wasn't removed by the Utils code.
             if (target.get(i) == header) {

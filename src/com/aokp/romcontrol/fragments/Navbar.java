@@ -55,6 +55,8 @@ import android.widget.Toast;
 
 import com.aokp.romcontrol.AOKPPreferenceFragment;
 import com.aokp.romcontrol.R;
+import com.aokp.romcontrol.util.CMDProcessor;
+import com.aokp.romcontrol.util.Helpers;
 import com.aokp.romcontrol.util.ShortcutPickerHelper;
 import com.aokp.romcontrol.widgets.NavBarItemPreference;
 import com.aokp.romcontrol.widgets.SeekBarPreference;
@@ -70,6 +72,11 @@ public class Navbar extends AOKPPreferenceFragment implements
     private static final String PREF_MENU_UNLOCK = "pref_menu_display";
     private static final String PREF_NAVBAR_QTY = "navbar_qty";
     private static final String COMBINED_BAR_AUTO_HIDE = "combined_bar_auto_hide";
+    public static final String TT_ENABLE_HARDWARE_BUTTONS = "tt_enable_hardware_buttons";
+    public static final String TT_BACKLIGHT_TIMEOUT = "tt_backlight_timeout";
+
+    public static final String CAPACITIVE_BUTTONS_ENABLED_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
+    private static final String CAPACITIVE_BACKLIGHT_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/leds_timeout";
 
     public static final int REQUEST_PICK_CUSTOM_ICON = 200;
     public static final int REQUEST_PICK_LANDSCAPE_ICON = 201;
@@ -97,6 +104,8 @@ public class Navbar extends AOKPPreferenceFragment implements
     ListPreference mNavigationBarHeight;
     ListPreference mNavigationBarWidth;
     CheckBoxPreference mCombinedBarAutoHide;
+    CheckBoxPreference mTTEnableHardwareButtons;
+    ListPreference mTTBacklightTimeout;
 
     private int mPendingIconIndex = -1;
     private int mPendingWidgetDrawer = -1;
@@ -189,10 +198,35 @@ public class Navbar extends AOKPPreferenceFragment implements
         mCombinedBarAutoHide.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.COMBINED_BAR_AUTO_HIDE, 0) == 1);
 
-        // Only tablets need this
-        if (!mTablet) {
-            ((PreferenceGroup) findPreference("advanced_cat")).removePreference(mCombinedBarAutoHide);
+        mTTBacklightTimeout = (ListPreference) findPreference(TT_BACKLIGHT_TIMEOUT);
+        mTTBacklightTimeout.setOnPreferenceChangeListener(this);
+        mTTBacklightTimeout.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.BACKLIGHT_TIMEOUT, 1600)));
+//        updateSummary(mTTBacklightTimeout, Integer.parseInt(mTTBacklightTimeout.getValue()));
+
+        mTTEnableHardwareButtons = (CheckBoxPreference) findPreference(TT_ENABLE_HARDWARE_BUTTONS);
+        mTTEnableHardwareButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.ENABLE_HARDWARE_BUTTONS, 1) == 1);
+
+        if (Helpers.fileExists(CAPACITIVE_BUTTONS_ENABLED_FILE)) {
+	    mTTEnableHardwareButtons.setEnabled(true);
         }
+
+        if (Helpers.fileExists(CAPACITIVE_BACKLIGHT_FILE)) {
+            mTTBacklightTimeout.setEnabled(true);
+        }
+
+	if (Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ENABLE_HARDWARE_BUTTONS, 1) == 1) {
+	    mTTBacklightTimeout.setEnabled(true);
+        }
+        else {
+	    mTTBacklightTimeout.setEnabled(false);
+        }
+
+        // removing due to it already being done and in general statusbar...
+//        if (!mTablet) {
+            ((PreferenceGroup) findPreference("advanced_cat")).removePreference(mCombinedBarAutoHide);
+//        }
 
         boolean hasNavBarByDefault = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_showNavigationBar);
@@ -213,6 +247,7 @@ public class Navbar extends AOKPPreferenceFragment implements
         if (mTablet) {
             Log.e("NavBar", "is tablet");
             prefs.removePreference(mNavBarMenuDisplay);
+            prefs.removePreference(menuDisplayLocation); // doesn't work for tablets...
         }
         refreshSettings();
         setHasOptionsMenu(true);
@@ -342,7 +377,21 @@ public class Navbar extends AOKPPreferenceFragment implements
             boolean checked = ((CheckBoxPreference) preference).isChecked();
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.COMBINED_BAR_AUTO_HIDE, checked ? 1 : 0);
-        }
+        } else if (preference == mTTEnableHardwareButtons) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.ENABLE_HARDWARE_BUTTONS, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+	    int val = Settings.System.getInt(getActivity().getContentResolver(), 
+		    Settings.System.ENABLE_HARDWARE_BUTTONS, 0); 
+	    changeKernelPref(CAPACITIVE_BUTTONS_ENABLED_FILE, val);
+	    if (val == 0) {
+		mTTBacklightTimeout.setEnabled(false);
+	    }
+	    else {
+		mTTBacklightTimeout.setEnabled(true);
+	    }
+            return true;
+        } 
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
@@ -453,6 +502,14 @@ public class Navbar extends AOKPPreferenceFragment implements
                 }
             }
             refreshSettings();
+            return true;
+
+        } else if (preference == mTTBacklightTimeout) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.BACKLIGHT_TIMEOUT, val);
+	    changeKernelPref(CAPACITIVE_BACKLIGHT_FILE, val);
+//            updateSummary(mTTBacklightTimeout, val);
             return true;
         }
 
@@ -1034,7 +1091,25 @@ public class Navbar extends AOKPPreferenceFragment implements
         Settings.System.putString(getContentResolver(), Settings.System.NAVIGATION_BAR_WIDGETS,
                 widgetString.toString());
     }
-    
+
+    public static void changeKernelPref(String file, int value) {
+        final CMDProcessor cmd = new CMDProcessor();
+	cmd.su.runWaitFor("busybox echo " + value + " > " + file);
+    }
+
+    public static void updateSummary(ListPreference preference, int value) {
+        final CharSequence[] entries = preference.getEntries();
+        final CharSequence[] values = preference.getEntryValues();
+        int best = 0;
+        for (int i = 0; i < values.length; i++) {
+            int summaryValue = Integer.parseInt(values[i].toString());
+            if (value >= summaryValue) {
+                best = i;
+            }
+        }
+        preference.setSummary(entries[best].toString());
+    }
+
     private void resetNavBarWidgets() {
     	for (int i = 0; i < (mWidgetIdQty); i++) {
     		if (widgetIds[i] != -1) {

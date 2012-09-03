@@ -17,26 +17,6 @@
 		</Preference>
 
 		<Preference
-			android:key="nav_bar"
-			android:title="@string/nav_bar">
-
-			<intent
-				android:action="android.intent.action.MAIN"
-				android:targetClass="com.aokp.romcontrol.activities.Navbar"
-				android:targetPackage="com.aokp.romcontrol" />
-		</Preference>
-
-		<Preference
-			android:key="tablet_tweaks"
-			android:title="@string/tablet_tweaks">
-
-			<intent
-				android:action="android.intent.action.MAIN"
-				android:targetClass="com.aokp.romcontrol.activities.TabletTweaks"
-				android:targetPackage="com.aokp.romcontrol" />
-		</Preference>
-
-		<Preference
 			android:key="lockscreen_pref"
 			android:title="@string/lockscreen_options">
 
@@ -58,33 +38,6 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory
-		android:key="functionality"
-		android:title="@string/functionality">
-
-		<Preference
-			android:key="powersaver_pref"
-			android:title="@string/power_saver">
-
-			<intent
-				android:action="android.intent.action.MAIN"
-				android:targetClass="com.aokp.romcontrol.activities.PowerSaver"
-				android:targetPackage="com.aokp.romcontrol" />
-		</Preference>
-
-		<Preference
-			android:key="led_prefs"
-			android:title="@string/led_options">
-
-			<intent
-				android:action="android.intent.action.MAIN"
-				android:targetClass="com.aokp.romcontrol.activities.LED"
-				android:targetPackage="com.aokp.romcontrol" />
-		</Preference>
-
-
-	</PreferenceCategory>
-
-	<PreferenceCategory
 		android:key="statusbar"
 		android:title="@string/statusbar">
 
@@ -95,6 +48,16 @@
 			<intent
 				android:action="android.intent.action.MAIN"
 				android:targetClass="com.aokp.romcontrol.activities.StatusBarGeneral"
+				android:targetPackage="com.aokp.romcontrol" />
+		</Preference>
+
+		<Preference
+			android:key="nav_bar"
+			android:title="@string/nav_bar">
+
+			<intent
+				android:action="android.intent.action.MAIN"
+				android:targetClass="com.aokp.romcontrol.activities.Navbar"
 				android:targetPackage="com.aokp.romcontrol" />
 		</Preference>
 
@@ -125,6 +88,32 @@
 			<intent
 				android:action="android.intent.action.MAIN"
 				android:targetClass="com.aokp.romcontrol.activities.StatusBarBattery"
+				android:targetPackage="com.aokp.romcontrol" />
+		</Preference>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory
+		android:key="functionality"
+		android:title="@string/functionality">
+
+		<Preference
+			android:key="powersaver_pref"
+			android:title="@string/power_saver">
+
+			<intent
+				android:action="android.intent.action.MAIN"
+				android:targetClass="com.aokp.romcontrol.activities.PowerSaver"
+				android:targetPackage="com.aokp.romcontrol" />
+		</Preference>
+
+		<Preference
+			android:key="led_prefs"
+			android:title="@string/led_options">
+
+			<intent
+				android:action="android.intent.action.MAIN"
+				android:targetClass="com.aokp.romcontrol.activities.LED"
 				android:targetPackage="com.aokp.romcontrol" />
 		</Preference>
 

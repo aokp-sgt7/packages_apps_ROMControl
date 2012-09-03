@@ -46,6 +46,8 @@ public class UserInterface extends AOKPPreferenceFragment implements
     private static final String PREF_HOME_LONGPRESS = "long_press_home";
     private static final String PREF_RECENT_APP_SWITCHER = "recent_app_switcher";
     private static final String PREF_LESS_NOTIFICATION_SOUNDS = "less_notification_sounds";
+    private static final String TT_RECENT_THUMBNAILS = "tt_recent_thumbnails";
+    private static final String TT_SCREENSHOT_SOUND = "tt_screenshot_sound";
 
     CheckBoxPreference mCrtOnAnimation;
     CheckBoxPreference mCrtOffAnimation;
@@ -63,6 +65,8 @@ public class UserInterface extends AOKPPreferenceFragment implements
     ListPreference mRecentAppSwitcher;
     CheckBoxPreference mScreenshotsJpeg;
     ListPreference mAnnoyingNotifications;
+    CheckBoxPreference mTTRecentThumbnails;
+    CheckBoxPreference mTTScreenshotSound;
 
     String mCustomLabelText = null;
     int newDensityValue;
@@ -157,6 +161,14 @@ public class UserInterface extends AOKPPreferenceFragment implements
         mHomeLongpress.setValue(Settings.System.getInt(getActivity()
                 .getContentResolver(), Settings.System.NAVIGATION_BAR_HOME_LONGPRESS,
                 -1) + "");
+
+        mTTRecentThumbnails = (CheckBoxPreference) findPreference(TT_RECENT_THUMBNAILS);
+        mTTRecentThumbnails.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.LARGE_RECENT_THUMBNAILS, 0) == 1);
+
+        mTTScreenshotSound = (CheckBoxPreference) findPreference(TT_SCREENSHOT_SOUND);
+        mTTScreenshotSound.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.SCREENSHOT_SOUND, 1) == 1);
 
         if (!getResources().getBoolean(com.android.internal.R.bool.config_enableCrtAnimations)) {
             prefs.removePreference((PreferenceGroup) findPreference("crt"));
@@ -313,6 +325,17 @@ public class UserInterface extends AOKPPreferenceFragment implements
                         .runWaitFor("mv /system/bin/bugmailer.sh.unicorn /system/bin/bugmailer.sh");
                 Helpers.getMount("ro");
             }
+            return true;
+        } else if (preference == mTTRecentThumbnails) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.LARGE_RECENT_THUMBNAILS, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+            Helpers.restartSystemUI();
+            return true;
+        } else if (preference == mTTScreenshotSound) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.SCREENSHOT_SOUND, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             return true;
         } else if (preference == mLcdDensity) {
             ((PreferenceActivity) getActivity())

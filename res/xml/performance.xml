@@ -68,6 +68,25 @@
 				android:defaultValue="false"
 				android:title="@string/pt_fast_charge_boot"
 				android:summary="@string/ps_fast_charge_boot" />
+
+			<ListPreference
+				android:key="tt_gpu_overclock"
+				android:title="@string/tt_gpu_overclock_title"
+				android:entries="@array/tt_gpu_overclock_entries"
+				android:entryValues="@array/tt_gpu_overclock_values"
+				android:defaultValue="0" />
+		        <ListPreference
+				android:key="tt_touchscreen_clock"
+				android:title="@string/tt_touchscreen_clock_title"
+				android:entries="@array/tt_touchscreen_clock_entries"
+				android:entryValues="@array/tt_touchscreen_clock_values"
+				android:defaultValue="0" />
+		        <ListPreference
+				android:key="tt_wifi_pm"
+				android:title="@string/tt_wifi_pm_title"
+				android:entries="@array/tt_wifi_pm_entries"
+				android:entryValues="@array/tt_wifi_pm_values"
+				android:defaultValue="0" />
     		
     		<com.aokp.romcontrol.fragments.ColorTuningPreference
         		android:key="color_tuning"

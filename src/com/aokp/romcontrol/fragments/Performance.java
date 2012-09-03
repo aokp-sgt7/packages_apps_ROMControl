@@ -18,6 +18,8 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
 
 import com.aokp.romcontrol.AOKPPreferenceFragment;
@@ -36,6 +38,9 @@ public class Performance extends AOKPPreferenceFragment implements
     public static final String KEY_CPU_BOOT = "cpu_boot";
     public static final String KEY_MINFREE = "free_memory";
     public static final String KEY_FASTCHARGE = "fast_charge_boot";
+    public static final String TT_GPU_OVERCLOCK = "tt_gpu_overclock";
+    public static final String TT_WIFI_PM = "tt_wifi_pm";
+    public static final String TT_TOUCHSCREEN_CLOCK = "tt_touchscreen_clock";
 
     private static final String STEPS = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies";
     private static final String MAX_FREQ = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
@@ -46,6 +51,9 @@ public class Performance extends AOKPPreferenceFragment implements
     private static final String SCROLLINGCACHE_PREF = "pref_scrollingcache";
     private static final String SCROLLINGCACHE_PERSIST_PROP = "persist.sys.scrollingcache";
     private static final String SCROLLINGCACHE_DEFAULT = "1";
+    private static final String GPU_OVERCLOCK_FILE = "/sys/kernel/pvr_oc/pvr_oc";
+    private static final String WIFI_PM_FILE = "/sys/module/bcmdhd/parameters/wifi_pm";
+    private static final String TOUCHSCREEN_CLOCK_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/cpufreq_lock";
 
     private String[] ALL_GOV;
     private int[] SPEED_STEPS;
@@ -55,6 +63,10 @@ public class Performance extends AOKPPreferenceFragment implements
     private ListPreference mFreeMem;
     private ListPreference mScrollingCachePref;
     private SharedPreferences preferences;
+    ListPreference mTTBacklightTimeout;
+    ListPreference mTTGpuOverclock;
+    ListPreference mTTWifiPM;
+    ListPreference mTTTouchscreenClock;
     private boolean doneLoading = false;
 
     private CheckBoxPreference mFastCharge;
@@ -131,6 +143,24 @@ public class Performance extends AOKPPreferenceFragment implements
             ((PreferenceGroup) findPreference("kernel")).removePreference(mFastCharge);
         }
 
+        mTTGpuOverclock = (ListPreference) findPreference(TT_GPU_OVERCLOCK);
+	mTTGpuOverclock.setOnPreferenceChangeListener(this);
+        mTTGpuOverclock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.GPU_OVERCLOCK, 0)));
+        updateSummary(mTTGpuOverclock, Integer.parseInt(mTTGpuOverclock.getValue()));
+
+	mTTWifiPM = (ListPreference) findPreference(TT_WIFI_PM);
+	mTTWifiPM.setOnPreferenceChangeListener(this);
+        mTTWifiPM.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.WIFI_PM, 0)));
+        updateSummary(mTTWifiPM, Integer.parseInt(mTTWifiPM.getValue()));
+
+        mTTTouchscreenClock = (ListPreference) findPreference(TT_TOUCHSCREEN_CLOCK);
+	mTTTouchscreenClock.setOnPreferenceChangeListener(this);
+        mTTTouchscreenClock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+		Settings.System.TOUCHSCREEN_CLOCK, 0)));
+        updateSummary(mTTTouchscreenClock, Integer.parseInt(mTTTouchscreenClock.getValue()));
+
         com.aokp.romcontrol.fragments.ColorTuningPreference ct = (com.aokp.romcontrol.fragments.ColorTuningPreference) findPreference("color_tuning");
         com.aokp.romcontrol.fragments.GammaTuningPreference gt = (com.aokp.romcontrol.fragments.GammaTuningPreference) findPreference("gamma_tuning");
         if (!hasColorTuning) {
@@ -138,6 +168,18 @@ public class Performance extends AOKPPreferenceFragment implements
                     .removePreference(ct);
             ((PreferenceCategory) getPreferenceScreen().findPreference("kernel"))
                     .removePreference(gt);
+        }
+
+        if (Helpers.fileExists(GPU_OVERCLOCK_FILE)) {
+            mTTGpuOverclock.setEnabled(true);
+        }
+
+        if (Helpers.fileExists(WIFI_PM_FILE)) {
+            mTTWifiPM.setEnabled(true);
+        }
+
+        if (Helpers.fileExists(TOUCHSCREEN_CLOCK_FILE)) {
+            mTTTouchscreenClock.setEnabled(true);
         }
 
         doneLoading = true;
@@ -341,8 +383,50 @@ public class Performance extends AOKPPreferenceFragment implements
                 return true;
             }
         }
+        if (preference == mTTGpuOverclock) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.GPU_OVERCLOCK, val);
+	    changeKernelPref(GPU_OVERCLOCK_FILE, val);
+            updateSummary(mTTGpuOverclock, val);
+            return true;
+        }
+        if (preference == mTTWifiPM) {
+           int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.WIFI_PM, val);
+    	    changeKernelPref(WIFI_PM_FILE, val);
+             updateSummary(mTTWifiPM, val);
+             return true;
+        }
+        if (preference == mTTTouchscreenClock) {
+           int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.TOUCHSCREEN_CLOCK, val);
+	    changeKernelPref(TOUCHSCREEN_CLOCK_FILE, val);
+            updateSummary(mTTTouchscreenClock, val);
+            return true;
+        }
 
         return false;
+    }
+
+    public static void changeKernelPref(String file, int value) {
+        final CMDProcessor cmd = new CMDProcessor();
+	cmd.su.runWaitFor("busybox echo " + value + " > " + file);
+    }
+
+    public static void updateSummary(ListPreference preference, int value) {
+        final CharSequence[] entries = preference.getEntries();
+        final CharSequence[] values = preference.getEntryValues();
+        int best = 0;
+        for (int i = 0; i < values.length; i++) {
+            int summaryValue = Integer.parseInt(values[i].toString());
+            if (value >= summaryValue) {
+                best = i;
+            }
+        }
+        preference.setSummary(entries[best].toString());
     }
 
 }

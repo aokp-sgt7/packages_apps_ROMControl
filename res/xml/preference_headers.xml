@@ -16,20 +16,6 @@
 		android:summary="@string/header_summary_general_ui" />
 
 	<header
-		android:id="@+id/nav_bar"
-		android:fragment="com.aokp.romcontrol.fragments.Navbar"
-		android:title="@string/nav_bar"
-		android:icon="@drawable/ic_rom_control_navigation_bar"
-		android:summary="@string/header_summary_navigation_bar" />
-
-	<header
-		android:id="@+id/tablet_tweaks"
-		android:fragment="com.aokp.romcontrol.fragments.TabletTweaks"
-		android:title="@string/tablet_tweaks"
-		android:icon="@drawable/ic_rom_control_tablet_tweaks"
-		android:summary="@string/header_summary_tablet_tweaks" />
-
-	<header
 		android:id="@+id/lockscreens"
 		android:fragment="com.aokp.romcontrol.fragments.Lockscreens"
 		android:title="@string/lockscreen_options"
@@ -50,25 +36,6 @@
 		android:summary="@string/header_summary_weather"
 		android:icon="@drawable/ic_rom_control_weather" />
 
-	<header
-		android:id="@+id/functionality"
-		android:title="@string/functionality" />
-
-	<header
-		android:id="@+id/power_saver"
-		android:fragment="com.aokp.romcontrol.fragments.PowerSaver"
-		android:title="@string/power_saver"
-		android:icon="@drawable/ic_rom_control_powersaver"
-		android:summary="@string/header_summary_powersaver" />
-
-
-	<header
-		android:id="@+id/led"
-		android:fragment="com.aokp.romcontrol.fragments.Led"
-		android:title="@string/led_options"
-		android:icon="@drawable/ic_rom_control_led"
-		android:summary="@string/header_summary_led" />
-
 	<header android:title="@string/statusbar" />
 
 	<header
@@ -77,6 +44,13 @@
 		android:title="@string/general"
 		android:icon="@drawable/ic_rom_control_general"
 		android:summary="@string/header_summary_general" />
+
+	<header
+		android:id="@+id/nav_bar"
+		android:fragment="com.aokp.romcontrol.fragments.Navbar"
+		android:title="@string/nav_bar"
+		android:icon="@drawable/ic_rom_control_navigation_bar"
+		android:summary="@string/header_summary_navigation_bar" />
 
 	<header
 		android:id="@+id/statusbar_toggles"
@@ -105,6 +79,24 @@
 		android:fragment="com.aokp.romcontrol.fragments.StatusBarSignal"
 		android:icon="@drawable/ic_rom_control_signal"
 		android:summary="@string/header_summary_signal" />
+
+	<header
+		android:id="@+id/functionality"
+		android:title="@string/functionality" />
+
+	<header
+		android:id="@+id/power_saver"
+		android:fragment="com.aokp.romcontrol.fragments.PowerSaver"
+		android:title="@string/power_saver"
+		android:icon="@drawable/ic_rom_control_powersaver"
+		android:summary="@string/header_summary_powersaver" />
+
+	<header
+		android:id="@+id/led"
+		android:fragment="com.aokp.romcontrol.fragments.Led"
+		android:title="@string/led_options"
+		android:icon="@drawable/ic_rom_control_led"
+		android:summary="@string/header_summary_led" />
 
 	<header android:title="@string/tools" />
 

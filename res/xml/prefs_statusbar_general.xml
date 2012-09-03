@@ -54,4 +54,23 @@
         android:summary="@string/status_bar_notif_count_summary"
         android:defaultValue="false" />
 
+        <CheckBoxPreference
+            android:key="tt_right_buttons"
+            android:title="@string/tt_right_buttons"
+            android:summary="@string/tt_right_buttons_summary"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
+            android:key="tt_hide_statusbar"
+            android:title="@string/tt_hide_statusbar"
+            android:summary="@string/tt_hide_statusbar_summary"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
+            android:key="tt_peek_notifications"
+            android:title="@string/tt_peek_notifications"
+            android:summary="@string/tt_peek_notifications_summary"
+            android:defaultValue="false" />
+
+
 </PreferenceScreen>

@@ -19,13 +19,6 @@
 		android:title="@string/rotate_180_title"
 		android:summary="@string/rotate_180_summary" />
 
-	<ListPreference
-		android:key="recent_app_switcher"
-		android:title="@string/recent_app_switcher_title"
-		android:summary="@string/recent_app_switcher_summary"
-		android:entries="@array/recent_app_switcher_entries"
-        android:entryValues="@array/recent_app_switcher_values" />
-
 	<Preference
 		android:key="lcd_density_setup"
 		android:title="@string/lcd_density_title"
@@ -45,6 +38,50 @@
 
 	</PreferenceCategory>
 
+<!-- Sound -->
+	<PreferenceCategory
+		android:key="sound"
+		android:title="@string/tt_sound_cat">
+
+		<CheckBoxPreference
+			android:key="enable_volume_options"
+			android:title="@string/enable_volume_options" />
+
+		<ListPreference
+			android:key="less_notification_sounds"
+			android:title="@string/less_notification_sounds_title"
+			android:summary="@string/less_notification_sounds_summary"
+			android:entries="@array/less_notification_sounds_entries"
+			android:entryValues="@array/less_notification_sounds_values" />
+
+		<CheckBoxPreference
+			android:key="tt_screenshot_sound"
+			android:title="@string/tt_screenshot_sound"
+			android:summary="@string/tt_screenshot_sound_summary"
+			android:defaultValue="true" />
+
+	</PreferenceCategory>
+
+<!-- Recent apps -->
+	<PreferenceCategory
+		android:key="recents"
+		android:title="@string/tt_recents_cat">
+
+		<ListPreference
+			android:key="recent_app_switcher"
+			android:title="@string/recent_app_switcher_title"
+			android:summary="@string/recent_app_switcher_summary"
+			android:entries="@array/recent_app_switcher_entries"
+		        android:entryValues="@array/recent_app_switcher_values" />
+
+		<CheckBoxPreference
+			android:key="tt_recent_thumbnails"
+			android:title="@string/tt_recent_thumbnails"
+			android:summary="@string/tt_recent_thumbnails_summary"
+			android:defaultValue="false" />
+
+    </PreferenceCategory>
+
 	<PreferenceCategory
 		android:key="misc"
 		android:title="@string/misc_short">
@@ -53,17 +90,6 @@
 			android:key="ime_switcher"
 			android:title="@string/ime_switcher_title"
 			android:summary="@string/ime_switcher_summary" />
-
-         <CheckBoxPreference
-			android:key="enable_volume_options"
-			android:title="@string/enable_volume_options" />
-
-         <ListPreference
-			android:key="less_notification_sounds"
-			android:title="@string/less_notification_sounds_title"
-			android:summary="@string/less_notification_sounds_summary"
-			android:entries="@array/less_notification_sounds_entries"
-			android:entryValues="@array/less_notification_sounds_values" />
 
 		<Preference
 			android:key="custom_carrier_label"

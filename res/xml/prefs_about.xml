@@ -13,11 +13,6 @@
 			android:summary="@string/about_aokp_sgt7_summary" />
 
 		<Preference
-			android:key="aokp_sgt7_features"
-			android:title="@string/aokp_sgt7_features"
-			android:summary="@string/aokp_sgt7_features_summary" />
-
-		<Preference
 			android:key="aokp_sgt7_website"
 			android:title="@string/aokp_sgt7_website_title"
 			android:summary="@string/aokp_sgt7_website_summary" />
@@ -33,9 +28,19 @@
 			android:summary="@string/aokp_sgt7_XDA_summary" />
 
 		<Preference
-			android:key="aokp_sgt7_TE4M"
-			android:title="@string/aokp_sgt7_TE4M_title"
-			android:summary="@string/aokp_sgt7_TE4M_summary" />
+			android:key="aokp_sgt7_fb"
+			android:title="@string/aokp_sgt7_fb_title"
+			android:summary="@string/aokp_sgt7_fb_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_twitter"
+			android:title="@string/aokp_sgt7_twitter_title"
+			android:summary="@string/aokp_sgt7_twitter_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_gplus"
+			android:title="@string/aokp_sgt7_gplus_title"
+			android:summary="@string/aokp_sgt7_gplus_summary" />
 
 	</PreferenceCategory>
 

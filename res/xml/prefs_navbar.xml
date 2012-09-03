@@ -43,6 +43,24 @@
 		
 	</PreferenceCategory>
 
+<!-- Capacitive Buttons -->
+    <PreferenceCategory
+	android:key="capacitive"
+        android:title="@string/tt_capacitive_cat">
+        <CheckBoxPreference
+            android:key="tt_enable_hardware_buttons"
+            android:title="@string/tt_enable_hardware_buttons"
+            android:summary="@string/tt_enable_hardware_buttons_summary"
+	    android:defaultValue="true" />
+	<ListPreference
+	    android:key="tt_backlight_timeout"
+	    android:title="@string/tt_backlight_timeout_title"
+            android:summary="@string/tt_backlight_timeout_summary"
+	    android:entries="@array/tt_backlight_timeout_entries"
+	    android:entryValues="@array/tt_backlight_timeout_values"
+	    android:defaultValue="1600" />
+    </PreferenceCategory>
+
 	<PreferenceCategory
 		android:key="advanced_cat"
 		android:title="@string/advanced_settings">

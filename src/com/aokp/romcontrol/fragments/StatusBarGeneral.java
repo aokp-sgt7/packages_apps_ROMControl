@@ -22,16 +22,23 @@ public class StatusBarGeneral extends AOKPPreferenceFragment implements
     private static final String PREF_SETTINGS_BUTTON_BEHAVIOR = "settings_behavior";
     private static final String PREF_AUTO_HIDE_TOGGLES = "auto_hide_toggles";
     private static final String PREF_BRIGHTNESS_TOGGLE = "status_bar_brightness_toggle";
-    private static final String PREF_ICON_TRANSPARENCY = "status_bar_icon_transparency";
+    private static final String PREF_ICON_TRANSPARENCY = "icon_transparency";
     private static final String PREF_ADB_ICON = "adb_icon";
     private static final String PREF_TRANSPARENCY = "status_bar_transparency";
     private static final String PREF_LAYOUT = "status_bar_layout";
     private static final String PREF_FONTSIZE = "status_bar_fontsize";
     private static final String PREF_STATUS_BAR_NOTIF_COUNT = "status_bar_notif_count";
+    private static final String TT_RIGHT_BUTTONS = "tt_right_buttons";
+    private static final String TT_PEEK_NOTIFICATIONS = "tt_peek_notifications";
+    private static final String TT_HIDE_STATUSBAR = "tt_hide_statusbar";
+
 
     CheckBoxPreference mDefaultSettingsButtonBehavior;
     CheckBoxPreference mAutoHideToggles;
     CheckBoxPreference mStatusBarBrightnessToggle;
+    CheckBoxPreference mTTRightButtons;
+    CheckBoxPreference mTTPeekNotifications;
+    CheckBoxPreference mTTHideStatusbar;
     SeekBarPreference mIconAlpha;
     CheckBoxPreference mAdbIcon;
     CheckBoxPreference mStatusBarNotifCount;
@@ -64,11 +71,11 @@ public class StatusBarGeneral extends AOKPPreferenceFragment implements
         mStatusBarBrightnessToggle.setChecked(Settings.System.getInt(mContext
                 .getContentResolver(), Settings.System.STATUS_BAR_BRIGHTNESS_TOGGLE,
                 1) == 1);
-        
-        float defaultAlpha = Settings.System.getFloat(getActivity()
+
+        float defaultAlpha = Settings.System.getFloat(mContext
                 .getContentResolver(), Settings.System.STATUS_BAR_ICON_TRANSPARENCY,
-                0.55f);
-        mIconAlpha = (SeekBarPreference) findPreference("icon_transparency");
+                0.9f);
+        mIconAlpha = (SeekBarPreference) findPreference(PREF_ICON_TRANSPARENCY);
         mIconAlpha.setInitValue((int) (defaultAlpha * 100));
         mIconAlpha.setOnPreferenceChangeListener(this);
 
@@ -99,6 +106,19 @@ public class StatusBarGeneral extends AOKPPreferenceFragment implements
                 .getContentResolver(), Settings.System.STATUSBAR_FONT_SIZE,
                 16)));
 
+        mTTRightButtons = (CheckBoxPreference) findPreference(TT_RIGHT_BUTTONS);
+        mTTRightButtons.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.RIGHT_SOFT_BUTTONS, 0) == 1);
+
+        mTTHideStatusbar = (CheckBoxPreference) findPreference(TT_HIDE_STATUSBAR);
+        mTTHideStatusbar.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.HIDE_STATUSBAR, 0) == 1);
+
+        mTTPeekNotifications = (CheckBoxPreference) findPreference(TT_PEEK_NOTIFICATIONS);
+        mTTPeekNotifications.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.SHOW_NOTIFICATION_PEEK, 0) == 1);
+
+
         if (mTablet) {
             PreferenceScreen prefs = getPreferenceScreen();
             prefs.removePreference(mStatusBarBrightnessToggle);
@@ -106,6 +126,7 @@ public class StatusBarGeneral extends AOKPPreferenceFragment implements
             prefs.removePreference(mDefaultSettingsButtonBehavior);
             prefs.removePreference(mTransparency);
             prefs.removePreference(mLayout);
+            prefs.removePreference(mIconAlpha); // broken.
         }
     }
 
@@ -146,37 +167,60 @@ public class StatusBarGeneral extends AOKPPreferenceFragment implements
                     ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
             return true;
 
-        }
+        } else if (preference == mTTRightButtons) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.RIGHT_SOFT_BUTTONS, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+            Helpers.restartSystemUI();
+            return true;
+
+        } else if (preference == mTTHideStatusbar) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.HIDE_STATUSBAR, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+            Helpers.restartSystemUI();
+            return true;
+
+        } else if (preference == mTTPeekNotifications) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.SHOW_NOTIFICATION_PEEK, 
+		    ((CheckBoxPreference) preference).isChecked() ? 1 : 0);
+            Helpers.restartSystemUI();
+            return true;
+        } 
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);
 
     }
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        boolean result = false;
-
-        if (preference == mTransparency) {
-            int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.STATUS_BAR_TRANSPARENCY, val);
-            Helpers.restartSystemUI();
-        } else if (preference == mLayout) {
-            int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.STATUS_BAR_LAYOUT, val);
-            Helpers.restartSystemUI();
-        } else if (preference == mIconAlpha) {
+        mContext = getActivity().getApplicationContext();
+	
+       if (preference == mIconAlpha) {
             float val = Float.parseFloat((String) newValue);
-            Settings.System.putFloat(getActivity().getContentResolver(),
+            Settings.System.putFloat(mContext.getContentResolver(),
                     Settings.System.STATUS_BAR_ICON_TRANSPARENCY,
                     val / 100);
             return true;
+        } else if (preference == mTransparency) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.STATUS_BAR_TRANSPARENCY, val);
+            Helpers.restartSystemUI();
+            return true;
+        } else if (preference == mLayout) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.STATUS_BAR_LAYOUT, val);
+            Helpers.restartSystemUI();
+            return true;
         } else if (preference == mFontsize) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(getActivity().getContentResolver(),
+            Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.STATUSBAR_FONT_SIZE, val);
             Helpers.restartSystemUI();
+            return true;
         }
-        return result;
+        return false;
     }
 }

@@ -10,16 +10,16 @@
     <string name="functionality">Functionality</string>
     <string name="power_saver">Power saver</string>
     <string name="led_options">LED options</string>
+    <string name="capacitive">Capacitive Buttons</string>
     <string name="statusbar">Statusbar</string>
     <string name="general">General</string>
     <string name="toggles_layout">Toggles</string>
     <string name="clock">Clock</string>
     <string name="battery">Battery</string>
-    <string name="nav_bar">Navigation bar</string>
+    <string name="nav_bar">Navigation Buttons</string>
     <string name="tools">Tools</string>
     <string name="weather">Weather</string>
     <string name="signal">Signal</string>
-    <string name="tablet_tweaks">Tablet Tweaks</string>
     
     <string name="header_summary_battery">Battery bar, 1% battery mod, etc</string>
     <string name="header_summary_general_ui">Boot animation, bug mailer, rotation, IME switcher, etc</string>
@@ -28,12 +28,12 @@
     <string name="header_summary_power_menu">What to display in your power menu</string>
     <string name="header_summary_powersaver">Automatically disable data to save battery</string>
     <string name="header_summary_led">Change default settings for Android to use</string>
+    <string name="header_summary_capacitive">Control capacitive (hardware) buttons</string>
     <string name="header_summary_general">Settings button behavior</string>
     <string name="header_summary_toggles">Customize toggles</string>
 	<string name="header_summary_clock">Clock location, AM/PM style, color</string>
 	<string name="header_summary_weather">Enable/disable, set custom location or network, and interval</string>
 	<string name="header_summary_signal">Signal dBm text</string>
-    <string name="header_summary_tablet_tweaks">Disable onscreen/capacitive buttons, and other Tablet only goodies</string>
 	
     <string name="advanced_settings">Advanced settings</string>
     <string name="misc_short">Misc</string>
@@ -535,11 +535,9 @@
 	<string name="apply_values">Apply Values</string>
 
 	<!-- tablet tweaks -->
-	<string name="tt_performance_cat">Performance</string>
 	<string name="tt_capacitive_cat">Capacitive Buttons</string>
 	<string name="tt_statusbar_cat">Statusbar</string>
 	<string name="tt_recents_cat">Recent Apps</string>
-        <string name="tt_storage_cat">Storage</string>
         <string name="tt_sound_cat">Sound</string>
 
 	<string name="tt_enable_hardware_buttons">Enable capacitive buttons</string>
@@ -547,13 +545,13 @@
 	<string name="tt_backlight_timeout_title">Backlight Timeout</string>
 	<string name="tt_backlight_timeout_summary">Adjust the delay before the touch key backlight automatically turns off</string>
 	<string name="tt_right_buttons">Mirror statusbar</string>
-	<string name="tt_right_buttons_summary">Buttons on the right, notifications on the left (restarts SystemUI)</string>
+	<string name="tt_right_buttons_summary">Buttons on the right, notifications on the left</string>
 	<string name="tt_peek_notifications">Peek notifications</string>
-	<string name="tt_peek_notifications_summary">Preview notifications by pressing the notification icon (restarts SystemUI)</string>
+	<string name="tt_peek_notifications_summary">Preview notifications by pressing the notification icon</string>
 	<string name="tt_hide_statusbar">Hide status bar in shadow mode</string>
-	<string name="tt_hide_statusbar_summary">Hide the status bar when it enters shadow mode (restarts SystemUI)</string>
+	<string name="tt_hide_statusbar_summary">Hide the status bar when it enters shadow mode</string>
 	<string name="tt_recent_thumbnails">Large thumbnails</string>
-	<string name="tt_recent_thumbnails_summary">Larger application history thumbnails (restarts SystemUI)</string>
+	<string name="tt_recent_thumbnails_summary">Larger application history thumbnails</string>
 	<string name="tt_screenshot_sound">Screenshot Sound</string>
 	<string name="tt_screenshot_sound_summary">Enable/Disable the camera shutter sound when you take a screenshot</string>
         <string name="tt_storage_switch">Switch external storage</string>
@@ -583,18 +581,19 @@
 	<string name="aokp_sgt7">AOKP SGT7</string>
         <string name="about_aokp_sgt7">About AOKP SGT7 / Credits</string>
         <string name="about_aokp_sgt7_summary">About AOKP SGT7 and Credits to the people that made it possible!</string>
-	<string name="aokp_sgt7_features">AOKP SGT7 Features</string>
-	<string name="aokp_sgt7_features_summary">The features that make AOKP SGT7 what it is.</string>
 	<string name="aokp_sgt7_website_title">AOKP SGT7 Website</string>
 	<string name="aokp_sgt7_website_summary">Coming soon - watch this space!</string>
 	<string name="aokp_sgt7_source_title">AOKP SGT7 Source</string>
 	<string name="aokp_sgt7_source_summary">AOKP is fully open source, and so is AOKP SGT7 - check out the source at github.com/aokp-sgt7.</string>
 	<string name="aokp_sgt7_XDA_title">AOKP SGT7 XDA Thread</string>
 	<string name="aokp_sgt7_XDA_summary">AOKP SGT7 started on XDA, and has been there for a while - follow its journey on XDA</string>
-	<string name="aokp_sgt7_TE4M_title">SGT7 TE4M Source</string>
-	<string name="aokp_sgt7_TE4M_summary">AOKP SGT7 uses the SGT7 TE4M\'s device/vendor/kernel device files, check out their source on github.com/sgt7</string>
-	<string name="about_aokp_sgt7_details">AOKP SGT7 - AOKP for the SGT7 :: by stimpz0r\n\nABOUT AOKP SGT7 ::\n\nAOKP SGT7 was born due the fact there was no AOKP for the Samsung Galaxy Tab 7inch GSM variants, after getting it to compile with the SGT7 ICS TE4M\'s device / vendor / kernel code, there was finally an unofficial release for the GSM variants. since then, it has grown further to include many tweaks by the SGT7 TE4M (especially by sbradymobile), that i have injected into ROMControl. it is now also powered by a cutting-edge fork of the SGT7 TE4M\'s kernel by HumberOS (an SGT7 TE4M member), that includes many overclocking and tweakable features.\n\nCREDITS / THANKS ::\n\nTeamKang - the creators of AOKP, without their hard work this build would never exist, and the reason you are using this build on your tablets (see the About screen for a list of people behind it and further information on TeamKang).\n\nSGT7 TE4M - this build would not exist without the SGT7 TE4M\'s awesome work! they have done amazing work getting ICS and CM9 working properly on our SGT7, and ICS would never be the same without them, so for that thanks to the following:\n\ncdesai - HumberOS - sbradymobile - jt1134 - eaut - red_rebel - angel_666 - koxudaxi - Technomancer\n\nalso thanks to the following for helping this build get to where it is, and contributing in their own ways:\n\nyosup - priyana - salahmed - yappoe\n</string>
-	<string name="aokp_sgt7_features_details">AOKP SGT7 :: FEATURES\n\n   (*) MTD based rom\n   (*) kernel by HumberOS from the SGT7 TE4M with heaps of optimization / overclocking / tweakable features\n   (*) device / vendor from the SGT7 TE4M\'s awesome work\n   (*) most SGT7 TE4M "additions" added to ROMControl under "Tablet Tweaks" menu (see below for list of added features)\n   (*) Trebuchet (sbradymobile edition) and Apex Launcher included\n   (*) DSPManager included for tweaking of sound levels\n   (*) Apollo (sbradymobile edition) included in place of standard Google Music.apk\n   (*) fixes for SGT7 related problems included throughout code (Phone / Camera / Navbar buttons / etc...)\n   (*) and much more... \n\nSGT7 TE4M additions included in AOKP SGT7 (mostly found in ROMControl -> Tablet Tweaks) ::\n\n   (*) LiveOC control (disabled due to instability at the moment)\n   (*) GPU overclock control\n   (*) Touchscreen overclock control\n   (*) Wifi Power Management\n   (*) Disable (enable) capacitive buttons\n   (*) Control capacitive button light timeout\n   (*) Mirrored statusbar\n   (*) Hide statusbar on fullscreen apps (i.e. in "shadowed" mode)\n   (*) Peek notifications (touch notification icon to preview notification)\n   (*) JPEG screenshots\n   (*) toggle screenshot sound\n</string>
+	<string name="aokp_sgt7_fb_title">AOKP SGT7 @ Facebook</string>
+	<string name="aokp_sgt7_fb_summary">AOKP SGT7 now has a Facebook page - stop by and show your support with a like!</string>
+	<string name="aokp_sgt7_twitter_title">AOKP SGT7 @ Twitter</string>
+	<string name="aokp_sgt7_twitter_summary">AOKP SGT7 is now on Twitter - get the second latest news (besides the site) - follow @AOKPSGT7</string>
+	<string name="aokp_sgt7_gplus_title">AOKP SGT7 @ Google+</string>
+	<string name="aokp_sgt7_gplus_summary">AOKP SGT7 is now on Google+ - check it out and add to your circles!</string>
+	<string name="about_aokp_sgt7_details">AOKP SGT7 - AOKP for the SGT7 :: by stimpz0r\n\nABOUT AOKP SGT7 ::\n\nAOKP SGT7 was born due the fact there was no AOKP for the Samsung Galaxy Tab 7inch GSM variants, after getting it to compile with the SGT7 ICS TE4M\'s device / vendor / kernel code, there was finally an unofficial release for the GSM variants. since then, it has grown further to include many tweaks by the SGT7 TE4M (especially by sbradymobile), that i have injected into ROMControl. it is now also powered by a cutting-edge fork of the SGT7 TE4M\'s kernel by HumberOS (an SGT7 TE4M member), that includes many overclocking and tweakable features.\n\nCREDITS / THANKS ::\n\nTeamKang - the creators of AOKP, without their hard work this build would never exist, and the reason you are using this build on your tablets (see the About screen for a list of people behind it and further information on TeamKang).\n\nSGT7 TE4M - this build would not exist without the SGT7 TE4M\'s awesome work! they have done amazing work getting ICS and CM9 working properly on our SGT7, and ICS would never be the same without them, so for that thanks to the following:\n\ncdesai - HumberOS - sbradymobile - jt1134 - eaut - red_rebel - angel_666 - koxudaxi - Technomancer\n\nalso thanks to the following for helping this build get to where it is, and contributing in their own ways:\n\nyosup - priyana - salahmed - yappoe - SGTABHI - mao_red\n</string>
     <string name="aokp_review_title">AOKP Code Review</string>
     <string name="aokp_review_summary">AOKP\'s Gerrit Review instance for submitting and testing patches</string>
     <string name="aokp_irc_title">Join us on IRC</string>
