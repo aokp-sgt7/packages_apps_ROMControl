@@ -551,7 +551,7 @@
 	<string name="tt_hide_statusbar">Hide status bar in shadow mode</string>
 	<string name="tt_hide_statusbar_summary">Hide the status bar when it enters shadow mode</string>
 	<string name="tt_recent_thumbnails">Large thumbnails</string>
-	<string name="tt_recent_thumbnails_summary">Larger application history thumbnails</string>
+	<string name="tt_recent_thumbnails_summary">Larger application history thumbnails (stock only)</string>
 	<string name="tt_screenshot_sound">Screenshot Sound</string>
 	<string name="tt_screenshot_sound_summary">Enable/Disable the camera shutter sound when you take a screenshot</string>
         <string name="tt_storage_switch">Switch external storage</string>
@@ -582,7 +582,7 @@
         <string name="about_aokp_sgt7">About AOKP SGT7 / Credits</string>
         <string name="about_aokp_sgt7_summary">About AOKP SGT7 and Credits to the people that made it possible!</string>
 	<string name="aokp_sgt7_website_title">AOKP SGT7 Website</string>
-	<string name="aokp_sgt7_website_summary">Coming soon - watch this space!</string>
+	<string name="aokp_sgt7_website_summary">The home of AOKP SGT7 - find the latest news / releases here first!</string>
 	<string name="aokp_sgt7_source_title">AOKP SGT7 Source</string>
 	<string name="aokp_sgt7_source_summary">AOKP is fully open source, and so is AOKP SGT7 - check out the source at github.com/aokp-sgt7.</string>
 	<string name="aokp_sgt7_XDA_title">AOKP SGT7 XDA Thread</string>
