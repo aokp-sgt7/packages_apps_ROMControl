@@ -55,6 +55,7 @@ public class VoltageControlSettings extends Fragment {
     public static final String MV_TABLE1 = "/sys/devices/system/cpu/cpu1/cpufreq/UV_mV_table";
     public static final String MV_TABLE2 = "/sys/devices/system/cpu/cpu2/cpufreq/UV_mV_table";
     public static final String MV_TABLE3 = "/sys/devices/system/cpu/cpu3/cpufreq/UV_mV_table";
+    public static final String FREQ_VOLT_TABLE0 = "/sys/devices/system/cpu/cpu0/cpufreq/frequency_voltage_table";
     public static final int DIALOG_EDIT_VOLT = 0;
     private List<Voltage> mVoltages;
     private ListAdapter mAdapter;
@@ -101,7 +102,7 @@ public class VoltageControlSettings extends Fragment {
                 }
                 new CMDProcessor().su.runWaitFor("busybox echo "
                         + sb.toString() + " > "
-                        + MV_TABLE0);
+                        + FREQ_VOLT_TABLE0);
                 if (new File(MV_TABLE1).exists()) {
                     new CMDProcessor().su.runWaitFor("busybox echo "
                             + sb.toString()
@@ -141,14 +142,14 @@ public class VoltageControlSettings extends Fragment {
     public static List<Voltage> getVolts(final SharedPreferences preferences) {
         final List<Voltage> volts = new ArrayList<Voltage>();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(MV_TABLE0), 256);
+            BufferedReader br = new BufferedReader(new FileReader(FREQ_VOLT_TABLE0), 256);
             String line = "";
             while ((line = br.readLine()) != null) {
-                final String[] values = line.split("\\s+");
+                final String[] values = line.split(" ");
                 if (values != null) {
                     if (values.length >= 2) {
-                        final String freq = values[0].replace("mhz:", "");
-                        final String currentMv = values[1];
+                        final String freq = values[0];
+                        final String currentMv = values[2];
                         final String savedMv = preferences.getString(freq, currentMv);
                         final Voltage voltage = new Voltage();
                         voltage.setFreq(freq);
@@ -160,9 +161,9 @@ public class VoltageControlSettings extends Fragment {
             }
             br.close();
         } catch (FileNotFoundException e) {
-            Log.d(TAG, MV_TABLE0 + " does not exist");
+            Log.d(TAG, FREQ_VOLT_TABLE0 + " does not exist");
         } catch (IOException e) {
-            Log.d(TAG, "Error reading " + MV_TABLE0);
+            Log.d(TAG, "Error reading " + FREQ_VOLT_TABLE0);
         }
         return volts;
     }
