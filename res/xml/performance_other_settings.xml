@@ -27,6 +27,12 @@
             android:entries="@array/sgt7_gpu_overclock_entries"
             android:entryValues="@array/sgt7_gpu_overclock_values"
             android:defaultValue="0" />
+         <ListPreference
+            android:key="sgt7_touchscreen_clock"
+            android:title="@string/sgt7_touchscreen_clock_title"
+            android:entries="@array/sgt7_touchscreen_clock_entries"
+            android:entryValues="@array/sgt7_touchscreen_clock_values"
+            android:defaultValue="0" />
         <CheckBoxPreference
             android:key="fast_charge_boot"
             android:defaultValue="false"

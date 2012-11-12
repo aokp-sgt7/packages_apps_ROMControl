@@ -892,5 +892,5 @@
     <!-- AOKP SGT7 additions -->
 
     <string name="sgt7_gpu_overclock_title">GPU Clock Speed</string>
-
+    <string name="sgt7_touchscreen_clock_title">Touchscreen Clock Speed</string>
 </resources>

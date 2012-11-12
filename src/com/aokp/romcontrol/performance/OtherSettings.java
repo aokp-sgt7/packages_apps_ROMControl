@@ -44,8 +44,11 @@ public class OtherSettings extends AOKPPreferenceFragment implements
     public static final String KEY_DAILY_REBOOT = "daily_reboot";
     public static final String SGT7_GPU_OVERCLOCK = "sgt7_gpu_overclock";
     public static final String GPU_OVERCLOCK_FILE = "/sys/kernel/pvr_oc/pvr_oc";
+    public static final String SGT7_TOUCHSCREEN_CLOCK = "sgt7_touchscreen_clock";
+    private static final String TOUCHSCREEN_CLOCK_FILE = "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/cpufreq_lock";
     private ListPreference mFreeMem;
     private ListPreference mSGT7GpuOverclock;
+    private ListPreference mSGT7TouchscreenClock;
     private CheckBoxPreference mFastCharge;
     private CheckBoxPreference mDailyReboot;
     private SharedPreferences preferences;
@@ -93,8 +96,17 @@ public class OtherSettings extends AOKPPreferenceFragment implements
             Settings.System.GPU_OVERCLOCK, 0)));
 	Helpers.updateSummary(mSGT7GpuOverclock, Integer.parseInt(mSGT7GpuOverclock.getValue()));
 
+        mSGT7TouchscreenClock = (ListPreference) findPreference(SGT7_TOUCHSCREEN_CLOCK);
+	mSGT7TouchscreenClock.setOnPreferenceChangeListener(this);
+        mSGT7TouchscreenClock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+	    Settings.System.TOUCHSCREEN_CLOCK, 0)));
+	Helpers.updateSummary(mSGT7TouchscreenClock, Integer.parseInt(mSGT7TouchscreenClock.getValue()));
+
         if (Helpers.fileExists(GPU_OVERCLOCK_FILE)) {
             mSGT7GpuOverclock.setEnabled(true);
+	}
+        if (Helpers.fileExists(TOUCHSCREEN_CLOCK_FILE)) {
+            mSGT7TouchscreenClock.setEnabled(true);
 	}
 
         mDailyReboot = (CheckBoxPreference) findPreference(KEY_DAILY_REBOOT);
@@ -208,6 +220,14 @@ public class OtherSettings extends AOKPPreferenceFragment implements
 	    Helpers.updateSummary(mSGT7GpuOverclock, val);
            return true;
 	}
+        if (preference == mSGT7TouchscreenClock) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.TOUCHSCREEN_CLOCK, val);
+	    Helpers.changeKernelPref(TOUCHSCREEN_CLOCK_FILE, val);
+            Helpers.updateSummary(mSGT7TouchscreenClock, val);
+            return true;
+        }
         return false;
     }
 
