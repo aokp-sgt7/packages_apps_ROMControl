@@ -94,7 +94,7 @@ public class DensityChanger extends AOKPPreferenceFragment implements
         if (preference == mReboot) {
             PowerManager pm = (PowerManager) getActivity()
                     .getSystemService(Context.POWER_SERVICE);
-            pm.reboot("Resetting density");
+            pm.reboot("");
             return true;
 
         } else if (preference == mClearMarketData) {
@@ -176,7 +176,7 @@ public class DensityChanger extends AOKPPreferenceFragment implements
                                 setLcdDensity(newDensityValue);
                                 PowerManager pm = (PowerManager) getActivity()
                                         .getSystemService(Context.POWER_SERVICE);
-                                pm.reboot("Resetting density");
+                                pm.reboot("");
                             }
                         })
                         .setNegativeButton(getResources().getString(R.string.cancel),
