@@ -15,6 +15,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
@@ -313,4 +315,32 @@ public class Helpers {
             return null;
         }
     }
+
+    /** * AOKP SGT7 ADDITIONS * **/
+
+    public static boolean fileExists(String filename) {
+        return new File(filename).exists();
+    }
+
+    public static void changeKernelPref(String file, int value) {
+        try {
+            String[] cmds = { "/system/bin/sh -c echo" + value + " > " + file };
+            Runtime.getRuntime().exec(cmds);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateSummary(ListPreference preference, int value) {
+        final CharSequence[] entries = preference.getEntries();
+        final CharSequence[] values = preference.getEntryValues();
+        int best = 0;
+        for (int i = 0; i < values.length; i++) {
+            int summaryValue = Integer.parseInt(values[i].toString());
+            if (value >= summaryValue) {
+                best = i;
+            }
+        }
+        preference.setSummary(entries[best].toString());
+     }
 }

@@ -34,6 +34,7 @@ import com.aokp.romcontrol.weather.WeatherService;
 public class BootService extends Service {
 
     public static boolean servicesStarted = false;
+    private static final String GPU_OVERCLOCK_FILE = "/sys/kernel/pvr_oc/pvr_oc";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -206,6 +207,9 @@ public class BootService extends Service {
                             " > /sys/module/lowmemorykiller/parameters/minfree");
                 }
             }
+
+	    Helpers.changeKernelPref(GPU_OVERCLOCK_FILE, 
+		Settings.System.getInt(getContentResolver(), Settings.System.GPU_OVERCLOCK, 0));
 
             if (OtherSettings.isDailyRebootEnabled(c)) {
                 c.startService(

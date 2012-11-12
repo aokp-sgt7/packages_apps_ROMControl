@@ -647,6 +647,7 @@
     </string-array>
 
     <string-array name="lcd_density_entries" translatable="false">
+        <item>120</item>
         <item>160</item>
         <item>180</item>
         <item>200</item>
@@ -846,4 +847,22 @@
         <item>**update**</item>
         <item>**app**</item>
     </string-array>
+
+    <!-- AOKP SGT7 additions -->
+
+	<string-array name="sgt7_gpu_overclock_entries">
+		<item>200 Mhz</item>
+		<item>320 Mhz</item>
+		<item>370 Mhz</item>
+		<item>420 Mhz</item>
+	</string-array>
+
+	<string-array name="sgt7_gpu_overclock_values" translatable="false">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+	</string-array>
+
+
 </resources>

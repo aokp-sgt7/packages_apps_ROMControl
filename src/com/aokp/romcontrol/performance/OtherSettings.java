@@ -19,6 +19,8 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TimePicker;
@@ -40,8 +42,10 @@ public class OtherSettings extends AOKPPreferenceFragment implements
     public static final String KEY_FASTCHARGE = "fast_charge_boot";
     public static final String MINFREE = "/sys/module/lowmemorykiller/parameters/minfree";
     public static final String KEY_DAILY_REBOOT = "daily_reboot";
-
+    public static final String SGT7_GPU_OVERCLOCK = "sgt7_gpu_overclock";
+    public static final String GPU_OVERCLOCK_FILE = "/sys/kernel/pvr_oc/pvr_oc";
     private ListPreference mFreeMem;
+    private ListPreference mSGT7GpuOverclock;
     private CheckBoxPreference mFastCharge;
     private CheckBoxPreference mDailyReboot;
     private SharedPreferences preferences;
@@ -77,6 +81,21 @@ public class OtherSettings extends AOKPPreferenceFragment implements
         if (!hasFastCharge) {
             ((PreferenceGroup) findPreference("kernel")).removePreference(mFastCharge);
         }
+
+        mSGT7GpuOverclock = (ListPreference) findPreference(SGT7_GPU_OVERCLOCK);
+	mSGT7GpuOverclock.setOnPreferenceChangeListener(this);
+        mSGT7GpuOverclock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+	    Settings.System.GPU_OVERCLOCK, 0)));
+
+        mSGT7GpuOverclock = (ListPreference) findPreference(SGT7_GPU_OVERCLOCK);
+	mSGT7GpuOverclock.setOnPreferenceChangeListener(this);
+        mSGT7GpuOverclock.setValue(Integer.toString(Settings.System.getInt(getActivity().getContentResolver(), 
+            Settings.System.GPU_OVERCLOCK, 0)));
+	Helpers.updateSummary(mSGT7GpuOverclock, Integer.parseInt(mSGT7GpuOverclock.getValue()));
+
+        if (Helpers.fileExists(GPU_OVERCLOCK_FILE)) {
+            mSGT7GpuOverclock.setEnabled(true);
+	}
 
         mDailyReboot = (CheckBoxPreference) findPreference(KEY_DAILY_REBOOT);
     }
@@ -150,7 +169,6 @@ public class OtherSettings extends AOKPPreferenceFragment implements
             }
             return true;
         }
-
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
@@ -182,6 +200,14 @@ public class OtherSettings extends AOKPPreferenceFragment implements
     }
 
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+        if (preference == mSGT7GpuOverclock) {
+            int val = Integer.parseInt((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.GPU_OVERCLOCK, val);
+	    Helpers.changeKernelPref(GPU_OVERCLOCK_FILE, val);
+	    Helpers.updateSummary(mSGT7GpuOverclock, val);
+           return true;
+	}
         return false;
     }
 
