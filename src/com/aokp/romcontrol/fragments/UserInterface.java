@@ -95,6 +95,8 @@ public class UserInterface extends AOKPPreferenceFragment {
     private static final String PREF_SHOW_OVERFLOW = "show_overflow";
     private static final String PREF_VIBRATE_NOTIF_EXPAND = "vibrate_notif_expand";
     private static final String PREF_NOTIFICATION_SHOW_WIFI_SSID = "notification_show_wifi_ssid";
+    private static final String SGT7_UMS_NOTIFICATION_CONNECT = "sgt7_ums_notification_connect";
+
     private static final int REQUEST_PICK_WALLPAPER = 201;
     private static final int REQUEST_PICK_CUSTOM_ICON = 202;
     private static final int REQUEST_PICK_BOOT_ANIMATION = 203;
@@ -124,6 +126,7 @@ public class UserInterface extends AOKPPreferenceFragment {
     CheckBoxPreference mVibrateOnExpand;
     Preference mLcdDensity;
     CheckBoxPreference mShowWifiName;
+    CheckBoxPreference mSGT7UmsNotification;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -248,6 +251,10 @@ public class UserInterface extends AOKPPreferenceFragment {
         mShowWifiName.setChecked(Settings.System.getBoolean(mContext.getContentResolver(),
                 Settings.System.NOTIFICATION_SHOW_WIFI_SSID, false));
 
+        mSGT7UmsNotification = (CheckBoxPreference) findPreference(SGT7_UMS_NOTIFICATION_CONNECT);
+        mSGT7UmsNotification.setChecked(Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.UMS_NOTIFICATION_CONNECT, 0) == 1);
+
         if (mTablet) {
             prefs.removePreference(mNotificationWallpaper);
             prefs.removePreference(mWallpaperAlpha);
@@ -281,6 +288,9 @@ public class UserInterface extends AOKPPreferenceFragment {
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
             final Preference preference) {
+
+	boolean value;
+
         if (preference == mAllow180Rotation) {
             boolean checked = ((CheckBoxPreference) preference).isChecked();
             Settings.System.putInt(mContext.getContentResolver(),
@@ -502,6 +512,12 @@ public class UserInterface extends AOKPPreferenceFragment {
             Settings.System.putBoolean(mContext.getContentResolver(),
                     Settings.System.NOTIFICATION_SHOW_WIFI_SSID,
                     ((CheckBoxPreference) preference).isChecked());
+            return true;
+        } else if (preference == mSGT7UmsNotification) {
+            value = mSGT7UmsNotification.isChecked();
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.UMS_NOTIFICATION_CONNECT, value ? 1 : 0);
+            Helpers.restartSystemUI();
             return true;
         }
 

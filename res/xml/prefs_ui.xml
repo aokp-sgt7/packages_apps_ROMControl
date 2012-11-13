@@ -132,6 +132,11 @@
             android:summary="@string/alt_resolver_summary"
             android:defaultValue="false" />
 
+       <CheckBoxPreference
+            android:key="sgt7_ums_notification_connect"
+            android:title="@string/sgt7_ums_notification_connect_title"
+            android:summary="@string/sgt7_ums_notification_connect_summary" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
