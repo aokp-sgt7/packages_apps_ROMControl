@@ -96,6 +96,7 @@ public class UserInterface extends AOKPPreferenceFragment {
     private static final String PREF_VIBRATE_NOTIF_EXPAND = "vibrate_notif_expand";
     private static final String PREF_NOTIFICATION_SHOW_WIFI_SSID = "notification_show_wifi_ssid";
     private static final String SGT7_UMS_NOTIFICATION_CONNECT = "sgt7_ums_notification_connect";
+    private static final String SGT7_EXPANDED_VOLUME = "sgt7_expanded_volume";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     private static final int REQUEST_PICK_CUSTOM_ICON = 202;
@@ -127,6 +128,8 @@ public class UserInterface extends AOKPPreferenceFragment {
     Preference mLcdDensity;
     CheckBoxPreference mShowWifiName;
     CheckBoxPreference mSGT7UmsNotification;
+    CheckBoxPreference mSGT7ExpandedVolume;
+
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -254,6 +257,10 @@ public class UserInterface extends AOKPPreferenceFragment {
         mSGT7UmsNotification = (CheckBoxPreference) findPreference(SGT7_UMS_NOTIFICATION_CONNECT);
         mSGT7UmsNotification.setChecked(Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.UMS_NOTIFICATION_CONNECT, 0) == 1);
+
+        mSGT7ExpandedVolume = (CheckBoxPreference) findPreference(SGT7_EXPANDED_VOLUME);
+        mSGT7ExpandedVolume.setChecked(Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.PHONE_STATUS_BAR_VOLUME, 0) == 1);
 
         if (mTablet) {
             prefs.removePreference(mNotificationWallpaper);
@@ -517,6 +524,12 @@ public class UserInterface extends AOKPPreferenceFragment {
             value = mSGT7UmsNotification.isChecked();
             Settings.System.putInt(mContext.getContentResolver(),
                     Settings.System.UMS_NOTIFICATION_CONNECT, value ? 1 : 0);
+            Helpers.restartSystemUI();
+            return true;
+        } else if (preference == mSGT7ExpandedVolume) {
+            value = mSGT7ExpandedVolume.isChecked();
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.PHONE_STATUS_BAR_VOLUME, value ? 1 : 0);
             Helpers.restartSystemUI();
             return true;
         }

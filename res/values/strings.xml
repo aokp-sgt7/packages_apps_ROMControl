@@ -893,6 +893,8 @@
 
     <string name="sgt7_gpu_overclock_title">GPU Clock Speed</string>
     <string name="sgt7_touchscreen_clock_title">Touchscreen Clock Speed</string>
-    <string name="sgt7_ums_notification_connect_title">USB Mass Storage notification</string>
+    <string name="sgt7_ums_notification_connect_title">USB Mass Storage</string>
     <string name="sgt7_ums_notification_connect_summary">Click notification to start/stop USB Mass Storage (requires UI restart)</string>
+    <string name="sgt7_expanded_volume_title">Volume Slider</string>
+    <string name="sgt7_expanded_volume_summary">Control volume levels from the notification area (requires UI restart)</string>
 </resources>

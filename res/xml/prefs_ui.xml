@@ -52,6 +52,16 @@
             android:summary="@string/notification_show_wifi_ssid_summary"
             android:defaultValue="false" />
 
+       <CheckBoxPreference
+            android:key="sgt7_ums_notification_connect"
+            android:title="@string/sgt7_ums_notification_connect_title"
+            android:summary="@string/sgt7_ums_notification_connect_summary" />
+
+       <CheckBoxPreference
+            android:key="sgt7_expanded_volume"
+            android:title="@string/sgt7_expanded_volume_title"
+            android:summary="@string/sgt7_expanded_volume_summary" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -131,11 +141,6 @@
             android:title="@string/alt_resolver"
             android:summary="@string/alt_resolver_summary"
             android:defaultValue="false" />
-
-       <CheckBoxPreference
-            android:key="sgt7_ums_notification_connect"
-            android:title="@string/sgt7_ums_notification_connect_title"
-            android:summary="@string/sgt7_ums_notification_connect_summary" />
 
     </PreferenceCategory>
 
