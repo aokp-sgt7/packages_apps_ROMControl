@@ -891,10 +891,37 @@
 
     <!-- AOKP SGT7 additions -->
 
+	<string name="aokp_sgt7">AOKP SGT7</string>
+        <string name="aokp_sgt7_summary">@null</string>
+        <string name="about_aokp_sgt7">About AOKP SGT7 / Credits</string>
+        <string name="about_aokp_sgt7_summary">About AOKP SGT7 and Credits to the people that made it possible!</string>
+	<string name="aokp_sgt7_website_title">Official Website</string>
+	<string name="aokp_sgt7_website_summary">The home of AOKP SGT7 - Find the latest news and releases here first!</string>
+	<string name="aokp_sgt7_bugs_title">Bug Tracker</string>
+	<string name="aokp_sgt7_bugs_summary">Found a bug? Thought of a feature you want? Read the intro page then post away!</string>
+	<string name="aokp_sgt7_source_title">Source @ Github</string>
+	<string name="aokp_sgt7_source_summary">AOKP SGT7, like AOKP is fully open source - Check out the source here</string>
+	<string name="aokp_sgt7_TE4M_source_title">SGT7 TE4M Source</string>
+	<string name="aokp_sgt7_TE4M_source_summary">AOKP SGT7 includes some SGT7 TE4M modifications - Here is their source</string>
+	<string name="aokp_sgt7_XDA_title">XDA Thread</string>
+	<string name="aokp_sgt7_XDA_summary">Read up on cutting edge development news and watch AOKP SGT7 JB shape into what it is!</string>
+	<string name="aokp_sgt7_XDA_ICS_title">XDA Thread (ICS)</string>
+	<string name="aokp_sgt7_XDA_ICS_summary">AOKP SGT7 started on XDA, here is the ICS release thread for the whole story!</string>
+	<string name="aokp_sgt7_fb_title">Facebook</string>
+	<string name="aokp_sgt7_fb_summary">Stop by and show your support with a like!</string>
+	<string name="aokp_sgt7_twitter_title">Twitter</string>
+	<string name="aokp_sgt7_twitter_summary">Get the second latest news (besides the site) - follow @AOKPSGT7</string>
+	<string name="aokp_sgt7_gplus_title">Google+</string>
+	<string name="aokp_sgt7_gplus_summary">Check it out, +1 and add it to your circles!</string>
+	<string name="aokp_sgt7_goo_title">Goo.im</string>
+	<string name="aokp_sgt7_goo_summary">All latest releases are now mirrored on goo.im - check here for alternative download links.</string>
+	<string name="about_aokp_sgt7_details">AOKP SGT7 - AOKP for the SGT7 :: by stimpz0r\n\nABOUT AOKP SGT7 ::\n\nAOKP SGT7 was born due the fact there was no AOKP for the Samsung Galaxy Tab 7inch GSM variants, after getting it to compile with the SGT7 TE4M\'s device / vendor / kernel code, there was finally an unofficial release for the GSM variants. since then, it has grown further to include many tweaks by the SGT7 TE4M (especially by sbradymobile), that i have injected into ROMControl. it is now also powered by a cutting-edge fork of the SGT7 TE4M\'s kernel by HumberOS (an SGT7 TE4M member), that includes many overclocking and tweakable features.\n\nCREDITS / THANKS ::\n\nTeamKang - the creators of AOKP, without their hard work this build would never exist, and the reason you are using this build on your tablets (see the About screen for a list of people behind it and further information on TeamKang).\n\nSGT7 TE4M - this build would not exist without the SGT7 TE4M\'s awesome work! they have done amazing work getting ICS and JB working properly on our SGT7, and the SGT7 would never be the same without them, so for that thanks to the following:\n\ncdesai - HumberOS - sbradymobile - jt1134 - eaut - red_rebel - angel_666 - koxudaxi - Technomancer\n\nalso thanks to the following for helping this build get to where it is, and contributing in their own ways:\n\nyosup - priyana - salahmed - yappoe - SGTABHI - mao_red\n</string>
+
     <string name="sgt7_gpu_overclock_title">GPU Clock Speed</string>
     <string name="sgt7_touchscreen_clock_title">Touchscreen Clock Speed</string>
     <string name="sgt7_ums_notification_connect_title">USB Mass Storage</string>
     <string name="sgt7_ums_notification_connect_summary">Click notification to start/stop USB Mass Storage (requires UI restart)</string>
     <string name="sgt7_expanded_volume_title">Volume Slider</string>
     <string name="sgt7_expanded_volume_summary">Control volume levels from the notification area (requires UI restart)</string>
+
 </resources>

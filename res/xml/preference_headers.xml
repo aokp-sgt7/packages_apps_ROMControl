@@ -1,6 +1,13 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <header
+        android:id="@+id/aboutSGT7"
+        android:fragment="com.aokp.romcontrol.fragments.AboutSGT7"
+        android:title="@string/aokp_sgt7"
+        android:icon="@drawable/ic_rom_control_about_sgt7"
+        android:summary="@string/aokp_sgt7_summary" />
+
+    <header
         android:id="@+id/about"
         android:fragment="com.aokp.romcontrol.fragments.About"
         android:title="@string/about_aokp"

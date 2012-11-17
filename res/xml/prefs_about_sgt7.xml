@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:aokp="http://schemas.android.com/apk/res/com.aokp.romcontrol">
+
+	<PreferenceCategory
+		android:key="aokp_sgt7"
+		android:title="@string/aokp_sgt7">
+
+		<Preference
+			android:key="about_aokp_sgt7"
+			android:title="@string/about_aokp_sgt7"
+			android:summary="@string/about_aokp_sgt7_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_website"
+			android:title="@string/aokp_sgt7_website_title"
+			android:summary="@string/aokp_sgt7_website_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_bugs"
+			android:title="@string/aokp_sgt7_bugs_title"
+			android:summary="@string/aokp_sgt7_bugs_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_source"
+			android:title="@string/aokp_sgt7_source_title"
+			android:summary="@string/aokp_sgt7_source_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_TE4M_source"
+			android:title="@string/aokp_sgt7_TE4M_source_title"
+			android:summary="@string/aokp_sgt7_TE4M_source_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_XDA"
+			android:title="@string/aokp_sgt7_XDA_title"
+			android:summary="@string/aokp_sgt7_XDA_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_XDA_ICS"
+			android:title="@string/aokp_sgt7_XDA_ICS_title"
+			android:summary="@string/aokp_sgt7_XDA_ICS_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_fb"
+			android:title="@string/aokp_sgt7_fb_title"
+			android:summary="@string/aokp_sgt7_fb_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_twitter"
+			android:title="@string/aokp_sgt7_twitter_title"
+			android:summary="@string/aokp_sgt7_twitter_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_gplus"
+			android:title="@string/aokp_sgt7_gplus_title"
+			android:summary="@string/aokp_sgt7_gplus_summary" />
+
+		<Preference
+			android:key="aokp_sgt7_goo"
+			android:title="@string/aokp_sgt7_goo_title"
+			android:summary="@string/aokp_sgt7_goo_summary" />
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

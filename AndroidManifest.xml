@@ -112,6 +112,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".fragments.AboutSGT7"
+            android:label="@string/aokp_sgt7" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".fragments.Sound"
             android:label="@string/title_sound" >
             <intent-filter>
