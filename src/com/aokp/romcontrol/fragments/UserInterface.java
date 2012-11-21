@@ -63,6 +63,7 @@ import android.widget.Toast;
 import com.aokp.romcontrol.AOKPPreferenceFragment;
 import com.aokp.romcontrol.R;
 import com.aokp.romcontrol.util.CMDProcessor;
+import com.aokp.romcontrol.util.ColorPickerDialog;
 import com.aokp.romcontrol.util.AbstractAsyncSuCMDProcessor;
 import com.aokp.romcontrol.util.Helpers;
 
@@ -97,6 +98,8 @@ public class UserInterface extends AOKPPreferenceFragment {
     private static final String PREF_NOTIFICATION_SHOW_WIFI_SSID = "notification_show_wifi_ssid";
     private static final String SGT7_UMS_NOTIFICATION_CONNECT = "sgt7_ums_notification_connect";
     private static final String SGT7_EXPANDED_VOLUME = "sgt7_expanded_volume";
+    private static final String SGT7_STATUS_BAR_COLOR = "sgt7_status_bar_color";
+    private static final String SGT7_NOTIFICATION_PANEL_COLOR = "sgt7_notification_panel_color";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     private static final int REQUEST_PICK_CUSTOM_ICON = 202;
@@ -129,7 +132,8 @@ public class UserInterface extends AOKPPreferenceFragment {
     CheckBoxPreference mShowWifiName;
     CheckBoxPreference mSGT7UmsNotification;
     CheckBoxPreference mSGT7ExpandedVolume;
-
+    Preference mSGT7StatusBarColor;
+    Preference mSGT7NotificationPanelColor;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -261,6 +265,9 @@ public class UserInterface extends AOKPPreferenceFragment {
         mSGT7ExpandedVolume = (CheckBoxPreference) findPreference(SGT7_EXPANDED_VOLUME);
         mSGT7ExpandedVolume.setChecked(Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.PHONE_STATUS_BAR_VOLUME, 0) == 1);
+
+        mSGT7StatusBarColor = (Preference) findPreference(SGT7_STATUS_BAR_COLOR);
+        mSGT7NotificationPanelColor = (Preference) findPreference(SGT7_NOTIFICATION_PANEL_COLOR);
 
         if (mTablet) {
             prefs.removePreference(mNotificationWallpaper);
@@ -532,10 +539,45 @@ public class UserInterface extends AOKPPreferenceFragment {
                     Settings.System.PHONE_STATUS_BAR_VOLUME, value ? 1 : 0);
             Helpers.restartSystemUI();
             return true;
-        }
-
+        } else if (preference == mSGT7StatusBarColor) {
+            ColorPickerDialog cp = new ColorPickerDialog(getActivity(),
+                    mStatusBarColorListener, Settings.System.getInt(getActivity()
+                    .getApplicationContext()
+                    .getContentResolver(), Settings.System.STATUS_BAR_COLOR, 0xFF000000));
+            cp.setDefaultColor(0xFF000000);
+            cp.show();
+            return true;
+        } else if (preference == mSGT7NotificationPanelColor) {
+            ColorPickerDialog cp = new ColorPickerDialog(getActivity(),
+                    mNotificationPanelColorListener, Settings.System.getInt(getActivity()
+                    .getApplicationContext()
+                    .getContentResolver(), Settings.System.NOTIFICATION_PANEL_COLOR, 0xFF000000));
+            cp.setDefaultColor(0xFF000000);
+            cp.show();
+            return true;
+	}
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
+
+    ColorPickerDialog.OnColorChangedListener mStatusBarColorListener =
+        new ColorPickerDialog.OnColorChangedListener() {
+            public void colorChanged(int color) {
+                Settings.System.putInt(getContentResolver(),
+                    Settings.System.STATUS_BAR_COLOR, color);
+            }
+            public void colorUpdate(int color) {
+            }
+    };
+
+    ColorPickerDialog.OnColorChangedListener mNotificationPanelColorListener =
+        new ColorPickerDialog.OnColorChangedListener() {
+            public void colorChanged(int color) {
+                Settings.System.putInt(getContentResolver(),
+                        Settings.System.NOTIFICATION_PANEL_COLOR, color);
+            }
+            public void colorUpdate(int color) {
+            }
+    };
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

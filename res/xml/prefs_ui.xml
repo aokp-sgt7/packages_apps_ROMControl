@@ -142,6 +142,16 @@
             android:summary="@string/alt_resolver_summary"
             android:defaultValue="false" />
 
+        <PreferenceScreen
+            android:key="sgt7_status_bar_color"
+            android:title="@string/sgt7_status_bar_color_title">
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="sgt7_notification_panel_color"
+            android:title="@string/sgt7_notification_panel_color_title">
+        </PreferenceScreen>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

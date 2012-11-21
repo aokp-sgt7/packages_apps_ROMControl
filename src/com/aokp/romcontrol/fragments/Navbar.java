@@ -60,6 +60,7 @@ import com.aokp.romcontrol.R;
 import com.aokp.romcontrol.util.Helpers;
 import com.aokp.romcontrol.ROMControlActivity;
 import com.aokp.romcontrol.util.ShortcutPickerHelper;
+import com.aokp.romcontrol.util.ColorPickerDialog;
 import com.aokp.romcontrol.widgets.NavBarItemPreference;
 import com.aokp.romcontrol.widgets.SeekBarPreference;
 import com.aokp.romcontrol.fragments.NavRingTargets;
@@ -82,6 +83,7 @@ public class Navbar extends AOKPPreferenceFragment implements
     private static final String NAVIGATION_BAR_WIDTH = "navigation_bar_width";
     private static final String PREF_NAVRING_AMOUNT = "pref_navring_amount";
     private static final String NAVIGATION_BAR_WIDGETS = "navigation_bar_widgets";
+    private static final String SGT7_NAVIGATION_BAR_COLOR = "sgt7_navigation_bar_color";
 
     public static final int REQUEST_PICK_CUSTOM_ICON = 200;
     public static final int REQUEST_PICK_LANDSCAPE_ICON = 201;
@@ -109,6 +111,7 @@ public class Navbar extends AOKPPreferenceFragment implements
     SeekBarPreference mWidthPort;
     SeekBarPreference mWidthLand;
     Preference mConfigureWidgets;
+    Preference mSGT7NavigationBarColor;
 
     private int mPendingIconIndex = -1;
     private int mPendingWidgetDrawer = -1;
@@ -214,6 +217,8 @@ public class Navbar extends AOKPPreferenceFragment implements
         mNavigationBarWidth = (ListPreference) findPreference("navigation_bar_width");
         mNavigationBarWidth.setOnPreferenceChangeListener(this);
 
+        mSGT7NavigationBarColor = (Preference) findPreference(SGT7_NAVIGATION_BAR_COLOR);
+
         mConfigureWidgets = findPreference(NAVIGATION_BAR_WIDGETS);
         if (mTablet) {
             prefs.removePreference(mNavBarMenuDisplay);
@@ -295,9 +300,28 @@ public class Navbar extends AOKPPreferenceFragment implements
             ft.replace(this.getId(), fragment);
             ft.commit();
             return true;
+        } else if (preference == mSGT7NavigationBarColor) {
+            ColorPickerDialog cp = new ColorPickerDialog(getActivity(),
+                    mNavigationBarColorListener, Settings.System.getInt(getActivity()
+                    .getApplicationContext()
+                    .getContentResolver(), Settings.System.NAVIGATION_BAR_COLOR, 0xFF000000));
+            cp.setDefaultColor(0xFF000000);
+            cp.show();
+            return true;
         }
+
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
+
+    ColorPickerDialog.OnColorChangedListener mNavigationBarColorListener =
+        new ColorPickerDialog.OnColorChangedListener() {
+            public void colorChanged(int color) {
+                Settings.System.putInt(getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_COLOR, color);
+            }
+            public void colorUpdate(int color) {
+            }
+    };
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
