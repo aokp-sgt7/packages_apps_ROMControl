@@ -936,4 +936,8 @@
     <string name="toggles_enable_haptic_feedback_title">Enable haptic feedback</string>
     <string name="toggles_enable_haptic_feedback_summary">Use haptic feedback when pressing toggles</string>
 
+<!-- :: AOKP SGT7 additions :: -->
+    <string name="sgt7_ums_notification_enable_title">Start UMS on notification click</string>
+    <string name="sgt7_ums_notification_enable_summary">Saves clicking an extra button to enable UMS</string>
+
 </resources>

@@ -60,6 +60,11 @@
             android:key="transparency_dialog"
             android:title="@string/transparency_dialog_title" />
 
+        <CheckBoxPreference
+            android:key="sgt7_ums_notification_enable"
+            android:title="@string/sgt7_ums_notification_enable_title"
+            android:summary="@string/sgt7_ums_notification_enable_summary" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

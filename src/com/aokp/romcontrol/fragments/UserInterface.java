@@ -104,6 +104,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final CharSequence PREF_POWER_CRT_MODE = "system_power_crt_mode";
     private static final CharSequence PREF_POWER_CRT_SCREEN_OFF = "system_power_crt_screen_off";
     private static final String STATUSBAR_HIDDEN = "statusbar_hidden";
+    private static final CharSequence SGT7_UMS_NOTIFICATION_ENABLE = "sgt7_ums_notification_enable";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -138,6 +139,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     ListPreference mCrtMode;
     CheckBoxPreference mCrtOff;
     CheckBoxPreference mStatusBarHide;
+    CheckBoxPreference mSGT7UMSNotifyEnable;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -269,6 +271,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mWakeUpWhenPluggedOrUnplugged = (CheckBoxPreference) findPreference(PREF_WAKEUP_WHEN_PLUGGED_UNPLUGGED);
         mWakeUpWhenPluggedOrUnplugged.setChecked(Settings.System.getBoolean(mContentResolver,
                         Settings.System.WAKEUP_WHEN_PLUGGED_UNPLUGGED, true));
+
+        mSGT7UMSNotifyEnable = (CheckBoxPreference) findPreference(SGT7_UMS_NOTIFICATION_ENABLE);
+        mSGT7UMSNotifyEnable.setChecked(Settings.System.getBoolean(mContentResolver,
+                        Settings.System.SGT7_UMS_NOTIFICATION_CONNECT, false));
 
         // hide option if device is already set to never wake up
         if(!mContext.getResources().getBoolean(
@@ -536,6 +542,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             boolean checked = ((CheckBoxPreference)preference).isChecked();
             Settings.System.putBoolean(getActivity().getContentResolver(),
                     Settings.System.STATUSBAR_HIDDEN, checked ? true : false);
+            return true;
+        } else if (preference == mSGT7UMSNotifyEnable) {
+            boolean checked = ((CheckBoxPreference)preference).isChecked();
+            Settings.System.putBoolean(getActivity().getContentResolver(),
+                    Settings.System.SGT7_UMS_NOTIFICATION_CONNECT, checked ? true : false);
             return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
