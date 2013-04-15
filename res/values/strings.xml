@@ -940,4 +940,7 @@
     <string name="sgt7_ums_notification_enable_title">Start UMS on notification click</string>
     <string name="sgt7_ums_notification_enable_summary">Saves clicking an extra button to enable UMS</string>
 
+    <string name="sgt7_tablet_flipped_title">Flip tablet system bar</string>
+    <string name="sgt7_tablet_flipped_summary">Navigation on the right, notification area on the left</string>
+
 </resources>
