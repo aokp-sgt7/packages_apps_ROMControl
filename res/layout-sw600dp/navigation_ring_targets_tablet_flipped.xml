@@ -83,17 +83,18 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1" />
+        android:layout_weight="0.5" />
 
     <com.android.internal.widget.multiwaveview.GlowPadView
         android:id="@+id/navring_target"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-	android:layout_weight="0.9"
-        android:gravity="top|right"
+        android:layout_weight="0.45"
+        android:gravity="top|left"
+        android:layout_gravity="bottom|right"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="@dimen/navring_left_margin_land_sw"
+        android:layout_marginLeft="@dimen/navring_right_margin_port_sw"
         android:contentDescription="@*android:string/keyguard_accessibility_slide_area"
         prvandroid:targetDrawables="@*android:array/lockscreen_targets_unlock_only"
         prvandroid:targetDescriptions="@*android:array/lockscreen_target_descriptions_unlock_only"
@@ -101,7 +102,7 @@
         prvandroid:handleDrawable="@drawable/ic_navigation_ring_hint"
         prvandroid:outerRingDrawable="@drawable/navbar_search_outerring_left"
         prvandroid:innerRadius="@*android:dimen/glowpadview_inner_radius"
-        prvandroid:outerRadius="@dimen/navring_radius_tablet_landscape"
+        prvandroid:outerRadius="@dimen/navring_radius_tablet_portrait"
         prvandroid:snapMargin="@dimen/navbar_search_snap_margin"
         prvandroid:firstItemOffset="@*android:integer/kg_glowpad_rotation_offset"
         prvandroid:magneticTargets="false"

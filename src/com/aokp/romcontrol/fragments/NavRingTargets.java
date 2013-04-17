@@ -90,6 +90,9 @@ public class NavRingTargets extends AOKPPreferenceFragment implements
     private int mNavRingAmount;
     private int mCurrentUIMode;
     private boolean mLefty;
+    private boolean mTabletUI;
+    private boolean mTabletFlipped;
+    private boolean mDualPane;
     private boolean mBoolLongPress;
     private int mTarget = 0;
 
@@ -131,9 +134,19 @@ public class NavRingTargets extends AOKPPreferenceFragment implements
         cr = mContext.getContentResolver();
 
         mPicker = new ShortcutPickerHelper(this, this);
-        boolean tabletui = Settings.System.getInt(cr, Settings.System.CURRENT_UI_MODE, 0) == 1;
-        return inflater.inflate(tabletui ? R.layout.navigation_ring_targets_tablet
-                                : R.layout.navigation_ring_targets, container, false);
+        mTabletUI = Settings.System.getInt(cr, Settings.System.CURRENT_UI_MODE, 0) == 1;
+	mTabletFlipped = Settings.System.getBoolean(cr, Settings.System.SGT7_TABLET_FLIPPED, false);	
+	mDualPane = Settings.System.getBoolean(cr, Settings.System.FORCE_DUAL_PANEL, 
+		getResources().getBoolean(com.android.internal.R.bool.preferences_prefer_dual_pane));
+
+        if (mTabletUI) { 
+            // otherwise, if it's in tablet mode, check if the system bar is flipped...
+            return inflater.inflate(mTabletFlipped ? R.layout.navigation_ring_targets_tablet_flipped
+                 : R.layout.navigation_ring_targets_tablet, container, false);
+        } else { 
+            // nope, were phone / phablet
+            return inflater.inflate(R.layout.navigation_ring_targets, container, false);
+	}
     }
 
     @Override
@@ -187,6 +200,11 @@ public class NavRingTargets extends AOKPPreferenceFragment implements
         mTargetNumAmount.setSelection(mNavRingAmount - 1);
         mLongPressStatus.setChecked(mBoolLongPress);
 
+        cr = context.getContentResolver();
+	mLefty = Settings.System.getBoolean(cr, Settings.System.SGT7_TABLET_FLIPPED, false);
+	mDualPane = Settings.System.getBoolean(cr, Settings.System.FORCE_DUAL_PANEL, 
+		getResources().getBoolean(com.android.internal.R.bool.preferences_prefer_dual_pane));
+
         // Custom Targets
         ArrayList<TargetDrawable> storedDraw = new ArrayList<TargetDrawable>();
 
@@ -194,32 +212,54 @@ public class NavRingTargets extends AOKPPreferenceFragment implements
         int middleBlanks = 0;
 
         switch (mCurrentUIMode) {
-            case 0 : // Phone Mode
-                if (isScreenPortrait()) { // NavRing on Bottom
+            case 0 : // Phone Mode - always on the bottom, except for dual-pane portrait
+		if ((isScreenPortrait()) && (mDualPane)) { // ring to the right on portrait / dual-pane
+                    startPosOffset =  (mNavRingAmount) + 1;
+                    endPosOffset =  (mNavRingAmount *2) + 1;
+                } else { // NavRing on Bottom
                     startPosOffset =  1;
                     endPosOffset =  (mNavRingAmount) + 1;
+
+/* - intentionally left in, just in case!
+
                 } else if (mLefty) { // either lefty or... (Ring is actually on right side of screen)
                         startPosOffset =  1 - (mNavRingAmount % 2);
                         middleBlanks = mNavRingAmount + 2;
                         endPosOffset = 0;
-
                 } else { // righty... (Ring actually on left side of tablet)
                     startPosOffset =  (Math.min(1,mNavRingAmount / 2)) + 2;
                     endPosOffset =  startPosOffset - 1;
+*/
                 }
                 break;
             case 1 : // Tablet Mode
-                if (mLefty) { // either lefty or... (Ring is actually on right side of screen)
+		if ((isSW600DPScreen(mContext)) && (mDualPane)) { 
+                    // 7 inch tablets in portrait don't handle left-side aligned navring in dual pane mode well... 
+                    if (isScreenPortrait()) {
+                        startPosOffset =  (mNavRingAmount) + 1;
+                        endPosOffset =  (mNavRingAmount *2) + 1;
+                    } else { // ... but they work better in the middle in landscape
+                        startPosOffset =  1;
+                        endPosOffset =  (mNavRingAmount) + 1;
+                    }
+		} else { // ... for everything else though...
+                    if (mLefty) { // either lefty or... (Ring is actually on right side of screen)
+                        startPosOffset =  (mNavRingAmount) + 1;
+                        endPosOffset =  (mNavRingAmount *2) + 1;
+                    } else { // righty... (Ring actually on left side of tablet)
+                        startPosOffset =  1;
+                        endPosOffset = (mNavRingAmount * 3) + 1;
+                    }
+		}
+                break;
+            case 2 : // Phablet Mode - Search Ring stays at bottom, EXCEPT for dual-pane.
+		if ((isScreenPortrait()) && (mDualPane)) { 
                     startPosOffset =  (mNavRingAmount) + 1;
                     endPosOffset =  (mNavRingAmount *2) + 1;
-                } else { // righty... (Ring actually on left side of tablet)
+                } else {
                     startPosOffset =  1;
-                    endPosOffset = (mNavRingAmount * 3) + 1;
+                    endPosOffset =  (mNavRingAmount) + 1;
                 }
-                break;
-            case 2 : // Phablet Mode - Search Ring stays at bottom
-                startPosOffset =  1;
-                endPosOffset =  (mNavRingAmount) + 1;
                 break;
          }
 

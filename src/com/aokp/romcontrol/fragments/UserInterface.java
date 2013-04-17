@@ -553,11 +553,13 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             boolean checked = ((CheckBoxPreference)preference).isChecked();
             Settings.System.putBoolean(getActivity().getContentResolver(),
                     Settings.System.SGT7_UMS_NOTIFICATION_CONNECT, checked ? true : false);
+            Helpers.restartSystemUI();
             return true;
         } else if (preference == mSGT7TabletFlipped) {
             boolean checked = ((CheckBoxPreference)preference).isChecked();
             Settings.System.putBoolean(getActivity().getContentResolver(),
                     Settings.System.SGT7_TABLET_FLIPPED, checked ? true : false);
+            Helpers.restartSystemUI();
             return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
