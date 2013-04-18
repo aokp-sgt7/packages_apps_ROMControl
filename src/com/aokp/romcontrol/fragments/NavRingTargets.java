@@ -139,7 +139,11 @@ public class NavRingTargets extends AOKPPreferenceFragment implements
 	mDualPane = Settings.System.getBoolean(cr, Settings.System.FORCE_DUAL_PANEL, 
 		getResources().getBoolean(com.android.internal.R.bool.preferences_prefer_dual_pane));
 
-        if (mTabletUI) { 
+        if ((isSW600DPScreen(mContext)) && (mDualPane)) {  
+            // portrait + dual-pane doesn't work well on 7 inch tablets. we will use a standard layout 
+            // that is moved to the right in portrait, and middle aligned in landscape.
+            return inflater.inflate(R.layout.navigation_ring_targets, container, false);
+        } else if (mTabletUI) { 
             // otherwise, if it's in tablet mode, check if the system bar is flipped...
             return inflater.inflate(mTabletFlipped ? R.layout.navigation_ring_targets_tablet_flipped
                  : R.layout.navigation_ring_targets_tablet, container, false);
@@ -252,7 +256,7 @@ public class NavRingTargets extends AOKPPreferenceFragment implements
                     }
 		}
                 break;
-            case 2 : // Phablet Mode - Search Ring stays at bottom, EXCEPT for dual-pane.
+            case 2 : // Phablet Mode - Search Ring stays at bottom, EXCEPT for portrait dual-pane.
 		if ((isScreenPortrait()) && (mDualPane)) { 
                     startPosOffset =  (mNavRingAmount) + 1;
                     endPosOffset =  (mNavRingAmount *2) + 1;

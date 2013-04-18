@@ -23,4 +23,5 @@
     <dimen name="navbar_search_outerring_diameter">430dp</dimen>
     <!-- Height of search panel including navigation bar height -->
     <dimen name="navbar_search_panel_height">220dip</dimen>
+
 </resources>
