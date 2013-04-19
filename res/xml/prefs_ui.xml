@@ -115,6 +115,11 @@
             android:title="@string/sgt7_tablet_flipped_title"
             android:summary="@string/sgt7_tablet_flipped_summary" />
 
+        <CheckBoxPreference
+            android:key="sgt7_large_recent_thumbs"
+            android:title="@string/sgt7_large_recent_thumbs_title"
+            android:summary="@string/sgt7_large_recent_thumbs_summary" />
+
      </PreferenceCategory>
 
      <PreferenceCategory

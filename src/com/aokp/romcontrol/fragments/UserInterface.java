@@ -106,6 +106,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String STATUSBAR_HIDDEN = "statusbar_hidden";
     private static final CharSequence SGT7_UMS_NOTIFICATION_ENABLE = "sgt7_ums_notification_enable";
     private static final CharSequence SGT7_TABLET_FLIPPED = "sgt7_tablet_flipped";
+    private static final CharSequence SGT7_LARGE_RECENT_THUMBS = "sgt7_large_recent_thumbs";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -142,6 +143,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     CheckBoxPreference mStatusBarHide;
     CheckBoxPreference mSGT7UMSNotifyEnable;
     CheckBoxPreference mSGT7TabletFlipped;
+    CheckBoxPreference mSGT7LargeRecentThumbs;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -281,6 +283,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mSGT7TabletFlipped = (CheckBoxPreference) findPreference(SGT7_TABLET_FLIPPED);
         mSGT7TabletFlipped.setChecked(Settings.System.getBoolean(mContentResolver,
                         Settings.System.SGT7_TABLET_FLIPPED, false));
+
+        mSGT7LargeRecentThumbs = (CheckBoxPreference) findPreference(SGT7_LARGE_RECENT_THUMBS);
+        mSGT7LargeRecentThumbs.setChecked(Settings.System.getBoolean(mContentResolver,
+                        Settings.System.SGT7_LARGE_RECENT_THUMBS, false));
 
         // hide option if device is already set to never wake up
         if(!mContext.getResources().getBoolean(
@@ -560,6 +566,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putBoolean(getActivity().getContentResolver(),
                     Settings.System.SGT7_TABLET_FLIPPED, checked ? true : false);
             Helpers.restartSystemUI();
+            return true;
+        } else if (preference == mSGT7LargeRecentThumbs) {
+            boolean checked = ((CheckBoxPreference)preference).isChecked();
+            Settings.System.putBoolean(getActivity().getContentResolver(),
+                    Settings.System.SGT7_LARGE_RECENT_THUMBS, checked ? true : false);
             return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);

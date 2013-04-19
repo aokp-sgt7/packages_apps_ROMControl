@@ -943,4 +943,7 @@
     <string name="sgt7_tablet_flipped_title">Flip tablet system bar</string>
     <string name="sgt7_tablet_flipped_summary">Navigation on the right, notification area on the left</string>
 
+    <string name="sgt7_large_recent_thumbs_title">Large Recent Thumbs</string>
+    <string name="sgt7_large_recent_thumbs_summary">Larger thumbnails for tablets</string>
+
 </resources>
