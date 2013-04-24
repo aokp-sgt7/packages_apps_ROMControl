@@ -177,6 +177,7 @@ public class Lockscreens extends AOKPPreferenceFragment implements
             Bundle savedInstanceState) {
         mContainer = container;
         setHasOptionsMenu(true);
+        setTitle(R.string.title_lockscreens);
         mContext = getActivity();
         mResources = getResources();
         cr = mContext.getContentResolver();

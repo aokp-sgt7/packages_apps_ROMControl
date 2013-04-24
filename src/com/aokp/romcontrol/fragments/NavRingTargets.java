@@ -132,6 +132,7 @@ public class NavRingTargets extends AOKPPreferenceFragment implements
         setHasOptionsMenu(true);
         mContext = getActivity();
         cr = mContext.getContentResolver();
+        setTitle(R.string.title_navring);
 
         mPicker = new ShortcutPickerHelper(this, this);
         mTabletUI = Settings.System.getInt(cr, Settings.System.CURRENT_UI_MODE, 0) == 1;

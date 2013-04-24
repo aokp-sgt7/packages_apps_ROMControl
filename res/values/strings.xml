@@ -38,7 +38,7 @@
     <string name="title_power_menu">Power Menu</string>
     <string name="title_led">LED Control</string>
     <string name="title_spen">S Pen Gestures</string>
-    <string name="title_lockscreens">Lockscreen Options</string>
+    <string name="title_lockscreens">Lockscreen</string>
     <string name="title_lockscreens_targets">Lockscreen Targets</string>
     <string name="title_sound">Sound Settings</string>
     <string name="title_weather">Weather Settings</string>

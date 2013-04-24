@@ -33,6 +33,7 @@ public class PowerMenu extends AOKPPreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.title_power_menu);
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.prefs_powermenu);
