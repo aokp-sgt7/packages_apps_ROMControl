@@ -54,7 +54,6 @@ import com.aokp.romcontrol.R;
 import com.aokp.romcontrol.service.CodeReceiver;
 import com.aokp.romcontrol.util.AbstractAsyncSuCMDProcessor;
 import com.aokp.romcontrol.util.CMDProcessor;
-import com.aokp.romcontrol.util.Executable;
 import com.aokp.romcontrol.util.Helpers;
 import com.aokp.romcontrol.widgets.AlphaSeekBar;
 
@@ -101,9 +100,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final CharSequence PREF_NOTIFICATION_VIBRATE = "notification";
     private static final CharSequence PREF_NAVBAR = "navbar";
     private static final CharSequence PREF_MISC = "misc";
+    private static final CharSequence PREF_DISPLAY = "display";
     private static final CharSequence PREF_POWER_CRT_MODE = "system_power_crt_mode";
     private static final CharSequence PREF_POWER_CRT_SCREEN_OFF = "system_power_crt_screen_off";
-    private static final String STATUSBAR_HIDDEN = "statusbar_hidden";
+    private static final String PREF_STATUSBAR_HIDDEN = "statusbar_hidden";
     private static final CharSequence SGT7_UMS_NOTIFICATION_ENABLE = "sgt7_ums_notification_enable";
     private static final CharSequence SGT7_TABLET_FLIPPED = "sgt7_tablet_flipped";
     private static final CharSequence SGT7_LARGE_RECENT_THUMBS = "sgt7_large_recent_thumbs";
@@ -150,7 +150,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private String mErrormsg;
     private String mBootAnimationPath;
 
-    private CMDProcessor mCMDProcessor = new CMDProcessor();
     private static ContentResolver mContentResolver;
     private Random mRandomGenerator = new SecureRandom();
     // previous random; so we don't repeat
@@ -168,9 +167,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.prefs_ui);
 
-        //debug?
-        mCMDProcessor.setLogcatDebugging(DEBUG);
-
         mContentResolver = getContentResolver();
         PreferenceScreen prefs = getPreferenceScreen();
         mInsults = mContext.getResources().getStringArray(
@@ -186,10 +182,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                             com.android.internal.R.bool.config_allowAllRotations) ? true : false;
             mUserRotationAngles = mAllowAllRotations  ?
                 (1 | 2 | 4 | 8) : // All angles
-                (1 | 2); // All except 180 and 270
+                (1 | 2 | 8); // All except 180
         }
-        mAllow180Rotation.setChecked(mUserRotationAngles == (1 | 2 | 4 | 8) || mUserRotationAngles == (1 | 2 | 4));
-        mAllow270Rotation.setChecked(mUserRotationAngles == (1 | 2 | 4 | 8) || mUserRotationAngles == (1 | 2 | 8));
+        mAllow180Rotation.setChecked((mUserRotationAngles & 4) != 0);
+        mAllow270Rotation.setChecked((mUserRotationAngles & 8) != 0);
 
         mStatusBarNotifCount = (CheckBoxPreference) findPreference(PREF_STATUS_BAR_NOTIF_COUNT);
         mStatusBarNotifCount.setChecked(Settings.System.getBoolean(mContentResolver,
@@ -225,7 +221,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mLongPressToKill.setChecked(Settings.System.getInt(mContentResolver,
                 Settings.System.KILL_APP_LONGPRESS_BACK, 0) == 1);
         if (!hasHardwareButtons) {
-            ((PreferenceGroup)findPreference(PREF_NAVBAR)).removePreference(mLongPressToKill);
+            getPreferenceScreen().removePreference(((PreferenceGroup) findPreference(PREF_MISC)));
         }
 
         mRecentKillAll = (CheckBoxPreference) findPreference(PREF_RECENT_KILL_ALL);
@@ -244,7 +240,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mShowActionOverflow.setChecked(Settings.System.getBoolean(mContentResolver,
                         Settings.System.UI_FORCE_OVERFLOW_BUTTON, false));
 
-        mStatusBarHide = (CheckBoxPreference) findPreference(STATUSBAR_HIDDEN);
+        mStatusBarHide = (CheckBoxPreference) findPreference(PREF_STATUSBAR_HIDDEN);
         mStatusBarHide.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.STATUSBAR_HIDDEN, false));
 
@@ -291,11 +287,19 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         // hide option if device is already set to never wake up
         if(!mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_unplugTurnsOnScreen)) {
-            ((PreferenceGroup) findPreference(PREF_MISC)).removePreference(mWakeUpWhenPluggedOrUnplugged);
+            ((PreferenceGroup) findPreference(PREF_DISPLAY)).removePreference(mWakeUpWhenPluggedOrUnplugged);
+        }
+
+        if (isTablet(mContext)) {
+            mStatusbarSliderPreference.setEnabled(false);
+            mStatusBarHide.setEnabled(false);
+        } else {
+            mHideExtras.setEnabled(false);
         }
 
         setHasOptionsMenu(true);
         resetBootAnimation();
+        findWallpaperStatus();
     }
 
     @Override
@@ -336,9 +340,9 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private void resetSwaggedOutBootAnimation() {
         if(new File("/data/local/bootanimation.user").exists()) {
             // we're using the alt boot animation
-            Executable moveAnimCommand = new Executable("mv /data/local/bootanimation.user /data/local/bootanimation.zip");
+            String moveAnimCommand = "mv /data/local/bootanimation.user /data/local/bootanimation.zip";
             // we must wait for this command to finish before we continue
-            mCMDProcessor.su.runWaitFor(moveAnimCommand);
+            CMDProcessor.runSuCommand(moveAnimCommand);
         }
         CodeReceiver.setSwagInitiatedPref(mContext, false);
     }
@@ -362,16 +366,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
             Preference preference) {
         if (preference == mAllow180Rotation || preference == mAllow270Rotation) {
-            boolean checked180 = ((TwoStatePreference) mAllow180Rotation).isChecked();
-            boolean checked270 = ((TwoStatePreference) mAllow270Rotation).isChecked();
-            int result;
-            if (checked180) {
-                if (checked270) result = (1 | 2 | 4 | 8);
-                else result = (1 | 2 | 4);
-            } else {
-                if (checked270) result = (1 | 2 | 8);
-                else result = (1 | 2);
-            }
+            boolean checked180 = ((CheckBoxPreference) mAllow180Rotation).isChecked();
+            boolean checked270 = ((CheckBoxPreference) mAllow270Rotation).isChecked();
+            int result = (1 | 2);
+            if (checked180) result |= 4;
+            if (checked270) result |= 8;
             Settings.System.putInt(mContentResolver,
                     Settings.System.ACCELEROMETER_ROTATION_ANGLES, result);
             return true;
@@ -590,6 +589,12 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                     @Override
                     public void run() {
                         mContext.deleteFile(WALLPAPER_NAME);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                findWallpaperStatus();
+                            }
+                        });
                         Helpers.restartSystemUI();
                     }
                 }).start();
@@ -604,6 +609,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         File dir = mContext.getExternalCacheDir();
         File wallpaper = new File(dir, WALLPAPER_NAME);
         return Uri.fromFile(wallpaper);
+    }
+
+    public void findWallpaperStatus() {
+        File wallpaper = new File(mContext.getFilesDir(), WALLPAPER_NAME);
+        mWallpaperAlpha.setEnabled(wallpaper.exists() ? true : false);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -629,6 +639,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                         // let it go
                     }
                 }
+                findWallpaperStatus();
                 Helpers.restartSystemUI();
             } else if (requestCode == REQUEST_PICK_BOOT_ANIMATION) {
                 if (data==null) {
@@ -936,12 +947,12 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
     private void DisableBootAnimation() {
         resetSwaggedOutBootAnimation();
-        if (!mCMDProcessor.su.runWaitFor(
+        if (!CMDProcessor.runSuCommand(
                 "grep -q \"debug.sf.nobootanimation\" /system/build.prop")
                 .success()) {
             // if not add value
             Helpers.getMount("rw");
-            mCMDProcessor.su.runWaitFor(String.format("echo debug.sf.nobootanimation=%d >> /system/build.prop",
+            CMDProcessor.runSuCommand(String.format("echo debug.sf.nobootanimation=%d >> /system/build.prop",
                     mDisableBootAnimation.isChecked() ? 1 : 0));
             Helpers.getMount("ro");
         }
@@ -969,12 +980,16 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-       if (preference == mUserModeUI) {
+        if (preference == mUserModeUI) {
+            int val = Integer.valueOf((String) newValue);
             Settings.System.putInt(mContentResolver,
-                    Settings.System.USER_UI_MODE, Integer.parseInt((String) newValue));
+                    Settings.System.USER_UI_MODE, val);
+            mStatusbarSliderPreference.setEnabled(val == 1 ? false : true);
+            mStatusBarHide.setEnabled(val == 1 ? false : true);
+            mHideExtras.setEnabled(val == 1 ? true : false);
             Helpers.restartSystemUI();
             return true;
-                } else if (preference == mCrtMode) {
+        } else if (preference == mCrtMode) {
             int crtMode = Integer.valueOf((String) newValue);
             int index = mCrtMode.findIndexOfValue((String) newValue);
             Settings.System.putInt(getActivity().getContentResolver(),
