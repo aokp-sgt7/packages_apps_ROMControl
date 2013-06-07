@@ -66,7 +66,12 @@
   <!--Menu Strings-->
   <string name="menu_nav_bar_reset">Obnovit navigační lištu</string>
   <string name="menu_ribbon_reset">Obnovit ribbon</string>
+  <string name="menu_ribbon_apps">Obnovit aplikace</string>
   <string name="menu_ribbon_rearrange">Přeuspořádat ribbon</string>
+  <string name="menu_ribbon_hide">Skrýt aplikace</string>
+  <string name="menu_ribbon_toggles">Nastavit přepínače</string>
+  <string name="menu_ribbon_na">Není k dispozici</string>
+  <string name="menu_ribbon_toggles_error">Přepínače jsou k dispozici pouze u výsuvného ribbnou zleva a zprava.</string>
   <string name="menu_user_interface_reset">Obnovit pozadí notifikací</string>
   <string name="menu_lockscreens_reset">Obnovit pozadí zamčené obrazovky</string>
   <!--General Strings-->
@@ -123,8 +128,8 @@
   <string name="aokp">Android Open Kang Project</string>
   <string name="aokp_website_title">Web AOKP</string>
   <string name="aokp_website_summary">www.aokp.co - Všechny nejnovější verze k nalezení zde.</string>
-  <string name="aokp_review_title">Revize AOKP kódu</string>
-  <string name="aokp_review_summary">Gerrit server AOKP pro odesílání a testování patchů</string>
+  <string name="aokp_review_title">mGerrit</string>
+  <string name="aokp_review_summary">Rychle a jednoduše zobrazit AOKP a AOSP instance gerrit serverů</string>
   <string name="aokp_irc_title">Připojit se na IRC</string>
   <string name="aokp_irc_summary">#teamkang @ irc.freenode.net</string>
   <string name="about_aokp">O AOKP</string>
@@ -227,7 +232,7 @@
   <string name="brightness_slider_summary">Umožňuje měnit jas tažením prstu navrchu notifikační lišty. Funguje pouze v případě, že je vypnut automatický jas.</string>
   <string name="user_mode_ui">Rozhraní</string>
   <string name="user_mode_ui_summary">Jak se bude zobrazovat navigační a stavová lišta</string>
-  <string name="phone_mode_ui">Telefon - Navigační lišta na strně v režimu na šířku</string>
+  <string name="phone_mode_ui">Telefon - Navigační lišta na straně v režimu na šířku</string>
   <string name="tablet_mode_ui">Tablet - Kombinovaná lišta s navigací i stavy</string>
   <string name="phablet_mode_ui">Phablet - Navigační lišta zůstává dole i v režimu na šířku</string>
   <string name="transparency_dialog_title">Nastavení průhlednosti</string>
@@ -238,6 +243,7 @@
   <string name="transparency_dialog_match_keyguard_alpha">Přizpůsobit průhlednosti zamčené obrazovky</string>
   <string name="transparency_dialog_transparency">Průhlednost domovské obrazovky</string>
   <string name="transparency_dialog_transparency_keyguard">Průhlednost zamknuté obrazovky</string>
+  <string name="transparency_dialog_lockscreen">Zamčená obrazovka</string>
   <!--LCD Density-->
   <string name="lcd_density_title">Hustota displeje</string>
   <string name="lcd_density_summary">neznámá</string>
@@ -472,10 +478,13 @@
   <string name="statusbar_hide_summary">Umožňuje kompletně skrýt stavovou lištu</string>
   <string name="navigation_bar_alpha_title">Viditelnost stavové a navigační lišty</string>
   <string name="navbar_hide_enable_title">Zapnout skrytou navigační lištu</string>
+  <string name="systembar_hide_enable_title">Zapnout skrytou stavovou lištu</string>
   <string name="drag_handle_opacity_title">Viditelnost symbolu vysunutí</string>
   <string name="drag_handle_width_title">Šírka symbolu vysunutí</string>
-  <string name="title_navbar_timeout">Prodleva skrytí</string>
+  <string name="title_navbar_timeout">Prodleva skrytí navigační lišty</string>
+  <string name="title_systembar_timeout">Prodleva skrytí stavové lišty</string>
   <string name="summary_navbar_timeout">Doba, po které dojde ke skrytí okna navigační lišty</string>
+  <string name="summary_systembar_timeout">Doba, po které dojde ke skrytí stavové roletky</string>
   <string name="hide_navbar_timeout_never">Nikdy</string>
   <string name="hide_navbar_timeout_1500">1,5 sekundy</string>
   <string name="hide_navbar_timeout_3000">3 sekundy</string>
@@ -513,14 +522,20 @@
   <string name="navring_target_longpress_text">Stav dlouhého stisku</string>
   <!--Ribbon-->
   <string name="ribbon_dialog_arrange_title">Rozložení ribbonu</string>
-  <string name="ribbon_instructions">Stisknutím ikony zvolit akce nebo smazat</string>
+  <string name="ribbon_chooser_instructions">Zvolit ribbon k nastavení.</string>
+  <string name="ribbon_instructions">Stisknutím ikon zvolit akce nebo smazat.\nPro více možností je nutné stisknout menu.</string>
   <string name="ribbon_targets_cat">Možnosti ribbonu</string>
   <string name="enable_ribbon_text_title">Zobrazit název aplikace</string>
   <string name="enable_ribbon_vibrate_title">Vibrovat při stisku posuvné plochy</string>
   <string name="enable_ribbon_text_summary">Zapnout zobrazení názvu aplikace pod ikonou</string>
   <string name="ribbon_icon_vibrate_title">Vibrovat při kliknutí na cíl</string>
-  <string name="ribbon_icon_space_title">Mezery mezi ikonami ribbonu</string>
+  <string name="ribbon_icon_space_title">Rozestup mezi ikonami ribbonu</string>
+  <string name="app_window_space_title">Vertikální rozestup mezi ikonami</string>
   <string name="ribbon_icon_size_title">Velikost ikony</string>
+  <string name="ribbon_dismiss_title">Akce skrytí ribbonu</string>
+  <string name="ribbon_animation_duration_title">Délka animace</string>
+  <string name="ribbon_long_swipe_title">Dlouhé potažení na oblasti vysunutí</string>
+  <string name="ribbon_long_press_title">Dlouhý stisk na oblasti vysunutí</string>
   <string name="ribbon_icon_size_summary">Zvolit velikost ikon</string>
   <string name="ribbon_lockscreen">Ribbon na zamčené obrazovce</string>
   <string name="ribbon_notifications">Ribbon v notifikacích</string>
@@ -530,9 +545,9 @@
   <string name="ribbon_swipe_bottom">Zespodu výsuvný ribbon</string>
   <string name="app_window">Aplikační okno</string>
   <string name="clone_title">Zvolit ribbon ke zkopírování</string>
-  <string name="icon_size_normal">Normální</string>
+  <string name="icon_size_normal">Velká</string>
   <string name="icon_size_20">Střední</string>
-  <string name="icon_size_15">Malý</string>
+  <string name="icon_size_15">Malá</string>
   <string name="ribbon_left_enable_title">Zapnout posunutí zleva</string>
   <string name="ribbon_right_enable_title">Zapnout posunutí zprava</string>
   <string name="ribbon_bottom_enable_title">Zapnout posunutí zespoda</string>
@@ -551,9 +566,17 @@
   <string name="window_color_title">Barva okna</string>
   <string name="window_opacity_title">Viditelnost okna</string>
   <string name="window_columns_title">Sloupce okna</string>
+  <string name="window_app_hide_title">Zvolit aplikace ke skrytí</string>
   <string name="center">Na střed</string>
   <string name="top">Nahoru</string>
   <string name="bottom">Dolů</string>
+  <string name="never">Nikdy</string>
+  <string name="always">Vždy</string>
+  <string name="not_bar">Bez akcí navigační lišty</string>
+  <string name="multi_select_title">Zvolit položky k přidání</string>
+  <string name="ribbon_animation_type_title">Styl animace</string>
+  <string name="ribbon_toggles_button_title">Tlačítko přepínačů vespod</string>
+  <string name="ribbon_hide_ime_title">Skrýt oblast vysunutí klávesice.</string>
   <!--LED-->
   <string name="led_on">LED svítí</string>
   <string name="led_time_on">Doba po kterou LED svítí</string>
@@ -664,6 +687,9 @@
   <string name="lockscreen_targets_title">Položky zamčené obrazovky</string>
   <string name="lockscreen_targets_summary">Zobrazit nebo změnit položky na zamčené obrazovce</string>
   <string name="lockscreen_target_longpress_text">Dlouhhý stisk</string>
+  <string name="lockscreen_target_longpress_text">Stav dlouhého stisku</string>
+  <string name="lockscreen_glow_torch_text">Svítilna v odemykacím kruhu</string>
+  <string name="lockscreen_glow_torch_summary">Dlouhým stiskem a následným držením středu odemykacího kruhu dojde k zapnutí svítilny. Uvolněním prstu dojde k vypnutí.</string>
   <string name="lockscreen_camera">Fotoaparát</string>
   <string name="lockscreen_unlock">Odemknout</string>
   <string name="save_error">Položky nelze uložit! Je nutné nastavit nejméně jednu položku!</string>
@@ -955,4 +981,38 @@
   <!--haptic feedback on toggle press-->
   <string name="toggles_enable_haptic_feedback_title">Zapnout hmatovou odezvu</string>
   <string name="toggles_enable_haptic_feedback_summary">Použít hmatovou odezvu při stisku přepínačů</string>
+  <!-- dynamic changelog -->
+  <string name="github_organization">AOKP</string>
+  <string name="dynamic_changelog_title">Dynamický seznam změn</string>
+  <string name="dynamic_changelog_summary">Interaktivní seznam změn načítaný z githubu</string>
+  <string name="dynamic_changelog_cat_title">Seznam změn</string>
+  <string name="changelog_menu_projects_title">Zobrazit výpis projektů</string>
+  <string name="changelog_menu_commitlog_title">Zobrazit nejnovější změny</string>
+  <string name="button_close">Zavřít</string>
+  <string name="button_webview">Webové zobrazení</string>
+  <string name="commit_extended_info_title">Rozšířené informace o změně</string>
+  <string name="commit_message">Zpráva u změny</string>
+  <string name="commit_date">Datum změny</string>
+  <string name="commit_sha">SHA-1 hash změny</string>
+  <string name="next_commits_page_title">Více\u2026</string>
+  <string name="next_commits_page_summary">\u2026zobrazit dalších 30 změn</string>
+  <string name="loading_commits">Načítání změn\u2026</string>
+  <string name="commits_title">Změny</string>
+  <string name="loading_projects">Načítání seznamu projektů\u2026</string>
+  <string name="org_projects">Projekty organizace</string>
+  <string name="author_title">Autor</string>
+  <string name="commit_committer_title">Committer</string>
+  <string name="sort_commits_title">Řazení</string>
+  <string name="sort_commits_message">Změny jsou nyní řazeny podle repositáře, opravdu je řadit podle data bez ohledu na repositář, ve kterém existují?</string>
+  <string name="button_sort">Řadit podle data</string>
+  <string name="button_donot_sort">Neřadit</string>
+  <string name="unknown_author">Neznámý autor</string>
+  <string name="unknown_committer">Neznámý committer</string>
+  <string name="toast_commitlog_info" formatted="false">Nalezeno %d změn během %d sekund</string>
+  <string name="changelog_favorite_cat_title">Oblíbené projekty</string>
+  <string name="changelog_add_to_favs_list">Přidat</string>
+  <string name="changelog_view_commits">Zobrazit změny</string>
+  <string name="add_favs_or_view">Přidat do seznamu oblíbených nebo zobrazených změn?</string>
+  <string name="remove_favs_or_view">Smazat ze seznamu oblíbených nebo zobrazených změn?</string>
+  <string name="changelog_remove_from_favs_list">Smazat</string>
 </resources>

@@ -71,7 +71,12 @@
     <!-- Menu Strings -->
     <string name="menu_nav_bar_reset">Reset nav bar</string>
     <string name="menu_ribbon_reset">Reset ribbon</string>
+    <string name="menu_ribbon_apps">Reset apps</string>
     <string name="menu_ribbon_rearrange">Rearrange ribbon</string>
+    <string name="menu_ribbon_hide">Hide apps</string>
+    <string name="menu_ribbon_toggles">Setup toggles</string>
+    <string name="menu_ribbon_na">Not available</string>
+    <string name="menu_ribbon_toggles_error">Toggles are only available for the left and right swipe ribbons.</string>
     <string name="menu_user_interface_reset">Reset notification wallpaper</string>
     <string name="menu_lockscreens_reset">Reset lockscreen wallpaper</string>
 
@@ -137,8 +142,8 @@
     <string name="aokp">Android Open Kang Project</string>
     <string name="aokp_website_title">AOKP Website</string>
     <string name="aokp_website_summary">www.aokp.co - Find all newest releases here.</string>
-    <string name="aokp_review_title">AOKP Code Review</string>
-    <string name="aokp_review_summary">AOKP\'s Gerrit Review instance for submitting and testing patches</string>
+    <string name="aokp_review_title">mGerrit</string>
+    <string name="aokp_review_summary">View AOKP\'s and AOSP\'s Gerrit Review instances quickly and easily</string>
     <string name="aokp_irc_title">Join us on IRC</string>
     <string name="aokp_irc_summary">#teamkang @ irc.freenode.net</string>
     <string name="about_aokp">About AOKP</string>
@@ -158,6 +163,7 @@
     <string name="github_jbirdvegas">https://github.com/JBirdVegas</string>
     <string name="github_jubakuba">https://github.com/Jubakuba</string>
     <string name="github_k900">https://github.com/K900</string>
+    <string name="github_kecinzer">https://github.com/kecinzer</string>
     <string name="github_khasmek">https://github.com/KhasMek</string>
     <string name="github_kwes">https://github.com/kwes1020</string>
     <string name="github_marclandis">https://github.com/MarcLandis</string>
@@ -254,6 +260,7 @@
     <string name="transparency_dialog_match_keyguard_alpha">Match lockscreen alpha</string>
     <string name="transparency_dialog_transparency">Homescreen alpha</string>
     <string name="transparency_dialog_transparency_keyguard">Lockscreen alpha</string>
+    <string name="transparency_dialog_lockscreen">Lockscreen</string>
 
     <!-- LCD Density -->
     <string name="lcd_density_title">LCD Density</string>
@@ -346,8 +353,8 @@
     <string name="state_one_dclick">Set to state one</string>
     <string name="skip_back_dclick">Skip back (no action)</string>
     <string name="skip_up_dclick">Skip forward (no action)</string>
-    <string name="collapse_bar_title">Close statusbar</string>
-    <string name="collapse_bar_summary">Statusbar closes on action completion</string>
+    <string name="collapse_bar_title">Close notification shade</string>
+    <string name="collapse_bar_summary">Notification shade closes on action completion</string>
     <string name="no_collapse">Never collapse</string>
     <string name="click_collapse">On click</string>
     <string name="long_collapse">On long click</string>
@@ -496,10 +503,13 @@
     <string name="statusbar_hide_summary">Checking this completely hides the Statusbar</string>
     <string name="navigation_bar_alpha_title">Statusbar and Navigation Bar opacity</string>
     <string name="navbar_hide_enable_title">Hidden NavBar Enable</string>
+    <string name="systembar_hide_enable_title">Hidden SystemBar Enable</string>
     <string name="drag_handle_opacity_title">Drag Handle Opacity</string>
     <string name="drag_handle_width_title">Drag Handle Width</string>
     <string name="title_navbar_timeout">Hidden NavBar Timeout</string>
+    <string name="title_systembar_timeout">Hidden SystemBar Timeout</string>
     <string name="summary_navbar_timeout">Timeout time for Hidden NavBar Window</string>
+    <string name="summary_systembar_timeout">Timeout time for Hidden SystemBar Window</string>
     <string name="hide_navbar_timeout_never">Never</string>
     <string name="hide_navbar_timeout_1500">1.5 Sec</string>
     <string name="hide_navbar_timeout_3000">3 Sec</string>
@@ -535,18 +545,24 @@
     <string name="navring_long">Long action</string>
     <string name="navring_icon">Custom icon</string>
     <string name="navring_target_amount_text">Current number of targets</string>
-    <string name="navring_target_longpress_text">Longpress status</string>
+    <string name="navring_target_longpress_text">Longpress actions</string>
 
    <!-- Ribbon -->
     <string name="ribbon_dialog_arrange_title">Ribbon layout</string>
-    <string name="ribbon_instructions">Press icon to select actions or delete</string>
+    <string name="ribbon_chooser_instructions">Select which Ribbon to setup.</string>
+    <string name="ribbon_instructions">Press icons to select actions or delete.\nPress menu for more options.</string>
     <string name="ribbon_targets_cat">Ribbon options</string>
     <string name="enable_ribbon_text_title">Show app name</string>
     <string name="enable_ribbon_vibrate_title">Vibrate on touch of swipe area</string>
     <string name="enable_ribbon_text_summary">Enable the app name text below the icon</string>
     <string name="ribbon_icon_vibrate_title">Vibrate on target click</string>
     <string name="ribbon_icon_space_title">Icon ribbon spacing</string>
+    <string name="app_window_space_title">Vertical icon spacing</string>
     <string name="ribbon_icon_size_title">Icon size</string>
+    <string name="ribbon_dismiss_title">Ribbon dismiss action</string>
+    <string name="ribbon_animation_duration_title">Animation duration</string>
+    <string name="ribbon_long_swipe_title">Swipe area long swipe</string>
+    <string name="ribbon_long_press_title">Swipe area long press</string>
     <string name="ribbon_icon_size_summary">Set size of your icons</string>
     <string name="ribbon_lockscreen">Lockscreen ribbon</string>
     <string name="ribbon_notifications">Notifications ribbon</string>
@@ -577,9 +593,17 @@
     <string name="window_color_title">Window color</string>
     <string name="window_opacity_title">Window opacity</string>
     <string name="window_columns_title">Window columns</string>
+    <string name="window_app_hide_title">Choose apps to hide</string>
     <string name="center">Centered</string>
     <string name="top">Top</string>
     <string name="bottom">Bottom</string>
+    <string name="never">Never</string>
+    <string name="always">Always</string>
+    <string name="not_bar">Not Navbar Actions</string>
+    <string name="multi_select_title">Select targets to add</string>
+    <string name="ribbon_animation_type_title">Animation style</string>
+    <string name="ribbon_toggles_button_title">Toggles button on bottom</string>
+    <string name="ribbon_hide_ime_title">Keyboard swipe area hide.</string>
 
     <!-- LED -->
     <string name="led_on">LED on</string>
@@ -694,7 +718,9 @@
     <!-- Lockscreen Targets-->
     <string name="lockscreen_targets_title">Lockscreen targets</string>
     <string name="lockscreen_targets_summary">Lockscreen targets summary…</string>
-    <string name="lockscreen_target_longpress_text">Longpress status</string>
+    <string name="lockscreen_target_longpress_text">Longpress actions</string>
+    <string name="lockscreen_glow_torch_text">GlowPad torch</string>
+    <string name="lockscreen_glow_torch_summary">Longpressing the center of the lockcircle will turn torch on.  Release finger to turn torch off.</string>
     <string name="lockscreen_camera">Camera</string>
     <string name="lockscreen_unlock">Unlock</string>
     <string name="save_error">Could not save targets! You must have at least one unlock target!</string>
@@ -1019,6 +1045,10 @@
     <string name="toggles_enable_haptic_feedback_title">Enable haptic feedback</string>
     <string name="toggles_enable_haptic_feedback_summary">Use haptic feedback when pressing toggles</string>
 
+    <!-- dynamic changelog -->
+    <string name="dynamic_changelog_title">Dynamic ChangeLog</string>
+    <string name="dynamic_changelog_summary">Interactive changelog pulled live from our Gerrit instance</string>
+
 <!-- :: AOKP SGT7 additions :: -->
     <string name="sgt7_ums_notification_enable_title">Start UMS on notification click</string>
     <string name="sgt7_ums_notification_enable_summary">Saves clicking an extra button to enable UMS</string>
@@ -1028,5 +1058,4 @@
 
     <string name="sgt7_large_recent_thumbs_title">Large Recent Thumbs</string>
     <string name="sgt7_large_recent_thumbs_summary">Larger thumbnails for tablets</string>
-
 </resources>

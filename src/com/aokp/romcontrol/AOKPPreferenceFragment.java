@@ -76,12 +76,12 @@ public class AOKPPreferenceFragment extends PreferenceFragment implements Dialog
         }
     }
 
-    public static boolean isTablet(Context context) {
+    public static boolean isTabletUI(Context context) {
         return Settings.System.getInt(context.getContentResolver(),
                 Settings.System.CURRENT_UI_MODE,0) == 1;
     }
 
-    public static boolean isPhablet(Context context) {
+    public static boolean isPhabletUI(Context context) {
         return Settings.System.getInt(context.getContentResolver(),
                 Settings.System.CURRENT_UI_MODE,0) == 2;
     }
@@ -153,7 +153,6 @@ public class AOKPPreferenceFragment extends PreferenceFragment implements Dialog
     }
 
     // Dialog management
-
     protected void showDialog(int dialogId) {
         if (mDialogFragment != null) {
             Log.e(TAG, "Old dialog fragment not null!");
