@@ -1,21 +1,17 @@
 package com.aokp.romcontrol.fragments;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.PowerManager;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.provider.Settings;
-
 import com.aokp.romcontrol.AOKPPreferenceFragment;
 import com.aokp.romcontrol.R;
 import com.aokp.romcontrol.service.FlipService;
@@ -51,6 +47,14 @@ public class Sound extends AOKPPreferenceFragment
         PreferenceManager.setDefaultValues(mContext, R.xml.prefs_sound, true);
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
+        mHeadphonesPluggedAction = (ListPreference) findPreference(PREF_HEADPHONES_PLUGGED_ACTION);
+        mHeadphonesPluggedAction.setOnPreferenceChangeListener(this);
+        mHeadphonesPluggedAction.setValue((prefs.getString(PREF_HEADPHONES_PLUGGED_ACTION, "-1")));
+
+        mBTPluggedAction = (ListPreference) findPreference(PREF_BT_CONNECTED_ACTION);
+        mBTPluggedAction.setOnPreferenceChangeListener(this);
+        mBTPluggedAction.setValue((prefs.getString(PREF_BT_CONNECTED_ACTION, "-1")));
+
         mEnableVolumeOptions = (CheckBoxPreference) findPreference(PREF_ENABLE_VOLUME_OPTIONS);
         mEnableVolumeOptions.setChecked(Settings.System.getBoolean(mContentRes,
                 Settings.System.ENABLE_VOLUME_OPTIONS, false));
@@ -78,16 +82,31 @@ public class Sound extends AOKPPreferenceFragment
             getPreferenceScreen().removePreference(mPhoneSilent);
         }
 
-        if (HeadphoneService.DEBUG)
+        if (HeadphoneService.DEBUG) {
             mContext.startService(new Intent(mContext, HeadphoneService.class));
+        }
 
-        if (FlipService.DEBUG)
+        if (FlipService.DEBUG) {
             mContext.startService(new Intent(mContext, FlipService.class));
+        }
+
+        if (!hasVibration) {
+            String[] noVibEntries = {
+                    getResources().getString(R.string.headphones_mode_no_action),
+                    getResources().getString(R.string.headphones_mode_silent)};
+            String[] noVibEntriesValues = {"-1", "0"};
+            mHeadphonesPluggedAction.setEntries(noVibEntries);
+            mHeadphonesPluggedAction.setEntryValues(noVibEntriesValues);
+            mBTPluggedAction.setEntries(noVibEntries);
+            mBTPluggedAction.setEntryValues(noVibEntriesValues);
+            mFlipAction.setEntries(noVibEntries);
+            mFlipAction.setEntryValues(noVibEntriesValues);
+        }
     }
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-            Preference preference) {
+                                         Preference preference) {
         if (preference == mEnableVolumeOptions) {
 
             boolean checked = ((CheckBoxPreference) preference).isChecked();
