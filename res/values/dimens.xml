@@ -66,4 +66,8 @@
     <dimen name="navring_radius_tablet_landscape">270dp</dimen>
     <!--  Radius of NavRing in Tablet Mode Landscape -->
     <dimen name="navring_radius_tablet_portrait">240dp</dimen>
+    <!-- Size of lockscreen outerring on unsecure unlock LockScreen -->
+    <dimen name="lockscreen_outerring_diameter">240dp</dimen>
+    <!-- Default target placement radius for GlowPadView. Should be 1/2 of outerring diameter. -->
+    <dimen name="lockscreen_target_placement_radius">120dip</dimen>
 </resources>
